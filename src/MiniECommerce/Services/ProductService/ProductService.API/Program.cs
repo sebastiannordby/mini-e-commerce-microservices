@@ -1,3 +1,5 @@
+using MiniECommerce.Authentication;
+
 namespace ProductService.API;
 
 public class Program
@@ -9,6 +11,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddECommerceAuthentication();
 
         var app = builder.Build();
 
@@ -19,6 +22,8 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.MapControllers();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
         app.Run();

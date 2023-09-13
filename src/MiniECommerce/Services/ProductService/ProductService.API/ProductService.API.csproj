@@ -20,4 +20,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Gateway\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj" />
+  </ItemGroup>
+
 </Project>

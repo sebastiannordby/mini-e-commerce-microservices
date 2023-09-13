@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using MiniECommerce.Authentication;
 
 namespace OrderService.API;
 
@@ -12,7 +13,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddAuthentication();
+        builder.Services.AddECommerceAuthentication();
 
         var app = builder.Build();
 

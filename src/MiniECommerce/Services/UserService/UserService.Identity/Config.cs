@@ -15,8 +15,29 @@ namespace UserService.Identity
             new IdentityResources.Profile(),
         };
 
-        public static IEnumerable<ApiScope> ApiScopes => new ApiScope[] {};
-        public static IEnumerable<ApiResource> ApiResources = new ApiResource[] { };
-        public static IEnumerable<Client> Clients => new Client[] { };
+        public static IEnumerable<ApiScope> ApiScopes => new ApiScope[] 
+        {
+            new ApiScope("fullaccess")
+        };
+        
+        public static IEnumerable<ApiResource> ApiResources = new ApiResource[] 
+        { 
+            new ApiResource("e-commerce", "Mini ECommerce")
+            {
+                Scopes = { "fullaccess" }
+            }
+        };
+        
+        public static IEnumerable<Client> Clients => new Client[] 
+        { 
+            new Client()
+            {
+                ClientName = "miniecommerce.desktop",
+                ClientId = "miniecommerce.desktop.react",
+                ClientSecrets = { new Secret("much-secret".Sha256()) },
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedScopes = { "fullaccess" }
+            }
+        };
     }
 }
