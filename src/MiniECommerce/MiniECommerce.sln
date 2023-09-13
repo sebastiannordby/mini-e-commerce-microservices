@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderServic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PurchaseService", "PurchaseService", "{46DD3247-55A7-4912-89CB-D9510EF9234E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentService", "{623DCFEF-757D-4C5B-AD0C-657F9CA81439}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserService", "UserService", "{B7B8C955-55F1-44C8-935F-E957444C95B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.API", "Services\OrderService\OrderService.API\OrderService.API.csproj", "{9DBE06C8-128D-4DBD-A058-E59208D7990C}"
@@ -25,15 +23,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Domain", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Library", "Services\OrderService\OrderService.Library\OrderService.Library.csproj", "{5F79557D-FEAD-48CF-B7F0-408DF8EF1175}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.API", "Services\ProductService\ProductService.API\ProductService.API.csproj", "{6837A02C-D92B-49D4-B826-4478286E49D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.API", "Services\ProductService\ProductService.API\ProductService.API.csproj", "{6837A02C-D92B-49D4-B826-4478286E49D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Domain", "Services\ProductService\ProductService.Domain\ProductService.Domain.csproj", "{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Domain", "Services\ProductService\ProductService.Domain\ProductService.Domain.csproj", "{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Library", "Services\ProductService\ProductService.Library\ProductService.Library.csproj", "{9140BB7D-BE7A-458C-BED3-D3E2C83C9660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Library", "Services\ProductService\ProductService.Library\ProductService.Library.csproj", "{9140BB7D-BE7A-458C-BED3-D3E2C83C9660}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "miniecommerce.desktop", "Frontends\MiniECommerce.Desktop\miniecommerce.desktop.esproj", "{29D79C28-C880-4A42-B02B-7D648687D07C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.API", "Services\PurchaseService\PurchaseService.API\PurchaseService.API.csproj", "{8C4D4052-33E9-4621-9410-7FA5B7B51AB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PurchaseService.API", "Services\PurchaseService\PurchaseService.API\PurchaseService.API.csproj", "{8C4D4052-33E9-4621-9410-7FA5B7B51AB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Identity", "Services\UserService\UserService.Identity\UserService.Identity.csproj", "{03ABFF99-8E42-4F90-833A-167107F10C27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniECommerce.Authentication", "Gateway\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj", "{AC3FFFBD-E004-40AC-8895-794B5AC581C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,14 @@ Global
 		{8C4D4052-33E9-4621-9410-7FA5B7B51AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C4D4052-33E9-4621-9410-7FA5B7B51AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C4D4052-33E9-4621-9410-7FA5B7B51AB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03ABFF99-8E42-4F90-833A-167107F10C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03ABFF99-8E42-4F90-833A-167107F10C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03ABFF99-8E42-4F90-833A-167107F10C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03ABFF99-8E42-4F90-833A-167107F10C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC3FFFBD-E004-40AC-8895-794B5AC581C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC3FFFBD-E004-40AC-8895-794B5AC581C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC3FFFBD-E004-40AC-8895-794B5AC581C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC3FFFBD-E004-40AC-8895-794B5AC581C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,7 +93,6 @@ Global
 		{89CAE4FB-B137-4D7E-814F-BD0AC56BD56E} = {081EF36E-FCAA-46F8-9A9E-677130353953}
 		{B5C7A4CB-3EAB-4657-AA05-AEA5D94527F2} = {081EF36E-FCAA-46F8-9A9E-677130353953}
 		{46DD3247-55A7-4912-89CB-D9510EF9234E} = {081EF36E-FCAA-46F8-9A9E-677130353953}
-		{623DCFEF-757D-4C5B-AD0C-657F9CA81439} = {081EF36E-FCAA-46F8-9A9E-677130353953}
 		{B7B8C955-55F1-44C8-935F-E957444C95B6} = {081EF36E-FCAA-46F8-9A9E-677130353953}
 		{9DBE06C8-128D-4DBD-A058-E59208D7990C} = {B5C7A4CB-3EAB-4657-AA05-AEA5D94527F2}
 		{953770AF-6BDB-4F8A-B0DC-02ED98C4CE70} = {B5C7A4CB-3EAB-4657-AA05-AEA5D94527F2}
@@ -93,6 +102,8 @@ Global
 		{9140BB7D-BE7A-458C-BED3-D3E2C83C9660} = {89CAE4FB-B137-4D7E-814F-BD0AC56BD56E}
 		{29D79C28-C880-4A42-B02B-7D648687D07C} = {805A1AE0-22BF-46EB-9C52-BACB3668D231}
 		{8C4D4052-33E9-4621-9410-7FA5B7B51AB6} = {46DD3247-55A7-4912-89CB-D9510EF9234E}
+		{03ABFF99-8E42-4F90-833A-167107F10C27} = {B7B8C955-55F1-44C8-935F-E957444C95B6}
+		{AC3FFFBD-E004-40AC-8895-794B5AC581C8} = {2CA2B108-2958-4B25-A4F2-95EB320FD068}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {300DEE50-88C8-433E-B879-CF5ADCE2FAFA}

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OrderService.API.Controllers
@@ -6,6 +7,10 @@ namespace OrderService.API.Controllers
     [Route("[controller]")]
     public class OrderController : ControllerBase
     {
-        
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Hello");
+        }
     }
 }
