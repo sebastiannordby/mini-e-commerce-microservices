@@ -1,0 +1,34 @@
+version: '3.4'
+name: mini-e-commerce
+
+services:
+  orderservice.api:
+    container_name: miniecom-order-service
+    image: ${DOCKER_REGISTRY-}orderserviceapi
+    build:
+      context: .
+      dockerfile: Services/OrderService/OrderService.API/Dockerfile
+
+  userservice.identity:
+    container_name: miniecom-identity-service
+    image: ${DOCKER_REGISTRY-}userserviceidentity
+    build:
+      context: .
+      dockerfile: Services/UserService/UserService.Identity/Dockerfile
+
+
+  purchaseservice.api:
+    container_name: miniecom-purchase-service
+    image: ${DOCKER_REGISTRY-}purchaseserviceapi
+    build:
+      context: .
+      dockerfile: Services/PurchaseService/PurchaseService.API/Dockerfile
+
+
+  productservice.api:
+    container_name: miniecom-product-service
+    image: ${DOCKER_REGISTRY-}productserviceapi
+    build:
+      context: .
+      dockerfile: Services/ProductService/ProductService.API/Dockerfile
+

@@ -35,8 +35,12 @@ namespace UserService.Identity
                 ClientName = "miniecommerce.desktop",
                 ClientId = "miniecommerce.desktop.react",
                 ClientSecrets = { new Secret("much-secret".Sha256()) },
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                AllowedScopes = { "fullaccess" }
+                AllowedGrantTypes = GrantTypes.Implicit,
+                AllowedScopes = { "fullaccess" },
+                RequireConsent = false,
+                RequireClientSecret = false,
+                RedirectUris = new[]{ "http://127.0.0.1:5173/" },
+                AllowAccessTokensViaBrowser = true,
             }
         };
     }

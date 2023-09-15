@@ -7,6 +7,7 @@
     <UserSecretsId>094e49b2-d627-467c-98e7-4fe30509b411</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
+
+  <PropertyGroup>
+	  <ContainerDevelopmentMode>Regular</ContainerDevelopmentMode>
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Gateway\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj" />

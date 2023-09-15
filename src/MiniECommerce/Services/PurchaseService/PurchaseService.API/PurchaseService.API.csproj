@@ -7,6 +7,7 @@
     <UserSecretsId>52631a37-695c-4135-8c44-800b00bf035a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,11 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
-  <ItemGroup>
+	<PropertyGroup>
+		<ContainerDevelopmentMode>Regular</ContainerDevelopmentMode>
+	</PropertyGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\..\..\Gateway\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj" />
   </ItemGroup>
 
