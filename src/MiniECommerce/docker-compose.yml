@@ -9,12 +9,13 @@ services:
       context: .
       dockerfile: Services/OrderService/OrderService.API/Dockerfile
 
+
   userservice.identity:
     container_name: miniecom-identity-service
     image: ${DOCKER_REGISTRY-}userserviceidentity
     build:
       context: .
-      dockerfile: Services/UserService/UserService.Identity/Dockerfile
+      dockerfile: Services/IdentityService/IdentityService.API/Dockerfile
 
 
   purchaseservice.api:
