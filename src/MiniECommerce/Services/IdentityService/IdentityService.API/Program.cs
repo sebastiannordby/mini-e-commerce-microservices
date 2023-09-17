@@ -107,6 +107,10 @@ namespace IdentityService.API
                    .AllowAnyMethod()
                    .AllowAnyHeader());
 
+                Log.Information("Seeding database..");
+                app.EnsureSeedData();
+                Log.Information("Done seeding database..");
+
                 app.UseMigrationsEndPoint();
             }
             else
@@ -124,14 +128,6 @@ namespace IdentityService.API
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapRazorPages();
-
-            if(args.Contains("/seed"))
-            {
-                Log.Information("Seeding database..");
-                app.EnsureSeedData();
-                Log.Information("Done seeding database..");
-                return;
-            }
 
             app.Run();
         }
