@@ -35,7 +35,27 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{27A8EA83-5760-41F6-A7FF-45FA06C4867B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.API", "Services\IdentityService\IdentityService.API\IdentityService.API.csproj", "{AF83A5F6-2201-4A3E-A6B7-BE715A701F9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService.API", "Services\IdentityService\IdentityService.API\IdentityService.API.csproj", "{AF83A5F6-2201-4A3E-A6B7-BE715A701F9A}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "miniecom-desktop", "..\miniecom-desktop\", "{B346C6F3-9953-4B9B-923B-AC2FA9A80FC8}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_51706"
+		Debug.AspNetCompiler.PhysicalPath = "..\miniecom-desktop\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51706\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_51706"
+		Release.AspNetCompiler.PhysicalPath = "..\miniecom-desktop\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51706\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51706"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +103,10 @@ Global
 		{AF83A5F6-2201-4A3E-A6B7-BE715A701F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF83A5F6-2201-4A3E-A6B7-BE715A701F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF83A5F6-2201-4A3E-A6B7-BE715A701F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B346C6F3-9953-4B9B-923B-AC2FA9A80FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B346C6F3-9953-4B9B-923B-AC2FA9A80FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B346C6F3-9953-4B9B-923B-AC2FA9A80FC8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{B346C6F3-9953-4B9B-923B-AC2FA9A80FC8}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +125,7 @@ Global
 		{AC3FFFBD-E004-40AC-8895-794B5AC581C8} = {2CA2B108-2958-4B25-A4F2-95EB320FD068}
 		{27A8EA83-5760-41F6-A7FF-45FA06C4867B} = {081EF36E-FCAA-46F8-9A9E-677130353953}
 		{AF83A5F6-2201-4A3E-A6B7-BE715A701F9A} = {27A8EA83-5760-41F6-A7FF-45FA06C4867B}
+		{B346C6F3-9953-4B9B-923B-AC2FA9A80FC8} = {805A1AE0-22BF-46EB-9C52-BACB3668D231}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {300DEE50-88C8-433E-B879-CF5ADCE2FAFA}
