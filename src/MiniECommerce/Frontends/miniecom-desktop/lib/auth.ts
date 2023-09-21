@@ -6,10 +6,10 @@ export const authOptions: AuthOptions = {
     debug: true,
     providers: [
       IdentityServerProvider({
-          id: "demo-identity-server",
+          id: "sample-identity-server",
           name: "IdentityServer",
-          authorization: { params: { scope: "openid profile SampleAPI" } },
-          issuer:  "https://localhost:44335/",
+          authorization: { params: { scope: "openid profile" } },
+          issuer:  "https://localhost:44335",
           clientId: "nextjs_web_app",
           clientSecret: "0bced1832f9facd485eb66a70fb33094",
       })

@@ -3,12 +3,15 @@ using Serilog;
 using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
 using Duende.IdentityServer.Models;
+using IdentityModel;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace IdentityService.API;
 
 public static class SeedData
 {
-    public static void EnsureSeedData(this WebApplication app)
+    public static async Task EnsureSeedData(this WebApplication app)
     {
         using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
@@ -17,6 +20,7 @@ public static class SeedData
             var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
             context.Database.Migrate();
             EnsureSeedData(context);
+            await EnsureUsers(scope);
         }
     }
 
@@ -79,6 +83,44 @@ public static class SeedData
         else
         {
             Log.Debug("OIDC IdentityProviders already populated");
+        }
+    }
+
+    private static async Task EnsureUsers(IServiceScope scope)
+    {
+        var userManager = scope.ServiceProvider
+            .GetRequiredService<UserManager<IdentityUser>>();
+        
+        var adminUser = await userManager
+            .FindByNameAsync("admin");
+
+        if (adminUser == null)
+        {
+            adminUser = new IdentityUser
+            {
+                UserName = "admin",
+                Email = "admin@email.com",
+                EmailConfirmed = true,
+            };
+            
+            var result = await userManager.CreateAsync(adminUser, "Admin123$");
+            if (!result.Succeeded)
+                throw new Exception(result.Errors.First().Description);
+
+            result = await userManager.AddClaimsAsync(adminUser, new Claim[]
+            {
+                new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                new Claim(JwtClaimTypes.GivenName, "Alice"),
+                new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+            });
+
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Errors.First().Description);
+            }
+
+            Log.Debug("Admin User Created");
         }
     }
 }

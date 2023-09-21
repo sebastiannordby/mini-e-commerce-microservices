@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Test;
 
 namespace IdentityService.API;
 
@@ -18,6 +19,28 @@ public static class Config
             new ApiScope("scope1"),
             new ApiScope("scope2"),
         };
+
+    public static IEnumerable<ApiResource> ApiResources => new[]
+{
+        new ApiResource("order-service")
+        {
+            Scopes = new List<string> {"order-service.read", "order-service.write"},
+            ApiSecrets = new List<Secret> {new Secret("ScopeSecret".Sha256())},
+            UserClaims = new List<string> { "role" }
+        },
+        new ApiResource("product-service")
+        {
+            Scopes = new List<string> { "product-service.read", "product-service.write"},
+            ApiSecrets = new List<Secret> {new Secret("ScopeSecret".Sha256())},
+            UserClaims = new List<string> { "role" }
+        },
+        new ApiResource("purchase-service")
+        {
+            Scopes = new List<string> { "purchase-service.read", "purchase-service.write"},
+            ApiSecrets = new List<Secret> {new Secret("ScopeSecret".Sha256())},
+            UserClaims = new List<string> { "role" }
+        }
+    };
 
     public static IEnumerable<Client> Clients =>
         new Client[]
@@ -59,8 +82,7 @@ public static class Config
                 AllowedGrantTypes =  new[] { GrantType.AuthorizationCode },
 
                 // where to redirect to after login
-                RedirectUris = { "http://localhost:3000/api/authentication/callback/sample-identity-server" },
-                // where to redirect to after logout
+                RedirectUris = { "http://localhost:3000/api/auth/callback/sample-identity-server" },
                 PostLogoutRedirectUris = { "http://localhost:3000" },
                 AllowedCorsOrigins= { "http://localhost:3000" },
 
@@ -72,4 +94,13 @@ public static class Config
                 },
             }
         };
+
+    public static List<TestUser> TestUsers { get; internal set; } = new()
+    {
+        new TestUser()
+        {
+            Username = "admin",
+            Password = "admin"            
+        }
+    };
 }

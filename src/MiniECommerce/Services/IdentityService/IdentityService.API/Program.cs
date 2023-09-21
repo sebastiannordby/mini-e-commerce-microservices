@@ -17,7 +17,7 @@ namespace IdentityService.API
         private const string GOOGLE_CLIENT_ID = "Auth:Google:ClientId";
         private const string GOOGLE_CLIENT_SECRET = "Auth:Google:ClientSecret";
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
@@ -108,7 +108,7 @@ namespace IdentityService.API
                    .AllowAnyHeader());
 
                 Log.Information("Seeding database..");
-                app.EnsureSeedData();
+                await app.EnsureSeedData();
                 Log.Information("Done seeding database..");
 
                 app.UseMigrationsEndPoint();
@@ -123,7 +123,7 @@ namespace IdentityService.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseIdentityServer();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
