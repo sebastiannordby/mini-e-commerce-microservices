@@ -55,6 +55,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "miniecom-desktop", "..\mini
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "51706"
+		SlnRelativePath = "..\miniecom-desktop\"
 	EndProjectSection
 EndProject
 Global
