@@ -109,10 +109,10 @@ public static class SeedData
 
             result = await userManager.AddClaimsAsync(adminUser, new Claim[]
             {
-                new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                new Claim(JwtClaimTypes.GivenName, "Alice"),
-                new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                new Claim(JwtClaimTypes.Name, "Admin Adminson"),
+                new Claim(JwtClaimTypes.GivenName, "Admin"),
+                new Claim(JwtClaimTypes.Email, adminUser.Email),
+
             });
 
             if (!result.Succeeded)

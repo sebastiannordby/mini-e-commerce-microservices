@@ -18,7 +18,8 @@ export const authOptions: AuthOptions = {
       colorScheme: "dark",
     },
     callbacks: {
-      async jwt({ token }) {
+      async jwt({ token, user}) {
+        console.log('User: ', user);
         token.userRole = "admin"
         return token;
       },

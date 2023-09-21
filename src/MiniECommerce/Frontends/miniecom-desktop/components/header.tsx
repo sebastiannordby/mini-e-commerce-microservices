@@ -1,6 +1,9 @@
+"use client"
 import Link from "next/link"
 import { signIn, signOut, useSession } from "next-auth/react"
 import styles from "./header.module.css"
+import { getServers } from "dns"
+import { getServerSession } from "next-auth/next"
 
 // The approach used in this component shows how to build a sign in and sign out
 // component that works on pages which support both client and server side
@@ -39,14 +42,9 @@ export default function Header() {
           )}
           {session?.user && (
             <>
-              {session.user.image && (
-                <span
-                  style={{ backgroundImage: `url('${session.user.image}')` }}
-                  className={styles.avatar}
-                />
-              )}
               <span className={styles.signedInText}>
                 <small>Signed in as</small>
+                <pre>{JSON.stringify(session)}</pre>
                 <br />
                 <strong>{session.user.email ?? session.user.name}</strong>
               </span>
