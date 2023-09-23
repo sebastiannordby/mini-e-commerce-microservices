@@ -9,9 +9,9 @@ export const authOptions: AuthOptions = {
           id: "sample-identity-server",
           name: "IdentityServer",
           authorization: { params: { scope: "openid profile" } },
-          issuer:  "https://localhost:44335",
+          issuer:  process.env.IDP_ISSUER ?? "",
           clientId: "nextjs_web_app",
-          clientSecret: "0bced1832f9facd485eb66a70fb33094",
+          clientSecret: process.env.IDP_CLIENT_SECRET ?? "",
       })
     ],
     theme: {

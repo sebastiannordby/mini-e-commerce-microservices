@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /src/MiniECommerce/Frontends/cert.pem
 /src/MiniECommerce/Frontends/keytmp.pem
+/src/MiniECommerce/Frontends/miniecom-desktop/.env
