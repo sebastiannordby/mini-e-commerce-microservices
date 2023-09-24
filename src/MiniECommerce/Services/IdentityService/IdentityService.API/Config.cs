@@ -90,7 +90,8 @@ public static class Config
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    "SampleAPI"
+                    "scope1",
+                    "scope2"
                 },
             }
         };

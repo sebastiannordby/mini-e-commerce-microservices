@@ -9,6 +9,14 @@ services:
       context: .
       dockerfile: Services/OrderService/OrderService.API/Dockerfile
 
+  userservice.identity.db:
+    container_name: miniecom-identity-service-db
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+        - 8002:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=myStong_Password123# 
 
   userservice.identity:
     container_name: miniecom-identity-service
@@ -16,7 +24,8 @@ services:
     build:
       context: .
       dockerfile: Services/IdentityService/IdentityService.API/Dockerfile
-
+    depends_on:
+        - userservice.identity.db
 
   purchaseservice.api:
     container_name: miniecom-purchase-service
@@ -24,7 +33,6 @@ services:
     build:
       context: .
       dockerfile: Services/PurchaseService/PurchaseService.API/Dockerfile
-
 
   productservice.api:
     container_name: miniecom-product-service
