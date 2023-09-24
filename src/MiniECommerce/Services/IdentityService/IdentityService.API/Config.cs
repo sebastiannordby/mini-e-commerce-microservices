@@ -93,6 +93,24 @@ public static class Config
                     "scope1",
                     "scope2"
                 },
+            },
+
+            new Client()
+            {
+                ClientId = "blazorWASM",
+                AllowedGrantTypes = GrantTypes.Code,
+                RequirePkce = true,
+                RequireClientSecret = false,
+                AllowedCorsOrigins = { 
+                    "https://localhost:5020" 
+                },
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile
+                },
+                RedirectUris = { "https://localhost:5020/authentication/login-callback" },
+                PostLogoutRedirectUris = { "https://localhost:5020/authentication/logout-callback" }
             }
         };
 

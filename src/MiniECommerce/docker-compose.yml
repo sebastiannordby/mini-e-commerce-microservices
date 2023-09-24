@@ -41,3 +41,9 @@ services:
       context: .
       dockerfile: Services/ProductService/ProductService.API/Dockerfile
 
+  desktop-app:
+    image: ${DOCKER_REGISTRY-}desktopapp
+    build:
+      context: .
+      dockerfile: Frontends/DesktopApp/Dockerfile
+

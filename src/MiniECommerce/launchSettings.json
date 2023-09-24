@@ -6,7 +6,8 @@
       "serviceActions": {
         "orderservice.api": "StartDebugging",
         "userservice.identity": "StartDebugging",
-        "productservice.api": "StartDebugging"
+        "productservice.api": "StartDebugging",
+        "desktopapp": "StartDebugging"
       }
     }
   }
