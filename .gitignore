@@ -399,3 +399,4 @@ FodyWeavers.xsd
 /src/MiniECommerce/Frontends/cert.pem
 /src/MiniECommerce/Frontends/keytmp.pem
 /src/MiniECommerce/Frontends/miniecom-desktop/.env
+/src/MiniECommerce/Frontends/.env

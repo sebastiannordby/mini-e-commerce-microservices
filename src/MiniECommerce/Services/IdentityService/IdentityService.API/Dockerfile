@@ -19,4 +19,9 @@ RUN dotnet publish "IdentityService.API.csproj" -c Release -o /app/publish /p:Us
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "IdentityService.API.dll"]
+
+#To seed the database with clients to the following for the first run:
+#Comment the above out and uncomment the below 
+#ENTRYPOINT ["dotnet", "IdentityService.API.dll", "seed"]
