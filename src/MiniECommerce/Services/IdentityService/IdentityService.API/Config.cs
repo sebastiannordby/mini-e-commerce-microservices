@@ -97,20 +97,21 @@ public static class Config
 
             new Client()
             {
-                ClientId = "blazorWASM",
+                ClientId = "desktop-app",
                 AllowedGrantTypes = GrantTypes.Code,
+                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
                 RequirePkce = true,
                 RequireClientSecret = false,
-                AllowedCorsOrigins = { 
-                    "https://localhost:5020" 
+                AllowedCorsOrigins = {
+                    "https://localhost:58515"
                 },
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile
                 },
-                RedirectUris = { "https://localhost:5020/authentication/login-callback" },
-                PostLogoutRedirectUris = { "https://localhost:5020/authentication/logout-callback" }
+                RedirectUris = { "https://localhost:58515/authentication/login-callback" },
+                PostLogoutRedirectUris = { "https://localhost:58515/authentication/logout-callback" }
             }
         };
 

@@ -26,6 +26,11 @@ services:
       dockerfile: Services/IdentityService/IdentityService.API/Dockerfile
     depends_on:
         - userservice.identity.db
+    healthcheck:
+       test: curl https://localhost:58525
+       start_period: "100"
+       timeout: "30"
+       retries: 5
 
   purchaseservice.api:
     container_name: miniecom-purchase-service
@@ -41,9 +46,13 @@ services:
       context: .
       dockerfile: Services/ProductService/ProductService.API/Dockerfile
 
-  desktop-app:
+  desktopapp:
     image: ${DOCKER_REGISTRY-}desktopapp
     build:
       context: .
       dockerfile: Frontends/DesktopApp/Dockerfile
+    depends_on:
+        userservice.identity:
+            condition: service_healthy
+
 

@@ -400,3 +400,4 @@ FodyWeavers.xsd
 /src/MiniECommerce/Frontends/keytmp.pem
 /src/MiniECommerce/Frontends/miniecom-desktop/.env
 /src/MiniECommerce/Frontends/.env
+/src/MiniECommerce/Frontends/DesktopApp/appsettings.Development.json

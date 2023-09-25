@@ -1,6 +1,22 @@
-﻿# Ensure the Service Fabric cluster you deploy to supports the container image you are using. See https://aka.ms/containerimagehelp for information on Windows container version compatibility.
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
-ARG source
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-COPY ${source:-obj/Docker/publish} .
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["Frontends/DesktopApp/DesktopApp.csproj", "Frontends/DesktopApp/"]
+RUN dotnet restore "Frontends/DesktopApp/DesktopApp.csproj"
+COPY . .
+WORKDIR "/src/Frontends/DesktopApp"
+RUN dotnet build "DesktopApp.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "DesktopApp.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "DesktopApp.dll"]
