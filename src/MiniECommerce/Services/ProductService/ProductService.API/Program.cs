@@ -11,7 +11,8 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddECommerceAuthentication();
+        builder.Services.AddECommerceAuthentication(
+            builder.Configuration);
 
         var app = builder.Build();
 

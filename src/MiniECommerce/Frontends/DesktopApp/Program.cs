@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -17,7 +18,6 @@ var configuration = builder.Configuration;
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
-
 
 builder.Host.UseSerilog((ctx, lc) =>
 {
@@ -37,38 +37,20 @@ builder.Host.UseSerilog((ctx, lc) =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme,
-    options =>
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie()
+    .AddGoogle(options =>
     {
-        Log.Information(
-            $"Configuring OIDC\r\nAuthority: {configuration["OIDC:Authority"]}" +
-            $"\r\nClientId: {configuration["OIDC:ClientId"]}" +
-            $"\r\nClientSecret: {configuration["OIDC:ClientSecret"]}");
-
-        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.SignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
-        options.Authority = configuration["OIDC:Authority"];
-        options.ClientId = configuration["OIDC:ClientId"];
-        options.ClientSecret = configuration["OIDC:ClientSecret"];
-        options.ResponseType = OpenIdConnectResponseType.Code;
-        options.SaveTokens = true;
-        options.Scope.Add("openid");
-        options.Scope.Add("profile");
-        options.CallbackPath = "/signin-oidc";
+        options.ClientId = configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to the default policy  
-    options.FallbackPolicy = options.DefaultPolicy;
-});
-
+builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+builder.Services.AddAuthorization();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<HttpContextAccessor>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -82,14 +64,15 @@ if (!app.Environment.IsDevelopment())
 else
 {
     Log.Information("DesktopApp running in development.");
-    IdentityModelEventSource.ShowPII = true;
     app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseAuthentication();
+app.UseCookiePolicy();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

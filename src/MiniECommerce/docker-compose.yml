@@ -2,57 +2,43 @@ version: '3.4'
 name: mini-e-commerce
 
 services:
-  orderservice.api:
-    container_name: miniecom-order-service
+  order-service:
+    container_name: order-service
     image: ${DOCKER_REGISTRY-}orderserviceapi
     build:
       context: .
       dockerfile: Services/OrderService/OrderService.API/Dockerfile
 
-  userservice.identity.db:
-    container_name: miniecom-identity-service-db
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    ports:
-        - 8002:1433
-    environment:
-        - ACCEPT_EULA=Y
-        - MSSQL_SA_PASSWORD=myStong_Password123# 
+  #userservice.identity.db:
+  #  container_name: miniecom-identity-service-db
+  #  image: mcr.microsoft.com/mssql/server:2022-latest
+  #  ports:
+  #      - 8002:1433
+  #  environment:
+  #      - ACCEPT_EULA=Y
+  #      - MSSQL_SA_PASSWORD=myStong_Password123# 
 
-  userservice.identity:
-    container_name: miniecom-identity-service
-    image: ${DOCKER_REGISTRY-}userserviceidentity
-    build:
-      context: .
-      dockerfile: Services/IdentityService/IdentityService.API/Dockerfile
-    depends_on:
-        - userservice.identity.db
-    healthcheck:
-       test: curl https://localhost:58525
-       start_period: "100"
-       timeout: "30"
-       retries: 5
-
-  purchaseservice.api:
-    container_name: miniecom-purchase-service
+  purchase-service:
+    container_name: purchase-service
     image: ${DOCKER_REGISTRY-}purchaseserviceapi
     build:
       context: .
       dockerfile: Services/PurchaseService/PurchaseService.API/Dockerfile
 
-  productservice.api:
-    container_name: miniecom-product-service
+  product-service:
+    container_name: product-service
     image: ${DOCKER_REGISTRY-}productserviceapi
     build:
       context: .
       dockerfile: Services/ProductService/ProductService.API/Dockerfile
 
-  desktopapp:
+  desktop-app:
+    container_name: desktop-app
     image: ${DOCKER_REGISTRY-}desktopapp
     build:
       context: .
       dockerfile: Frontends/DesktopApp/Dockerfile
-    depends_on:
-        userservice.identity:
-            condition: service_healthy
+    ports:
+        - 5000:443
 
 
