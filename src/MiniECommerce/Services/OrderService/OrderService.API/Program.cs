@@ -18,17 +18,18 @@ public class Program
 
         var app = builder.Build();
 
+        app.UseCors(x =>
+            x.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin());
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-            app.UseCors(x =>
-                x.AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin());
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.MapControllers();
         //app.UseAuthentication();
         //app.UseAuthorization();

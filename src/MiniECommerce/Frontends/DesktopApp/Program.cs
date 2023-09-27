@@ -34,16 +34,21 @@ builder.Host.UseSerilog((ctx, lc) =>
         .Enrich.FromLogContext();
 });
 
+var googleClientId = configuration["Authentication:Google:ClientId"] ?? 
+    throw new Exception("Configuration: Authentication:Google:ClientId must be provided");
+var googleClientSecret = configuration["Authentication:Google:ClientSecret"] ?? 
+    throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided");
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie()
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddGoogle(options =>
     {
-        options.ClientId = configuration["Authentication:Google:ClientId"];
-        options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+        options.ClientId = googleClientId;
+        options.ClientSecret = googleClientSecret;
     });
 
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
@@ -51,25 +56,28 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextAccessor>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    Log.Information("DesktopApp running in development.");
+    app.UseDeveloperExceptionPage();
+} 
+else
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-} 
-else
-{
-    Log.Information("DesktopApp running in development.");
-    app.UseDeveloperExceptionPage();
+    app.UseHttpsRedirection();
 }
 
-//app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCookiePolicy();
+app.UseCookiePolicy(new CookiePolicyOptions()
+{
+    MinimumSameSitePolicy = SameSiteMode.Lax
+});
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

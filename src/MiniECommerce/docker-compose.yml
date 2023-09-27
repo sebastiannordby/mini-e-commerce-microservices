@@ -1,59 +1,56 @@
 version: '3.4'
 name: mini-e-commerce
 
-  #userservice.identity.db:
-  #  container_name: miniecom-identity-service-db
-  #  image: mcr.microsoft.com/mssql/server:2022-latest
-  #  ports:
-  #      - 8002:1433
-  #  environment:
-  #      - ACCEPT_EULA=Y
-  #      - MSSQL_SA_PASSWORD=myStong_Password123# 
-
 services:
-  order-service:
+  order_service:
+    container_name: order_service
     image: ${DOCKER_REGISTRY-}orderserviceapi
     build:
       context: .
       dockerfile: Services/OrderService/OrderService.API/Dockerfile
     ports:
         - 50013:80
-        - 50003:443
+        #- 50003:443
     networks:
         - backend
 
-  purchase-service:
+  purchase_service:
+    container_name: purchase-service
     image: ${DOCKER_REGISTRY-}purchaseserviceapi
     build:
       context: .
       dockerfile: Services/PurchaseService/PurchaseService.API/Dockerfile
     ports:
         - 50012:80
-        - 50002:443
+        #- 50002:443
     networks:
         - backend
 
-  product-service:
+  product_service:
+    container_name: product_service
     image: ${DOCKER_REGISTRY-}productserviceapi
     build:
       context: .
       dockerfile: Services/ProductService/ProductService.API/Dockerfile
     ports:
         - 50011:80
-        - 50001:443
+        #- 50001:443
     networks:
         - backend
 
-  desktop-app:
+  desktop_app:
+    container_name: desktop_app
     image: ${DOCKER_REGISTRY-}desktopapp
     build:
       context: .
       dockerfile: Frontends/DesktopApp/Dockerfile
     ports:
         - 50010:80
-        - 50000:443
+        #- 50000:443
     networks:
         - backend
+    depends_on:
+        - order_service   
 
 networks:
   backend:

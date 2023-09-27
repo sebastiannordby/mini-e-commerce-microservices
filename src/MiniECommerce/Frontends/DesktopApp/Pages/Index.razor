@@ -14,21 +14,10 @@
     {
         var addresses = new[]
         {
-            "http://localhost:50013/",
-            "https://localhost:50003/",
-            "http://host.docker.internal:50013/",
-            "https://host.docker.internal:50003/",
-            "http://order-service/",
-            "https://order-service/",
-            "http://order-service:50003/",
-            "https://order-service:50013/",
-            "http://172.17.0.1:50013/",
-            "https://172.17.0.1:50003/",
-            "http://0.0.0.0:50013/",
-            "https://0.0.0.0:50003/",
-            "order-service:50003/",
-            "order-service:50013/",
+            "http://order_service"
         };
+
+        int count = 0;
 
         foreach(var adr in addresses)
         {
@@ -36,21 +25,20 @@
             {
                 var httpClient = new HttpClient();
 
-                httpClient.BaseAddress = new Uri(adr);
-                httpClient.DefaultRequestHeaders.Accept.Add(new("application/json"));
-
                 var req = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri("/Order")
-                    };
+                {
+                    RequestUri = new Uri(adr + "/Order")
+                };
 
                 var res = await httpClient.SendAsync(req);
 
-                _res += "Adr:" + adr + "Statuscode: " + res.StatusCode;
+                _res += $"({++count}) Adr:" + adr + "Statuscode: " + res.StatusCode + "\r\n";
+
+                _res += await res.Content.ReadAsStringAsync();
             }
             catch(Exception e)
             {
-                _res += adr + $" failed. {e.Message}\r\n";
+                _res += $"({++count}) " + adr + $" failed. {e.Message}\r\n";
             }
         }
     }
