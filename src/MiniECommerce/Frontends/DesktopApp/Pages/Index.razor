@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authentication;
+@using Microsoft.AspNetCore.Authentication.Cookies;
 @attribute [Authorize]
-
+@inject IHttpContextAccessor httpContextAccessor
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
@@ -15,7 +17,7 @@
         var addresses = new[]
         {
             "http://order_service"
-        };
+    };
 
         int count = 0;
 
@@ -23,6 +25,14 @@
         {
             try
             {
+                var token = await httpContextAccessor.HttpContext
+                    .GetTokenAsync(CookieAuthenticationDefaults.AuthenticationScheme, "access_token");
+
+                var hello = httpContextAccessor.HttpContext.Request.Cookies.ToList();
+
+                _res += System.Text.Json.JsonSerializer.Serialize(hello);
+                _res += "Token: " + token + "\r\n";
+
                 var httpClient = new HttpClient();
 
                 var req = new HttpRequestMessage()

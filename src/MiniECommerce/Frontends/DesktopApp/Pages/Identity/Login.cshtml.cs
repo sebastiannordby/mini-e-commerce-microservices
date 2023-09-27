@@ -33,8 +33,11 @@ namespace DesktopApp.Pages.Identity
                 var authProperties = new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    RedirectUri = this.Request.Host.Value
+                    RedirectUri = this.Request.Host.Value,
+                    AllowRefresh = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
                 };
+
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(GoogleUser),
