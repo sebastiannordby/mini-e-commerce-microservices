@@ -5,6 +5,53 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+<pre>@_res</pre>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private string _res;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var addresses = new[]
+        {
+            "http://localhost:50013/",
+            "https://localhost:50003/",
+            "http://host.docker.internal:50013/",
+            "https://host.docker.internal:50003/",
+            "http://order-service/",
+            "https://order-service/",
+            "http://order-service:50003/",
+            "https://order-service:50013/",
+            "http://172.17.0.1:50013/",
+            "https://172.17.0.1:50003/",
+            "http://0.0.0.0:50013/",
+            "https://0.0.0.0:50003/",
+            "order-service:50003/",
+            "order-service:50013/",
+        };
+
+        foreach(var adr in addresses)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+
+                httpClient.BaseAddress = new Uri(adr);
+                httpClient.DefaultRequestHeaders.Accept.Add(new("application/json"));
+
+                var req = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri("/Order")
+                    };
+
+                var res = await httpClient.SendAsync(req);
+
+                _res += "Adr:" + adr + "Statuscode: " + res.StatusCode;
+            }
+            catch(Exception e)
+            {
+                _res += adr + $" failed. {e.Message}\r\n";
+            }
+        }
+    }
+}

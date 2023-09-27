@@ -22,12 +22,16 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.UseCors(x =>
+                x.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
         }
 
         app.UseHttpsRedirection();
         app.MapControllers();
-        app.UseAuthentication();
-        app.UseAuthorization();
+        //app.UseAuthentication();
+        //app.UseAuthorization();
         app.MapControllers();
         app.Run();
     }

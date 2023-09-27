@@ -20,21 +20,21 @@ namespace MiniECommerce.Authentication
             if (string.IsNullOrWhiteSpace(googleClientSecret))
                 throw new Exception("Authentication:Google:ClientSecret must be configured");
 
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = googleClientId;
-                googleOptions.ClientSecret = googleClientSecret;
-            });
-
+            //services.AddAuthentication().AddGoogle(googleOptions =>
+            //{
+            //    googleOptions.ClientId = googleClientId;
+            //    googleOptions.ClientSecret = googleClientSecret;
+            //});
+            services.AddCors();
             services
                 .AddControllers(configure =>
                 {
-                    var authenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build();
+                    //var authenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                    //    .RequireAuthenticatedUser()
+                    //    .Build();
 
-                    configure.Filters.Add(
-                        new AuthorizeFilter(authenticatedUserPolicy));
+                    //configure.Filters.Add(
+                    //    new AuthorizeFilter(authenticatedUserPolicy));
                 });
 
             return services;
