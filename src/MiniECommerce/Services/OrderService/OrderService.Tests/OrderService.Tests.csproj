@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\OrderService.DataAccess\OrderService.DataAccess.csproj" />
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Testing\MiniECommerce.Testing.csproj" />
     <ProjectReference Include="..\OrderService.Domain\OrderService.Domain.csproj" />
   </ItemGroup>

@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OrderService.Domain.Models.Order;
 
-namespace OrderService.Domain.Implementation
+namespace OrderService.Domain.Services.Implementation
 {
-    internal sealed class OrderingService : IOrderService
+    internal class LoadOrderService : ILoadOrderService
     {
-        public async Task<Order> LoadAsync(Guid id, int number, IEnumerable<Order.OrderLine> orderLines)
+        public async Task<Order> LoadAsync(Guid id, int number, IEnumerable<OrderLine> orderLines)
         {
             var order = new Order(
                 id: id,

@@ -1,21 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OrderService.DataAccess.Services;
 using OrderService.Domain.Services;
-using OrderService.Domain.Services.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain
+namespace OrderService.DataAccess
 {
-    public static class DomainInstaller
+    public static class DataAccessInstaller
     {
-        public static IServiceCollection AddOrderServiceDomainLayer(
+        public static IServiceCollection AddOrderServiceDataAccessLayer(
             this IServiceCollection services)
         {
             return services
-                .AddScoped<ILoadOrderService, LoadOrderService>();
+                .AddScoped<IOrderService, OrderServiceImpl>();
         }
     }
 }

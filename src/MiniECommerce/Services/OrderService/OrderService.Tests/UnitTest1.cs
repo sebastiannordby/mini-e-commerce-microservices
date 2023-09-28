@@ -1,4 +1,5 @@
 using MiniECommerce.Testing;
+using OrderService.DataAccess;
 using OrderService.Domain;
 
 namespace OrderService.Tests
@@ -12,7 +13,8 @@ namespace OrderService.Tests
         {
             Services = ServiceProviderBuilder.BuildServiceProvider((services) =>
             {
-                services.AddOrderServiceDomain();
+                services.AddOrderServiceDataAccessLayer();
+                services.AddOrderServiceDomainLayer();
             });
         }
     }

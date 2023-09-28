@@ -17,7 +17,7 @@ namespace OrderService.Tests.Domain
         [Test]
         public void TestLoadOrder()
         {
-            var orderService = Services.GetService<IOrderService>();
+            var orderService = Services.GetService<ILoadOrderService>();
 
             Assert.ThrowsAsync<ValidationException>(async() =>
             {
