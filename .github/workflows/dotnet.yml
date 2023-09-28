@@ -14,7 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - working-directory: ./src
+    - name: Switch directory
+      working-directory: ./src
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
