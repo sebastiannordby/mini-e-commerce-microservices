@@ -1,10 +1,14 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using OrderService.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderService.Domain;
+using OrderService.Domain.Services;
 
 namespace OrderService.Tests.Domain
 {
@@ -13,12 +17,18 @@ namespace OrderService.Tests.Domain
         [Test]
         public void TestLoadOrder()
         {
-            Assert.Throws<ValidationException>(() =>
+            var services = new ServiceCollection();
+            services.AddOrderServiceDomain();
+            var serviceProvider = services.BuildServiceProvider();
+            var orderService = serviceProvider.GetService<IOrderService>();
+
+            Assert.ThrowsAsync<ValidationException>(async() =>
             {
-                var order = Order.Load(
+                await orderService.LoadAsync(
                     id: Guid.Empty,
                     number: -1,
-                    orderLines: null);
+                    orderLines: null
+                );
             });
         }
     }

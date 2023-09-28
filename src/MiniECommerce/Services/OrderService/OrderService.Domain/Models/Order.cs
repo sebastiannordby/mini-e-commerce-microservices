@@ -14,7 +14,7 @@ namespace OrderService.Domain.Models
         public int Number { get; set; }
         private List<OrderLine> _orderLines = new List<OrderLine>();
 
-        public Order(
+        internal Order(
             Guid id,
             int number,
             IEnumerable<OrderLine> orderLines)
@@ -22,24 +22,6 @@ namespace OrderService.Domain.Models
             Id = id;
             Number = number;
             _orderLines = orderLines?.ToList() ?? new();
-            Validate();
-        }
-
-        public static Order Load(
-            Guid id,
-            int number,
-            IEnumerable<OrderLine> orderLines)
-        {
-            var order = new Order(
-                id,
-                number,
-                orderLines);
-
-            var validationResult = order.Validate();
-            if (validationResult.Any())
-                throw new ValidationException(validationResult);
-
-            return order;
         }
 
         public IEnumerable<ValidationFailure> Validate()
