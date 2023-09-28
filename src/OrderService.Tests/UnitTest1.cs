@@ -1,16 +1,19 @@
+using MiniECommerce.Testing;
+using OrderService.Domain;
+
 namespace OrderService.Tests
 {
-    public class Tests
+    public class BaseOrderServiceTest
     {
+        public IServiceProvider Services { get; private set; }
+
         [SetUp]
         public void Setup()
         {
-        }
-
-        [Test]
-        public void Test1()
-        {
-            Assert.Pass();
+            Services = ServiceProviderBuilder.BuildServiceProvider((services) =>
+            {
+                services.AddOrderServiceDomain();
+            });
         }
     }
 }

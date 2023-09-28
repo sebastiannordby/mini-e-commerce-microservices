@@ -12,15 +12,12 @@ using OrderService.Domain.Services;
 
 namespace OrderService.Tests.Domain
 {
-    public class OrderTests
+    public class OrderTests : BaseOrderServiceTest
     {
         [Test]
         public void TestLoadOrder()
         {
-            var services = new ServiceCollection();
-            services.AddOrderServiceDomain();
-            var serviceProvider = services.BuildServiceProvider();
-            var orderService = serviceProvider.GetService<IOrderService>();
+            var orderService = Services.GetService<IOrderService>();
 
             Assert.ThrowsAsync<ValidationException>(async() =>
             {
