@@ -1,10 +1,10 @@
 using MiniECommerce.Testing;
-using OrderService.DataAccess;
-using OrderService.Domain;
+using ProductService.Domain;
+using ProductService.DataAccess;
 
-namespace OrderService.Tests
+namespace ProductService.Tests
 {
-    public class BaseOrderServiceTest
+    public class BaseProductServiceTest
     {
         public IServiceProvider Services { get; private set; }
 
@@ -13,8 +13,8 @@ namespace OrderService.Tests
         {
             Services = ServiceProviderBuilder.BuildServiceProvider((services) =>
             {
-                services.AddOrderServiceDataAccessLayer();
-                services.AddOrderServiceDomainLayer();
+                services.AddProductServiceDomainLayer();
+                services.AddProductDataAccessLayer();
             });
         }
     }

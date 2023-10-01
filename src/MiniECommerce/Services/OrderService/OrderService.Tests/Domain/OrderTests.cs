@@ -17,11 +17,11 @@ namespace OrderService.Tests.Domain
         [Test]
         public void TestLoadOrder()
         {
-            var orderService = Services.GetService<ILoadOrderService>();
+            var loadOrderService = Services.GetService<ILoadOrderService>();
 
             Assert.ThrowsAsync<ValidationException>(async() =>
             {
-                await orderService.LoadAsync(
+                await loadOrderService.LoadAsync(
                     id: Guid.Empty,
                     number: -1,
                     orderLines: null
