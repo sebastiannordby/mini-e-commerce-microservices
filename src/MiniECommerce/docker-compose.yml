@@ -52,6 +52,19 @@ services:
     depends_on:
         - order_service   
 
+  gateway:
+    image: ${DOCKER_REGISTRY-}miniecommercegateway
+    build:
+      context: .
+      dockerfile: Gateway/MiniECommerce.Gateway/Dockerfile
+    ports:
+        - 50000:80
+    depends_on:
+        - product_service
+        - purchase_service
+        - order_service 
+
 networks:
   backend:
     driver: bridge
+

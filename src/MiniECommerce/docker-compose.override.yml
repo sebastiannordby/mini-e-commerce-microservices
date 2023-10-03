@@ -46,3 +46,14 @@ services:
   #  environment:
   #      - ACCEPT_EULA=Y
   #      - MSSQL_SA_PASSWORD=myStong_Password123# 
+
+  gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
