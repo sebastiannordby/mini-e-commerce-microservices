@@ -11,5 +11,6 @@ namespace OrderService.Domain.Services
     public interface IOrderService
     {
         Task<Order> FindAsync(Guid id);
+        Task<Guid> Save(Order order);
     }
 }

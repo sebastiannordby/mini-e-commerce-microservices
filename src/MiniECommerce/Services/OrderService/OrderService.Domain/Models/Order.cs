@@ -14,6 +14,11 @@ namespace OrderService.Domain.Models
         public int Number { get; set; }
         private List<OrderLine> _orderLines = new List<OrderLine>();
 
+        public Order()
+        {
+
+        }
+
         internal Order(
             Guid id,
             int number,

@@ -30,7 +30,7 @@ namespace OrderService.Tests.Domain
         }
 
         [Test]
-        public async Task TestFindOrder()
+        public async Task TestFindOrderIsNull()
         {
             var loadOrderService = Services.GetService<ILoadOrderService>();
             var orderService = Services.GetService<IOrderService>();
@@ -38,5 +38,22 @@ namespace OrderService.Tests.Domain
 
             Assert.IsNull(order);
         }
+
+        [Test]
+        public async Task TestFindOrder()
+        {
+            var loadOrderService = Services.GetService<ILoadOrderService>();
+            var orderService = Services.GetService<IOrderService>();
+            var orderToSave = new Order() 
+            { 
+                Number = 1
+            };
+
+            var newOrderId = await orderService.Save(orderToSave);
+            var order = await orderService.FindAsync(newOrderId);
+
+            Assert.IsNotNull(order);
+        }
+
     }
 }

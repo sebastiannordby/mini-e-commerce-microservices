@@ -40,5 +40,32 @@ namespace OrderService.DataAccess.Services
 
             return order;
         }
+
+        public async Task<Guid> Save(Order order)
+        {
+            var orderDao = await _dbContext.Orders
+                .FirstOrDefaultAsync(x => x.Id == order.Id);
+
+            if(orderDao == null)
+            {
+                var orderNumbers = _dbContext.Orders
+                    .AsNoTracking()
+                    .Select(x => x.Number);
+                var orderNumber = orderNumbers.Any() ? 
+                    orderNumbers.Max() + 1 : 1;
+
+                orderDao = new Models.OrderDao(
+                    id: Guid.NewGuid(),
+                    number: orderNumber,
+                    userPrincipalName: "");
+
+                _dbContext.Orders.Add(orderDao);
+                _dbContext.SaveChanges();
+
+                return orderDao.Id;
+            }
+
+            return Guid.Empty;
+        }
     }
 }
