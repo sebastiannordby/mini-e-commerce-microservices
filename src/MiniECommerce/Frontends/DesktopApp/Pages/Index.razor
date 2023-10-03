@@ -16,8 +16,8 @@
     {
         var addresses = new[]
         {
-            "http://order_service"
-    };
+            "http://gateway/api/p/product"
+        };
 
         int count = 0;
 
@@ -37,12 +37,12 @@
 
                 var req = new HttpRequestMessage()
                 {
-                    RequestUri = new Uri(adr + "/Order")
+                    RequestUri = new Uri(adr)
                 };
 
                 var res = await httpClient.SendAsync(req);
 
-                _res += $"({++count}) Adr:" + adr + "Statuscode: " + res.StatusCode + "\r\n";
+                _res += $"({++count}) Adr:" + adr + " Statuscode: " + res.StatusCode + "\r\n";
 
                 _res += await res.Content.ReadAsStringAsync();
             }
