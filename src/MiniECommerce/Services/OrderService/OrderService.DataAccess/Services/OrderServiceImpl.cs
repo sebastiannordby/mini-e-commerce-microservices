@@ -26,6 +26,8 @@ namespace OrderService.DataAccess.Services
         {
             var orderDao = await _dbContext.Orders
                 .FindAsync(id);
+            if (orderDao == null)
+                return null;
 
             var orderLinesDao = await _dbContext.OrderLines
                 .Where(x => x.OrderId == id)

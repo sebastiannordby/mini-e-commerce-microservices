@@ -28,5 +28,15 @@ namespace OrderService.Tests.Domain
                 );
             });
         }
+
+        [Test]
+        public async Task TestFindOrder()
+        {
+            var loadOrderService = Services.GetService<ILoadOrderService>();
+            var orderService = Services.GetService<IOrderService>();
+            var order = await orderService.FindAsync(Guid.Empty);
+
+            Assert.IsNull(order);
+        }
     }
 }

@@ -1,6 +1,7 @@
 using MiniECommerce.Testing;
 using OrderService.Domain;
 using OrderService.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace OrderService.Tests
 {
@@ -14,7 +15,12 @@ namespace OrderService.Tests
             Services = ServiceProviderBuilder.BuildServiceProvider((services) =>
             {
                 services.AddOrderServiceDomainLayer();
-                services.AddOrderServiceDataAccessLayer();
+                services.AddOrderServiceDataAccessLayer(efOptions =>
+                {
+                    efOptions.UseInMemoryDatabase(nameof(BaseOrderServiceTest), b => {
+                        b.EnableNullChecks(false);
+                    });
+                });
             });
         }
     }
