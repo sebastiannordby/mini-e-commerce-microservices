@@ -3,15 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OrderService.API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    [Authorize]
-    public class OrderController : ControllerBase
+    public class OrderController : OrderServiceController
     {
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Hello");
+            return Ok("OrderController: Hello");
         }
     }
 }
