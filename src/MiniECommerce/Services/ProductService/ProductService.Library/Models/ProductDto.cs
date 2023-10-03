@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductService.DataAccess.Models
+namespace ProductService.Library.Models
 {
-    public sealed class ProductDao
+    public class ProductDto
     {
         public Guid Id { get; set; }
         public int Number { get; set; }
@@ -15,12 +15,12 @@ namespace ProductService.DataAccess.Models
         public string Category { get; set; }
         public decimal PricePerQuantity { get; set; }
 
-        public ProductDao()
+        public ProductDto()
         {
 
         }
 
-        public ProductDao(
+        public ProductDto(
             Guid id,
             int number,
             string name,
@@ -36,16 +36,5 @@ namespace ProductService.DataAccess.Models
             PricePerQuantity = pricePerQuantity;
         }
 
-        internal void Update(
-            string name, 
-            string description, 
-            string category, 
-            decimal pricePerQuantity)
-        {
-            Name = name;
-            Description = description;
-            Category = category;
-            PricePerQuantity = pricePerQuantity;
-        }
     }
 }

@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MiniECommerce.Authentication;
 using ProductService.DataAccess;
-using ProductService.Domain;
 
 namespace ProductService.API;
 
@@ -15,7 +16,6 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddECommerceAuthentication(builder.Configuration);
-        builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductDataAccessLayer(efOptions =>
         {
             efOptions.UseInMemoryDatabase(nameof(ProductService), b => {
@@ -37,6 +37,7 @@ public class Program
                 .AllowAnyOrigin());
         }
 
+        app.UseCookiePolicy();
         app.UseHttpsRedirection();
         app.MapControllers();
         //app.UseAuthentication();

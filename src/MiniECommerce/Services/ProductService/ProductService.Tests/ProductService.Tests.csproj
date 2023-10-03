@@ -20,6 +20,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Testing\MiniECommerce.Testing.csproj" />
     <ProjectReference Include="..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
-    <ProjectReference Include="..\ProductService.Domain\ProductService.Domain.csproj" />
   </ItemGroup>
 </Project>

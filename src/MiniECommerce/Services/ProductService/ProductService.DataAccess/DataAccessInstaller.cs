@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ProductService.DataAccess.Repositories;
 using ProductService.DataAccess.Repositories.Implementation;
-using ProductService.DataAccess.Services;
-using ProductService.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +23,8 @@ namespace ProductService.DataAccess
                 .AddDbContextFactory<ProductDbContext>(
                     efContextBuilderDelegate)
                 .AddScoped<IProductViewRepository, ProductViewRepository>()
-                .AddScoped<ProductDbContext>()
-                .AddScoped<IProductValidationService, ProductValidationService>();
+                .AddScoped<IProductRepository, ProductRepository>()
+                .AddScoped<ProductDbContext>();
         }
     }
 }

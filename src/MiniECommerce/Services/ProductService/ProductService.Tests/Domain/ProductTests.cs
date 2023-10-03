@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using ProductService.Domain.Services;
+using ProductService.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +12,15 @@ namespace ProductService.Tests.Domain
     public class ProductTests : BaseProductServiceTest
     {
         [Test]
-        public void TestLoadProductThrowsValidationException()
+        public async Task TestLoadProductsReturnsValues()
         {
-            var loadProductService = Services
-                .GetService<ILoadProductService>();
+            var productViewRepository = Services
+                .GetService<IProductViewRepository>();
 
-            Assert.ThrowsAsync<ValidationException>(async() =>
-            {
-                await loadProductService.LoadAsync(
-                    id: Guid.Empty,
-                    number: null,
-                    name: null,
-                    description: null,
-                    category: null);
-            });
+            var productViews = await productViewRepository.List();
+
+            Assert.IsEmpty(productViews);
+            Assert.IsNotNull(productViews);
         }
     }
 }

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components;
 using ProductService.Library.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Components.Server;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace DesktopApp.Pages
 {
@@ -13,18 +15,19 @@ namespace DesktopApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            //var token = await httpContextAccessor.HttpContext
-            //    .GetTokenAsync(CookieAuthenticationDefaults.AuthenticationScheme, "access_token");
-
-            var httpClient = new HttpClient();
             var req = new HttpRequestMessage()
             {
                 RequestUri = new Uri("http://gateway/api/product/product")
             };
 
+            var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync(
+                GoogleDefaults.AuthenticationScheme, "access_token");
+
+            req.Headers.Add("access_token", accessToken);
+
             req.Headers.Accept.Add(new("application/json"));
 
-            var httpResponse = await httpClient.SendAsync(req);
+            var httpResponse = await HttpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
 
             _products = JsonSerializer.Deserialize<IEnumerable<ProductView>>(jsonResponse, new JsonSerializerOptions()
@@ -32,5 +35,7 @@ namespace DesktopApp.Pages
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
         }
+
+        [Inject] private HttpClient HttpClient { get; set; }
     }
 }

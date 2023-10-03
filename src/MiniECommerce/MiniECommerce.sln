@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Library", "Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.API", "Services\ProductService\ProductService.API\ProductService.API.csproj", "{6837A02C-D92B-49D4-B826-4478286E49D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Domain", "Services\ProductService\ProductService.Domain\ProductService.Domain.csproj", "{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Library", "Services\ProductService\ProductService.Library\ProductService.Library.csproj", "{9140BB7D-BE7A-458C-BED3-D3E2C83C9660}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PurchaseService.API", "Services\PurchaseService\PurchaseService.API\PurchaseService.API.csproj", "{8C4D4052-33E9-4621-9410-7FA5B7B51AB6}"
@@ -37,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{188404DE-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Testing", "Core\MiniECommerce.Testing\MiniECommerce.Testing.csproj", "{98051567-AACE-4E60-AAAE-C030491EE55B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Tests", "Services\ProductService\ProductService.Tests\ProductService.Tests.csproj", "{58AA8868-E919-46DB-A08E-C7606526B84C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Tests", "Services\ProductService\ProductService.Tests\ProductService.Tests.csproj", "{58AA8868-E919-46DB-A08E-C7606526B84C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.DataAccess", "Services\OrderService\OrderService.DataAccess\OrderService.DataAccess.csproj", "{5480CD9B-E72D-4833-99ED-C591550AC200}"
 EndProject
@@ -47,9 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Authenticatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Library", "Core\MiniECommerce.Library\MiniECommerce.Library.csproj", "{0B8577E4-49C0-4853-8CCE-285F93DFB931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DataAccess", "Services\ProductService\ProductService.DataAccess\ProductService.DataAccess.csproj", "{23A98614-4E09-4D9C-B851-3F6F8011E24A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess", "Services\ProductService\ProductService.DataAccess\ProductService.DataAccess.csproj", "{23A98614-4E09-4D9C-B851-3F6F8011E24A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniECommerce.Gateway", "Gateway\MiniECommerce.Gateway\MiniECommerce.Gateway.csproj", "{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Gateway", "Gateway\MiniECommerce.Gateway\MiniECommerce.Gateway.csproj", "{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,14 +89,6 @@ Global
 		{6837A02C-D92B-49D4-B826-4478286E49D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6837A02C-D92B-49D4-B826-4478286E49D0}.Release|x64.ActiveCfg = Release|Any CPU
 		{6837A02C-D92B-49D4-B826-4478286E49D0}.Release|x64.Build.0 = Release|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Debug|x64.Build.0 = Debug|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Release|x64.ActiveCfg = Release|Any CPU
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7}.Release|x64.Build.0 = Release|Any CPU
 		{9140BB7D-BE7A-458C-BED3-D3E2C83C9660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9140BB7D-BE7A-458C-BED3-D3E2C83C9660}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9140BB7D-BE7A-458C-BED3-D3E2C83C9660}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -207,7 +197,6 @@ Global
 		{953770AF-6BDB-4F8A-B0DC-02ED98C4CE70} = {B5C7A4CB-3EAB-4657-AA05-AEA5D94527F2}
 		{5F79557D-FEAD-48CF-B7F0-408DF8EF1175} = {B5C7A4CB-3EAB-4657-AA05-AEA5D94527F2}
 		{6837A02C-D92B-49D4-B826-4478286E49D0} = {89CAE4FB-B137-4D7E-814F-BD0AC56BD56E}
-		{C4997EC5-3372-49CD-AAAC-C5C82478EDE7} = {89CAE4FB-B137-4D7E-814F-BD0AC56BD56E}
 		{9140BB7D-BE7A-458C-BED3-D3E2C83C9660} = {89CAE4FB-B137-4D7E-814F-BD0AC56BD56E}
 		{8C4D4052-33E9-4621-9410-7FA5B7B51AB6} = {46DD3247-55A7-4912-89CB-D9510EF9234E}
 		{5051D005-2FA5-400D-9B4C-A06F8629D2E0} = {805A1AE0-22BF-46EB-9C52-BACB3668D231}

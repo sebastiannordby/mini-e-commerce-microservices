@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -37,7 +38,13 @@ namespace MiniECommerce.Authentication
                     // Once a user is authenticated, the OAuth2 token info is stored in cookies.
                     o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
-                .AddCookie()
+                .AddCookie(options =>
+                {
+                    options.CookieManager = new ChunkingCookieManager();
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+                })
                 .AddGoogle(options =>
                 {
                     options.ClientId = googleClientId;
@@ -45,19 +52,8 @@ namespace MiniECommerce.Authentication
                 });
 
             services.AddAuthorization();
-
             services.AddCors();
             services.AddControllers();
-            //services
-            //    .AddControllers(configure =>
-            //    {
-            //        var authenticatedUserPolicy = new AuthorizationPolicyBuilder()
-            //            .RequireAuthenticatedUser()
-            //            .Build();
-
-            //        configure.Filters.Add(
-            //            new AuthorizeFilter(authenticatedUserPolicy));
-            //    });
 
             return services;
         }
