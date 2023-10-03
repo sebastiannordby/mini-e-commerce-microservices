@@ -1,12 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductService.DataAccess.Repositories;
+using ProductService.Library.Models;
 
 namespace ProductService.API.Controllers
 {
     public class ProductController : ProductServiceController
     {
-        public IActionResult Index()
+        private readonly IProductViewRepository _productViewRepository;
+
+        public ProductController(
+            IProductViewRepository productViewRepository)
         {
-            return Ok("This is the product");
+            _productViewRepository = productViewRepository;
+        }
+
+        public async Task<IEnumerable<ProductView>> ListViews()
+        {
+            return await _productViewRepository.List();
         }
     }
 }

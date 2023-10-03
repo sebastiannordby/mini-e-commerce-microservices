@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using MiniECommerce.Authentication;
+using ProductService.DataAccess;
+using ProductService.Domain;
 
 namespace ProductService.API;
 
@@ -11,10 +14,18 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddECommerceAuthentication(
-            builder.Configuration);
+        builder.Services.AddECommerceAuthentication(builder.Configuration);
+        builder.Services.AddProductServiceDomainLayer();
+        builder.Services.AddProductDataAccessLayer(efOptions =>
+        {
+            efOptions.UseInMemoryDatabase(nameof(ProductService), b => {
+                b.EnableNullChecks(false);
+            });
+        });
 
         var app = builder.Build();
+
+        app.UseDummyData();
 
         if (app.Environment.IsDevelopment())
         {

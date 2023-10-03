@@ -3,55 +3,23 @@
 @using Microsoft.AspNetCore.Authentication.Cookies;
 @attribute [Authorize]
 @inject IHttpContextAccessor httpContextAccessor
-<PageTitle>Index</PageTitle>
+<PageTitle>Shop</PageTitle>
 
-<h1>Hello, world!</h1>
+@if(_products != null)
+{
+    <div>
+        <h1>Products</h1>
 
-<pre>@_res</pre>
-
-@code {
-    private string _res;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var addresses = new[]
+        @foreach(var product in _products)
         {
-            "http://gateway/api/product/product",
-            "http://gateway/api/order/order",
-            "http://gateway/api/purchase/purchase",
-        };
-
-        int count = 0;
-
-        foreach(var adr in addresses)
-        {
-            try
-            {
-                var token = await httpContextAccessor.HttpContext
-                    .GetTokenAsync(CookieAuthenticationDefaults.AuthenticationScheme, "access_token");
-
-                var hello = httpContextAccessor.HttpContext.Request.Cookies.ToList();
-
-                _res += System.Text.Json.JsonSerializer.Serialize(hello);
-                _res += "Token: " + token + "\r\n";
-
-                var httpClient = new HttpClient();
-
-                var req = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri(adr)
-                };
-
-                var res = await httpClient.SendAsync(req);
-
-                _res += $"({++count}) Adr:" + adr + " Statuscode: " + res.StatusCode + "\r\n";
-
-                _res += await res.Content.ReadAsStringAsync();
-            }
-            catch(Exception e)
-            {
-                _res += $"({++count}) " + adr + $" failed. {e.Message}\r\n";
-            }
+            <div class="p-2 d-flex flex-column gap-2">
+                <label>@product.Number - @product.Name</label>
+                <label>Price: @product.PricePerQuantity</label>
+            </div>
         }
-    }
+    </div>
+}
+else
+{
+    <label>Loading products..</label>
 }
