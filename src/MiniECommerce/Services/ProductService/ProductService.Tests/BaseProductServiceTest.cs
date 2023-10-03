@@ -1,6 +1,7 @@
 using MiniECommerce.Testing;
 using ProductService.Domain;
 using ProductService.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductService.Tests
 {
@@ -14,7 +15,12 @@ namespace ProductService.Tests
             Services = ServiceProviderBuilder.BuildServiceProvider((services) =>
             {
                 services.AddProductServiceDomainLayer();
-                services.AddProductDataAccessLayer();
+                services.AddProductDataAccessLayer(efOptions =>
+                {
+                    efOptions.UseInMemoryDatabase(nameof(BaseProductServiceTest), b => {
+                        b.EnableNullChecks(false);
+                    });
+                });
             });
         }
     }

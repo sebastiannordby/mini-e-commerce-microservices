@@ -35,7 +35,13 @@ namespace ProductService.Domain.Models
         {
             var result = new List<ValidationFailure>();
 
-            if(!await validationService.IsNumberUnique(Id, Number))
+            if(string.IsNullOrWhiteSpace(Number))
+            {
+                result.Add(new(
+                    propertyName: nameof(Number),
+                    errorMessage: "Must be provided"));
+            }
+            else if(!await validationService.IsNumberUnique(Id, Number))
             {
                 result.Add(new(
                     propertyName: nameof(Number), 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ProductService.DataAccess.Services;
 using ProductService.Domain.Services;
 using System;
@@ -12,9 +13,15 @@ namespace ProductService.DataAccess
     public static class DataAccessInstaller
     {
         public static IServiceCollection AddProductDataAccessLayer(
-            this IServiceCollection services)
+            this IServiceCollection services,
+            Action<DbContextOptionsBuilder> efContextBuilderDelegate)
         {
+            if (efContextBuilderDelegate == null)
+                throw new ArgumentNullException(nameof(efContextBuilderDelegate));
+
             return services
+                .AddDbContextFactory<ProductDbContext>(
+                    efContextBuilderDelegate)
                 .AddScoped<IProductValidationService, ProductValidationService>();
         }
     }
