@@ -16,7 +16,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddECommerceAuthentication(builder.Configuration);
-        builder.Services.AddProductDataAccessLayer(efOptions =>
+        builder.Services.AddProductServiceDataAccessLayer(efOptions =>
         {
             efOptions.UseInMemoryDatabase(nameof(ProductService), b => {
                 b.EnableNullChecks(false);

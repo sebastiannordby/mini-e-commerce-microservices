@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ProductService.DataAccess.Repositories;
+using ProductService.Domain.UseCases.Queries.ListProducts;
 using ProductService.Library.Models;
+using MiniECommece.APIUtilities;
 
 namespace ProductService.API.Controllers
 {
@@ -8,20 +11,21 @@ namespace ProductService.API.Controllers
     {
         private readonly IProductViewRepository _productViewRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IMediator _mediator;
 
         public ProductController(
-            IProductViewRepository productViewRepository, 
-            IProductRepository productRepository)
+            IProductViewRepository productViewRepository,
+            IProductRepository productRepository,
+            IMediator mediator)
         {
             _productViewRepository = productViewRepository;
             _productRepository = productRepository;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IEnumerable<ProductView>> ListViews()
-        {
-            return await _productViewRepository.List();
-        }
+            => await _mediator.Send(new ListProductQuery(Request.GetRequestId()));
 
         [HttpGet("id/{id}")]
         public async Task<ProductDto> Find(

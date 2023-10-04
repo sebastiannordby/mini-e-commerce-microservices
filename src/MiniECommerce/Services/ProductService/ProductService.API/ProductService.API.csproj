@@ -17,12 +17,16 @@
 	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	<PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\MiniECommece.APIUtilities\MiniECommece.APIUtilities.csproj" />
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj" />
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
+    <ProjectReference Include="..\..\OrderService\OrderService.Domain\OrderService.Domain.csproj" />
     <ProjectReference Include="..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
+    <ProjectReference Include="..\ProductService.Domain\ProductService.Domain.csproj" />
   </ItemGroup>
 
 	<PropertyGroup>

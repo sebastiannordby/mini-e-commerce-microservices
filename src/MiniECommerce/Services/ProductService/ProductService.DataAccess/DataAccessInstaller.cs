@@ -12,7 +12,7 @@ namespace ProductService.DataAccess
 {
     public static class DataAccessInstaller
     {
-        public static IServiceCollection AddProductDataAccessLayer(
+        public static IServiceCollection AddProductServiceDataAccessLayer(
             this IServiceCollection services,
             Action<DbContextOptionsBuilder> efContextBuilderDelegate)
         {

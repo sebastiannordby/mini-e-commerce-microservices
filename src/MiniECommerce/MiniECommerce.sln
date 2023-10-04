@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{188404DE-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Testing", "Core\MiniECommerce.Testing\MiniECommerce.Testing.csproj", "{98051567-AACE-4E60-AAAE-C030491EE55B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Tests", "Services\ProductService\ProductService.Tests\ProductService.Tests.csproj", "{58AA8868-E919-46DB-A08E-C7606526B84C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Tests", "Services\ProductService\ProductService.Tests\ProductService.Tests.csproj", "{58AA8868-E919-46DB-A08E-C7606526B84C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.DataAccess", "Services\OrderService\OrderService.DataAccess\OrderService.DataAccess.csproj", "{5480CD9B-E72D-4833-99ED-C591550AC200}"
 EndProject
@@ -45,9 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Authenticatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Library", "Core\MiniECommerce.Library\MiniECommerce.Library.csproj", "{0B8577E4-49C0-4853-8CCE-285F93DFB931}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess", "Services\ProductService\ProductService.DataAccess\ProductService.DataAccess.csproj", "{23A98614-4E09-4D9C-B851-3F6F8011E24A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DataAccess", "Services\ProductService\ProductService.DataAccess\ProductService.DataAccess.csproj", "{23A98614-4E09-4D9C-B851-3F6F8011E24A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Gateway", "Gateway\MiniECommerce.Gateway\MiniECommerce.Gateway.csproj", "{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniECommerce.Gateway", "Gateway\MiniECommerce.Gateway\MiniECommerce.Gateway.csproj", "{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Domain", "Services\ProductService\ProductService.Domain\ProductService.Domain.csproj", "{125C6E46-A8A4-446F-98EB-C69EE9372580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniECommece.APIUtilities", "Core\MiniECommece.APIUtilities\MiniECommece.APIUtilities.csproj", "{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -185,6 +189,22 @@ Global
 		{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}.Release|x64.ActiveCfg = Release|Any CPU
 		{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96}.Release|x64.Build.0 = Release|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Debug|x64.Build.0 = Debug|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Release|x64.ActiveCfg = Release|Any CPU
+		{125C6E46-A8A4-446F-98EB-C69EE9372580}.Release|x64.Build.0 = Release|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Debug|x64.Build.0 = Debug|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Release|x64.ActiveCfg = Release|Any CPU
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +228,8 @@ Global
 		{0B8577E4-49C0-4853-8CCE-285F93DFB931} = {188404DE-6D1A-46EC-9076-1528CC922B01}
 		{23A98614-4E09-4D9C-B851-3F6F8011E24A} = {89CAE4FB-B137-4D7E-814F-BD0AC56BD56E}
 		{8B3F1FE6-3A59-4F12-BE8A-E3153F518D96} = {2CA2B108-2958-4B25-A4F2-95EB320FD068}
+		{125C6E46-A8A4-446F-98EB-C69EE9372580} = {89CAE4FB-B137-4D7E-814F-BD0AC56BD56E}
+		{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90} = {188404DE-6D1A-46EC-9076-1528CC922B01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {300DEE50-88C8-433E-B879-CF5ADCE2FAFA}
