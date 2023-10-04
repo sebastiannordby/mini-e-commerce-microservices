@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,15 @@ namespace ProductService.Domain.UseCases.Behaviours
 {
     public sealed class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly ILogger<TRequest> _logger;
-
-        public LoggingBehaviour(ILogger<TRequest> logger)
-        {
-            _logger = logger;
-        }
-
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var requestId = Guid.Empty;
             if (request.GetType().IsAssignableTo(typeof(Request)))
                 requestId = (request as Request).RequestId;
 
-            _logger.LogInformation("Request {0} receieved.", requestId);
+            Log.Information("Request {0} received.", requestId);
             var response = await next();
-            _logger.LogInformation("Request {0} completed.", requestId);
+            Log.Information("Request {0} completed.", requestId);
 
             return response;
         }

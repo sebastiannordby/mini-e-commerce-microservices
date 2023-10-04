@@ -11,6 +11,8 @@ using MediatR.Pipeline;
 using ProductService.Domain.UseCases.Behaviours;
 using ProductService.Domain.UseCases;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace ProductService.Domain
 {
@@ -19,6 +21,13 @@ namespace ProductService.Domain
         public static IServiceCollection AddProductServiceDomainLayer(
             this IServiceCollection services)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
             return services
                 .AddLogging()
                 .AddMediatR(options =>
