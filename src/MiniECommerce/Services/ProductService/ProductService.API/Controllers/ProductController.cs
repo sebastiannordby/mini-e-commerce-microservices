@@ -4,6 +4,8 @@ using ProductService.DataAccess.Repositories;
 using ProductService.Domain.UseCases.Queries.ListProducts;
 using ProductService.Library.Models;
 using MiniECommece.APIUtilities;
+using ProductService.Domain.UseCases.Commands.CreateProduct;
+using ProductService.Domain.UseCases.Commands.UpdateProduct;
 
 namespace ProductService.API.Controllers
 {
@@ -35,19 +37,11 @@ namespace ProductService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<Guid> Create(
-            [FromBody] ProductDto product)
-        {
-            return await _productRepository.Create(product);
-        }
+        public async Task<Guid> Create([FromBody] ProductDto product)
+            => await _mediator.Send(new CreateProductCommand(Request.GetRequestId(), product));
 
         [HttpPut]
-        public async Task<IActionResult> Update(
-            [FromBody] ProductDto product)
-        {
-            await _productRepository.Update(product);
-
-            return Ok();
-        }
+        public async Task<IActionResult> Update([FromBody] ProductDto product)
+            => await _mediator.Send(new UpdateProductCommand(Request.GetRequestId(), product));
     }
 }

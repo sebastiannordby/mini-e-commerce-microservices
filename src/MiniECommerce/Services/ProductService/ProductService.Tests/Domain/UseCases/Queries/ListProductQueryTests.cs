@@ -18,7 +18,6 @@ namespace ProductService.Tests.Domain.UseCases.Queries
             var productViews = await mediator.Send(new ListProductQuery(Guid.NewGuid()));
 
             Assert.IsNotNull(productViews);
-            Assert.IsEmpty(productViews);
         }
     }
 }

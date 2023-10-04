@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 namespace ProductService.Domain.UseCases.Commands.UpdateProduct
 {
     public sealed record UpdateProductCommand(
-        Guid TransactionId,
-        ProductDto Product, 
-        bool UpdateOrders
-    ) : Command(TransactionId);
+        Guid RequestId,
+        ProductDto Product
+    ) : Command(RequestId);
 }
