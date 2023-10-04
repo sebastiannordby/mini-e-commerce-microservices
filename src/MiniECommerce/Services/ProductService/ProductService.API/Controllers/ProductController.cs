@@ -42,6 +42,10 @@ namespace ProductService.API.Controllers
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ProductDto product)
-            => await _mediator.Send(new UpdateProductCommand(Request.GetRequestId(), product));
+        {
+            await _mediator.Send(new UpdateProductCommand(Request.GetRequestId(), product));
+
+            return Ok();
+        }
     }
 }
