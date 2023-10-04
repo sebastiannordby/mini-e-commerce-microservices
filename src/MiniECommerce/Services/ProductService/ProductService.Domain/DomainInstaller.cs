@@ -25,7 +25,7 @@ namespace ProductService.Domain
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
                 .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} | {Level}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             return services
