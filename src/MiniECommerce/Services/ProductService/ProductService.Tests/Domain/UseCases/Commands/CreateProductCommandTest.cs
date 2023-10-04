@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ProductService.Tests.Domain.UseCases.Commands
 {
-    public class CreateProductCommandTest : BaseProductServiceTest
+    public sealed class CreateProductCommandTest : BaseProductServiceTest
     {
         [Test]
         public async Task TestCommand()
