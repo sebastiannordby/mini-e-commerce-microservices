@@ -39,21 +39,22 @@ var googleClientId = configuration["Authentication:Google:ClientId"] ??
 var googleClientSecret = configuration["Authentication:Google:ClientSecret"] ?? 
     throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided");
 
+Log.Information("GoogleClientId: " + googleClientId);
+Log.Information("GoogleClientSecret: " + googleClientSecret);
+
 // Add services to the container.
 builder.Services.AddHttpClient();
-
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    .AddCookie(options =>
     {
-        options.CookieManager = new ChunkingCookieManager();
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SameSite = SameSiteMode.None;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-    })
-    .AddGoogle(options =>
+        options.Cookie.Name = "GoogleAuth";
+        options.LoginPath = "/Identity/Login";
+    });
+
+builder.Services.AddAuthentication().AddGoogle(options =>
     {
         options.ClientId = googleClientId;
         options.ClientSecret = googleClientSecret;
@@ -83,10 +84,13 @@ else
 }
 
 app.UseStaticFiles();
-app.UseCookiePolicy();
-app.UseRouting();
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    Secure = CookieSecurePolicy.Always
+});
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

@@ -1,20 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>DesktopApp</PageTitle>
+<PageTitle>MiniECommerce</PageTitle>
 
-<div class="page">
+<div class="page h-100 w-100 d-flex">
     <div class="sidebar">
         <NavMenu />
     </div>
 
-    <main>
+    <main class="flex-grow-1 d-flex flex-column h-100">
         <div class="top-row px-4 auth">
             <LoginControl />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
-        <article class="content px-4">
+        <article class="content flex-grow-1 px-4">
             @Body
         </article>
+
+        <footer class="p-2 d-flex align-items-center gap-2">
+            <label>Admin: </label>
+        </footer>
     </main>
 </div>

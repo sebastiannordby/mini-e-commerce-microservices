@@ -17,7 +17,7 @@ namespace DesktopApp.Pages
         {
             var req = new HttpRequestMessage()
             {
-                RequestUri = new Uri("http://gateway/api/product/product")
+                RequestUri = new Uri("http://gateway/api/productservice/product")
             };
 
             var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync(
