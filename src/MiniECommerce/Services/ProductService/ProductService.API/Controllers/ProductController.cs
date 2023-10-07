@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.DataAccess.Repositories;
-using ProductService.Domain.UseCases.Queries.ListProducts;
+using ProductService.Domain.UseCases.Queries.List;
 using ProductService.Library.Models;
-using MiniECommece.APIUtilities;
 using ProductService.Domain.UseCases.Commands.CreateProduct;
 using ProductService.Domain.UseCases.Commands.UpdateProduct;
 using ProductService.Domain.UseCases.Queries.Find;
+using MiniECommece.APIUtilities;
 
 namespace ProductService.API.Controllers
 {
@@ -25,11 +25,6 @@ namespace ProductService.API.Controllers
             _productRepository = productRepository;
             _mediator = mediator;
         }
-
-        [HttpGet]
-        public async Task<IEnumerable<ProductView>> ListViews()
-            => await _mediator.Send(
-                new ListProductQuery(Request.GetRequestId()));
 
         [HttpGet("id/{id}")]
         public async Task<ProductDto?> Find([FromRoute] Guid id)

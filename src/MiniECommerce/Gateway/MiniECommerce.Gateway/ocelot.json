@@ -2,7 +2,7 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/api/product-service/{endpoint}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/{endpoint}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -13,8 +13,20 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/api/basket-service/{endpoint}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/{endpoint}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "basket_service",
+          "Port": 80
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/api/order/{endpoint}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/{endpoint}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -26,7 +38,7 @@
     },
     {
       "UpstreamPathTemplate": "/api/purchase/{endpoint}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/{endpoint}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

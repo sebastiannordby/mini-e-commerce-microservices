@@ -3,6 +3,7 @@ name: mini-e-commerce
 
 services:
   basket_service:
+    container_name: basket_service
     image: ${DOCKER_REGISTRY-}basketserviceapi
     build:
       context: .

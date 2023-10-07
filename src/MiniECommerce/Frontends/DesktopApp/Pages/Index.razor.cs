@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Authentication.Google;
 using MiniECommerce.Consumption.Repositories.ProductService;
+using MiniECommerce.Consumption.Repositories.BasketService;
 
 namespace DesktopApp.Pages
 {
@@ -19,6 +20,12 @@ namespace DesktopApp.Pages
             _products = await ProductRepository.List();
         }
 
+        private async Task AddToBasket(ProductView product)
+        {
+            await BasketRepository.Test(product.Id);
+        }
+
+        [Inject] private IBasketRepository BasketRepository { get; set; }
         [Inject] private IProductRepository ProductRepository { get; set; }
     }
 }

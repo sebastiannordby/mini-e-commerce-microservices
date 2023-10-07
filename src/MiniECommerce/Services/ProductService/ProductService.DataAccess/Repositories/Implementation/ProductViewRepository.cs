@@ -18,6 +18,15 @@ namespace ProductService.DataAccess.Repositories.Implementation
             _dbContext = dbContext;
         }
 
+        public async Task<ProductView?> Find(Guid productId)
+        {
+            return await _dbContext.Products
+                .AsNoTracking()
+                .Where(x => x.Id == productId)
+                .Select(x => ConvertToView(x))
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<ProductView>> List()
         {
             return await _dbContext.Products

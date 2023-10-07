@@ -78,7 +78,7 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
         {
             var req = new HttpRequestMessage()
             {
-                RequestUri = new Uri("http://gateway/api/product-service/product")
+                RequestUri = new Uri("http://gateway/api/product-service/productview")
             };
 
             req.Headers.Accept.Add(new("application/json"));

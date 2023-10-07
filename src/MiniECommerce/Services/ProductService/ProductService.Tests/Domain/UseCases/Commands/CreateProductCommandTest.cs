@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ProductService.Domain.UseCases.Commands.CreateProduct;
-using ProductService.Domain.UseCases.Queries.ListProducts;
+using ProductService.Domain.UseCases.Queries.List;
 using ProductService.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace ProductService.Tests.Domain.UseCases.Commands
                 }
             ));
 
-            var productViews = await mediator.Send(new ListProductQuery(Guid.NewGuid()));
+            var productViews = await mediator.Send(new ListProductViewsQuery(Guid.NewGuid()));
 
             Assert.IsFalse(response == Guid.Empty);
             Assert.IsNotNull(productViews);
