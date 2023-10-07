@@ -1,4 +1,5 @@
 ﻿using ProductService.Library.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,33 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             _httpClient = httpClient;
         }
 
-        public Task<Guid> Add(ProductDto product)
+        public async Task<Guid> Add(ProductDto product)
         {
-            throw new NotImplementedException();
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://gateway/api/product-service/product")
+            };
+
+            var requestId = Guid.NewGuid().ToString();
+
+            Log.Information(
+                $"Sending request({requestId}) to: {req.RequestUri}");
+
+            req.Headers.Accept.Add(new("application/json"));
+            req.Headers.Add("RequestId", requestId);
+
+            var httpResponse = await _httpClient.SendAsync(req);
+
+            Log.Information(
+                $"Request({requestId}) Statuscode: {httpResponse.StatusCode} to: {req.RequestUri}");
+
+            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<Guid>(jsonResponse, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
 
         public async Task<IEnumerable<ProductView>> List()
