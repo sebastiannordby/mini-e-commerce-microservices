@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Services\OrderService\OrderService.Library\OrderService.Library.csproj" />
     <ProjectReference Include="..\..\Services\ProductService\ProductService.Library\ProductService.Library.csproj" />
+    <ProjectReference Include="..\MiniECommerce.Consumption\MiniECommerce.Consumption.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Authentication.Google;
+using MiniECommerce.Consumption.Repositories.ProductService;
 
 namespace DesktopApp.Pages
 {
@@ -15,27 +16,9 @@ namespace DesktopApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var req = new HttpRequestMessage()
-            {
-                RequestUri = new Uri("http://gateway/api/productservice/product")
-            };
-
-            var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync(
-                GoogleDefaults.AuthenticationScheme, "access_token");
-
-            req.Headers.Add("access_token", accessToken);
-
-            req.Headers.Accept.Add(new("application/json"));
-
-            var httpResponse = await HttpClient.SendAsync(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            _products = JsonSerializer.Deserialize<IEnumerable<ProductView>>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            _products = await ProductRepository.List();
         }
 
-        [Inject] private HttpClient HttpClient { get; set; }
+        [Inject] private IProductRepository ProductRepository { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MiniECommerce.Authentication;
 using ProductService.DataAccess;
+using ProductService.Domain;
 
 namespace ProductService.API;
 
@@ -16,6 +17,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddECommerceAuthentication(builder.Configuration);
+        builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductServiceDataAccessLayer(efOptions =>
         {
             efOptions.UseInMemoryDatabase(nameof(ProductService), b => {

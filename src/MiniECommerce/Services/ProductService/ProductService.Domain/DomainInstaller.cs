@@ -35,7 +35,9 @@ namespace ProductService.Domain
                     options.RegisterServicesFromAssembly(typeof(DomainInstaller).Assembly);
                 })
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>))
-                .AddScoped<ILoadProductService, LoadProductService>();
+                ;
+                //.AddScoped<ILoadProductService, LoadProductService>();
+
         }
     }
 }

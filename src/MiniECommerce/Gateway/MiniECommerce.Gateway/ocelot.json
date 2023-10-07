@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/api/productservice/{endpoint}",
+      "UpstreamPathTemplate": "/api/product-service/{endpoint}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
       "DownstreamPathTemplate": "/api/{endpoint}",
       "DownstreamScheme": "http",
