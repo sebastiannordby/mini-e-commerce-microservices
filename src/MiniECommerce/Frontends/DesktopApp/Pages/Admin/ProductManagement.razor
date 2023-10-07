@@ -1,0 +1,69 @@
+﻿@page "/product-management"
+
+<h1>Product Management</h1>
+
+@if(_products == null)
+{
+    <label>Loading..</label>
+}
+else
+{
+    <MudButton 
+        ButtonType="ButtonType.Button"
+        Color="Color.Secondary"
+        OnClick="ShowAddProductDialog">Add</MudButton>
+
+    if(_products.Any())
+    {
+        <div class="d-flex flex-column gap-2">
+            @foreach (var product in _products)
+            {
+                <div class="p-2 d-flex flex-column gap-2">
+                    <label>Number: @product.Number</label>
+                    <label>Name: @product.Name</label>
+                    <label>Category: @product.Category</label>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <label>No products registered.</label>
+    }
+}
+
+
+<MudDialog
+    @bind-IsVisible="_isManagementDialogVisible">
+    <TitleContent>Product</TitleContent>
+    <DialogContent>
+        <div class="d-flex flex-column gap-2">
+            @if(_managementProduct != null)
+            {
+                <MudNumericField 
+                    T="int" 
+                    @bind-Value="_managementProduct.Number" 
+                    Label="Number" />
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_managementProduct.Name" 
+                    Label="Name" />
+                <MudTextField T="string" 
+                    @bind-Text="_managementProduct.Category" 
+                    Label="Category" />
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_managementProduct.Description" 
+                    Label="Description" />
+            } 
+            else
+            {
+                <label>Loading..</label>
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CancelManagement">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SubmitManagement">Save</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -51,9 +51,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Gateway", "Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Domain", "Services\ProductService\ProductService.Domain\ProductService.Domain.csproj", "{125C6E46-A8A4-446F-98EB-C69EE9372580}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniECommece.APIUtilities", "Core\MiniECommece.APIUtilities\MiniECommece.APIUtilities.csproj", "{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommece.APIUtilities", "Core\MiniECommece.APIUtilities\MiniECommece.APIUtilities.csproj", "{B413AD04-3E0C-4E0E-87E9-9C8D41B78F90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniECommerce.Consumption", "Frontends\MiniECommerce.Consumption\MiniECommerce.Consumption.csproj", "{C29AF6D9-2747-4351-B219-AC475067AC06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECommerce.Consumption", "Frontends\MiniECommerce.Consumption\MiniECommerce.Consumption.csproj", "{C29AF6D9-2747-4351-B219-AC475067AC06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
