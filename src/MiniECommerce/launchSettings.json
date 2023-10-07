@@ -8,7 +8,8 @@
         "userservice.identity": "StartDebugging",
         "productservice.api": "StartDebugging",
         "desktopapp": "StartDebugging",
-        "miniecommerce.gateway": "StartDebugging"
+        "miniecommerce.gateway": "StartDebugging",
+        "basketservice.api": "StartDebugging"
       }
     }
   }

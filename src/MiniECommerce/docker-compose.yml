@@ -2,6 +2,16 @@ version: '3.4'
 name: mini-e-commerce
 
 services:
+  basket_service:
+    image: ${DOCKER_REGISTRY-}basketserviceapi
+    build:
+      context: .
+      dockerfile: Services/BasketService/BasketService.API/Dockerfile
+    ports:
+        - 50014:80
+    networks:
+        - backend
+
   order_service:
     container_name: order_service
     image: ${DOCKER_REGISTRY-}orderserviceapi
@@ -70,7 +80,9 @@ services:
         - order_service
     networks:
         - backend
+  
 networks:
   backend:
     driver: bridge
+
 
