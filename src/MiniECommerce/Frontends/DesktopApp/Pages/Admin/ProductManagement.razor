@@ -22,6 +22,10 @@ else
                     <label>Number: @product.Number</label>
                     <label>Name: @product.Name</label>
                     <label>Category: @product.Category</label>
+                    <MudButton 
+                        OnClick="async() => await ShowEditProductDialog(product)">
+                        Edit
+                    </MudButton>
                 </div>
             }
         </div>
@@ -34,8 +38,11 @@ else
 
 
 <MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
     @bind-IsVisible="_isManagementDialogVisible">
-    <TitleContent>Product</TitleContent>
+    <TitleContent>
+        <h5 class="mb-0">Product</h5>
+    </TitleContent>
     <DialogContent>
         <div class="d-flex flex-column gap-2">
             @if(_managementProduct != null)

@@ -12,5 +12,6 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
         Task<IEnumerable<ProductView>> List();
         Task<Guid> Add(ProductDto product);
         Task Update(ProductDto product);
+        Task<ProductDto> Find(Guid id);
     }
 }

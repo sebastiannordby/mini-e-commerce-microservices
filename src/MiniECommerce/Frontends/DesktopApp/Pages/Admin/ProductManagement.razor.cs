@@ -36,7 +36,13 @@ namespace DesktopApp.Pages.Admin
             _isManagementProductNew = true;
             _isManagementDialogVisible = true;
             StateHasChanged();
+        }
 
+        private async Task ShowEditProductDialog(ProductView product)
+        {
+            _managementProduct = await ProductRepository.Find(product.Id);
+            _isManagementProductNew = false;
+            _isManagementDialogVisible = true;
         }
 
         private void CancelManagement()
@@ -60,6 +66,7 @@ namespace DesktopApp.Pages.Admin
             _isManagementDialogVisible = false;
             _isManagementProductNew = false;
             _managementProduct = null;
+            await LoadProducts();
         }
 
         [Inject] private IDialogService DialogService { get; set; }

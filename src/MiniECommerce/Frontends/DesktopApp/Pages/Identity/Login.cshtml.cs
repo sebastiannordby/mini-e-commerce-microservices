@@ -14,12 +14,14 @@ namespace DesktopApp.Pages.Identity
         {
             string provider = "Google";
             // Request a redirect to the external login provider.
+            
             var authenticationProperties = new AuthenticationProperties
             {
                 RedirectUri = Url.Page("./Login",
                 pageHandler: "Callback",
                 values: new { returnUrl }),
             };
+
             return new ChallengeResult(provider, authenticationProperties);
         }
 
@@ -28,6 +30,7 @@ namespace DesktopApp.Pages.Identity
         {
             // Get the information about the user from the external login provider
             var GoogleUser = this.User.Identities.FirstOrDefault();
+
             if (GoogleUser.IsAuthenticated)
             {
                 var authProperties = new AuthenticationProperties
@@ -39,10 +42,11 @@ namespace DesktopApp.Pages.Identity
                 };
 
                 await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(GoogleUser),
-                authProperties);
+                    scheme: CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal: new ClaimsPrincipal(GoogleUser),
+                    properties: authProperties);
             }
+
             return LocalRedirect("/");
         }
     }

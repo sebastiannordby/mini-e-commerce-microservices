@@ -1,10 +1,13 @@
-﻿using ProductService.Library.Models;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using ProductService.Library.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MiniECommerce.Consumption.Repositories.ProductService
@@ -14,6 +17,7 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
         private readonly HttpClient _httpClient;
 
         public ProductRepository(
+            AuthenticationStateProvider prov,
             HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -24,7 +28,9 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             var req = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("http://gateway/api/product-service/product")
+                RequestUri = new Uri("http://gateway/api/product-service/product"),
+                Content = new StringContent(
+                    JsonSerializer.Serialize(product), Encoding.UTF8, "application/json")
             };
 
             var requestId = Guid.NewGuid().ToString();
@@ -48,16 +54,32 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             });
         }
 
+        public async Task<ProductDto> Find(Guid id)
+        {
+            var req = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(
+                    $"http://gateway/api/product-service/product/id/{id}")
+            };
+
+            req.Headers.Accept.Add(new("application/json"));
+            req.Headers.Add("RequestId", Guid.NewGuid().ToString());
+
+            var httpResponse = await _httpClient.SendAsync(req);
+            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<ProductDto>(jsonResponse, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+        }
+
         public async Task<IEnumerable<ProductView>> List()
         {
             var req = new HttpRequestMessage()
             {
                 RequestUri = new Uri("http://gateway/api/product-service/product")
             };
-
-            //var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync(
-            //    GoogleDefaults.AuthenticationScheme, "access_token");
-            //req.Headers.Add("access_token", accessToken);
 
             req.Headers.Accept.Add(new("application/json"));
             req.Headers.Add("RequestId", Guid.NewGuid().ToString());
@@ -71,9 +93,28 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             });
         }
 
-        public Task Update(ProductDto product)
+        public async Task Update(ProductDto product)
         {
-            throw new NotImplementedException();
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri("http://gateway/api/product-service/product"),
+                Content = new StringContent(
+                    JsonSerializer.Serialize(product), Encoding.UTF8, "application/json")
+            };
+
+            var requestId = Guid.NewGuid().ToString();
+
+            Log.Information(
+                $"Sending request({requestId}) to: {req.RequestUri}");
+
+            req.Headers.Accept.Add(new("application/json"));
+            req.Headers.Add("RequestId", requestId);
+
+            var httpResponse = await _httpClient.SendAsync(req);
+
+            Log.Information(
+                $"Request({requestId}) Statuscode: {httpResponse.StatusCode} to: {req.RequestUri}");
         }
     }
 }

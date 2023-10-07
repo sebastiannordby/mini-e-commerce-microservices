@@ -57,11 +57,11 @@ builder.Services
     });
 
 builder.Services.AddAuthentication().AddGoogle(options =>
-    {
-        options.ClientId = googleClientId;
-        options.ClientSecret = googleClientSecret;
-        options.SaveTokens = true;
-    });
+{
+    options.ClientId = googleClientId;
+    options.ClientSecret = googleClientSecret;
+    options.SaveTokens = true;
+});
 
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddAuthorization();

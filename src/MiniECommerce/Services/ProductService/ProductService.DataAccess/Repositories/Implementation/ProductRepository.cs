@@ -18,13 +18,14 @@ namespace ProductService.DataAccess.Repositories.Implementation
             _dbContext = dbContext;
         }
 
-        public async Task<ProductDto> Find(Guid id)
+        public async Task<ProductDto?> Find(Guid id)
         {
-            var productDao = await _dbContext.Products
+            var productDto = await _dbContext.Products
+                .Where(x => x.Id == id)
                 .Select(x => ConvertToDto(x))
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync();
 
-            return productDao;
+            return productDto;
         }
 
         private ProductDto ConvertToDto(ProductDao x)

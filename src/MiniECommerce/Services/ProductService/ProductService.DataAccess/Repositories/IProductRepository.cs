@@ -9,7 +9,7 @@ namespace ProductService.DataAccess.Repositories
 {
     public interface IProductRepository
     {
-        Task<ProductDto> Find(Guid id);
+        Task<ProductDto?> Find(Guid id);
         Task<Guid> Create(ProductDto product);
         Task Update(ProductDto product);
     }

@@ -6,6 +6,7 @@ using ProductService.Library.Models;
 using MiniECommece.APIUtilities;
 using ProductService.Domain.UseCases.Commands.CreateProduct;
 using ProductService.Domain.UseCases.Commands.UpdateProduct;
+using ProductService.Domain.UseCases.Queries.Find;
 
 namespace ProductService.API.Controllers
 {
@@ -27,23 +28,24 @@ namespace ProductService.API.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<ProductView>> ListViews()
-            => await _mediator.Send(new ListProductQuery(Request.GetRequestId()));
+            => await _mediator.Send(
+                new ListProductQuery(Request.GetRequestId()));
 
         [HttpGet("id/{id}")]
-        public async Task<ProductDto> Find(
-            [FromRoute] Guid id)
-        {
-            return await _productRepository.Find(id);
-        }
+        public async Task<ProductDto?> Find([FromRoute] Guid id)
+            => await _mediator.Send(
+                new FindProductByIdQuery(Request.GetRequestId(), id));
 
         [HttpPost]
         public async Task<Guid> Create([FromBody] ProductDto product)
-            => await _mediator.Send(new CreateProductCommand(Request.GetRequestId(), product));
+            => await _mediator.Send(
+                new CreateProductCommand(Request.GetRequestId(), product));
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ProductDto product)
         {
-            await _mediator.Send(new UpdateProductCommand(Request.GetRequestId(), product));
+            await _mediator.Send(
+                new UpdateProductCommand(Request.GetRequestId(), product));
 
             return Ok();
         }
