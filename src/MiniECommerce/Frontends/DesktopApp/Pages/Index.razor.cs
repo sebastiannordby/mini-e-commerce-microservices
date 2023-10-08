@@ -22,7 +22,7 @@ namespace DesktopApp.Pages
 
         private async Task AddToBasket(ProductView product)
         {
-            await BasketRepository.Test(product.Id);
+            await BasketRepository.AddToBasket(product.Id);
         }
 
         [Inject] private IBasketRepository BasketRepository { get; set; }
