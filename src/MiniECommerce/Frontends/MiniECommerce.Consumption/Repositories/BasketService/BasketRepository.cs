@@ -1,4 +1,5 @@
-﻿using ProductService.Library.Models;
+﻿using BasketService.Library;
+using ProductService.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
             _httpClient = httpClient;
         }
 
-        public async Task AddToBasket(Guid productId)
+        public async Task<List<BasketItemView>> AddToBasket(Guid productId)
         {
             var req = new HttpRequestMessage()
             {
@@ -31,9 +32,14 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<List<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
 
-        public async Task DecreaseQuantity(Guid productId)
+        public async Task<List<BasketItemView>> DecreaseQuantity(Guid productId)
         {
             var req = new HttpRequestMessage()
             {
@@ -47,9 +53,14 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<List<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
 
-        public async Task IncreaseQuantity(Guid productId)
+        public async Task<List<BasketItemView>> IncreaseQuantity(Guid productId)
         {
             var req = new HttpRequestMessage()
             {
@@ -63,6 +74,11 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<List<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
     }
 }

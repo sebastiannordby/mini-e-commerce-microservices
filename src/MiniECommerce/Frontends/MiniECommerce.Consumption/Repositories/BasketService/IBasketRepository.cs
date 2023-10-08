@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BasketService.Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
 {
     public interface IBasketRepository
     {
-        Task AddToBasket(Guid productId);
-        Task IncreaseQuantity(Guid productId);
-        Task DecreaseQuantity(Guid productId);
+        Task<List<BasketItemView>> AddToBasket(Guid productId);
+        Task<List<BasketItemView>> IncreaseQuantity(Guid productId);
+        Task<List<BasketItemView>> DecreaseQuantity(Guid productId);
     }
 }

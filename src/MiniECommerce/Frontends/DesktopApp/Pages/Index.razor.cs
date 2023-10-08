@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Authentication.Google;
 using MiniECommerce.Consumption.Repositories.ProductService;
 using MiniECommerce.Consumption.Repositories.BasketService;
+using BasketService.Library;
 
 namespace DesktopApp.Pages
 {
     public partial class Index : ComponentBase
     {
         private IEnumerable<ProductView> _products;
+        private List<BasketItemView> _basketItems = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,7 +24,17 @@ namespace DesktopApp.Pages
 
         private async Task AddToBasket(ProductView product)
         {
-            await BasketRepository.AddToBasket(product.Id);
+            _basketItems = await BasketRepository.AddToBasket(product.Id);
+        }
+
+        private async Task IncreaseQuantity(BasketItemView item)
+        {
+            _basketItems = await BasketRepository.IncreaseQuantity(item.ProductId);
+        }
+
+        private async Task DecreaseQuantity(BasketItemView item)
+        {
+            _basketItems = await BasketRepository.DecreaseQuantity(item.ProductId);
         }
 
         [Inject] private IBasketRepository BasketRepository { get; set; }

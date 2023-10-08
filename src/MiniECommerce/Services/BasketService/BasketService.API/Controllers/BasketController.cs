@@ -12,7 +12,7 @@ namespace BasketService.API.Controllers
     public class BasketController : BasketServiceController
     {
         private readonly IGatewayProductRepository _productRepository;
-        private readonly List<BasketItemView> _items = new();
+        private static readonly List<BasketItemView> _items = new();
 
         public BasketController(
             IGatewayProductRepository productRepository)
@@ -27,7 +27,7 @@ namespace BasketService.API.Controllers
         }
 
         [HttpPost("add/productid/{productId}")]
-        public async Task AddToBasket([FromRoute] Guid productId)
+        public async Task<List<BasketItemView>> AddToBasket([FromRoute] Guid productId)
         {
             var existsInBasket = _items
                 .Any(x => x.ProductId == productId);
@@ -43,12 +43,15 @@ namespace BasketService.API.Controllers
             {
                 PricePerQuantity = product.PricePerQuantity,
                 ProductId = productId,
+                ProductName = product.Name,
                 Quantity = 1
             });
+
+            return _items;
         }
 
         [HttpPost("increase-quantity/{productId}")]
-        public void IncreaseQuantity([FromRoute] Guid productId)
+        public List<BasketItemView> IncreaseQuantity([FromRoute] Guid productId)
         {
             var product = _items
                 .FirstOrDefault(x => x.ProductId == productId);
@@ -56,10 +59,12 @@ namespace BasketService.API.Controllers
                 throw new Exception("Product not in basket.");
 
             product.PricePerQuantity += 1;
+
+            return _items;
         }
 
         [HttpPost("decrease-quantity/{productId}")]
-        public void DecreaseQuantity([FromRoute] Guid productId)
+        public List<BasketItemView> DecreaseQuantity([FromRoute] Guid productId)
         {
             var product = _items
                 .FirstOrDefault(x => x.ProductId == productId);
@@ -69,6 +74,8 @@ namespace BasketService.API.Controllers
             product.PricePerQuantity -= 1;
             if (product.PricePerQuantity <= 0)
                 _items.Remove(product);
+
+            return _items;
         }
     }
 }

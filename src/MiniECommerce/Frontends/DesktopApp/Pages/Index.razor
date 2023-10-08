@@ -7,17 +7,38 @@
 
 @if(_products != null)
 {
-    <div>
-        <h1>Products</h1>
+    <div class="d-flex gap-2">
+        <div class="p-2">
+            <h1>Products</h1>
 
-        @foreach(var product in _products)
-        {
-            <div class="p-2 d-flex flex-column gap-2">
-                <label>@product.Number - @product.Name</label>
-                <label>Price: $@product.PricePerQuantity</label>
-                <MudButton OnClick="async() => AddToBasket(product)">Add to basket</MudButton>
-            </div>
-        }
+            @foreach (var product in _products)
+            {
+                <div class="p-2 d-flex flex-column gap-2">
+                    <label>@product.Number - @product.Name</label>
+                    <label>Price: $@product.PricePerQuantity</label>
+                    <MudButton OnClick="async() => await AddToBasket(product)">Add to basket</MudButton>
+                </div>
+            }
+        </div>
+        <div class="p-2">
+            <h3>Basket</h3>
+
+            @if(_basketItems != null && _basketItems.Any())
+            {
+                <ul>
+                    @foreach(var item in _basketItems)
+                    {
+                        <li>
+                            <div class="d-flex gap-2 align-items-center">
+                                <label>@item.ProductName</label>
+                                <MudButton OnClick="async() => await IncreaseQuantity(item)">+</MudButton>
+                                <MudButton OnClick="async() => await DecreaseQuantity(item)">-</MudButton>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
     </div>
 }
 else

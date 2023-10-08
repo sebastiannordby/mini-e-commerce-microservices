@@ -38,7 +38,10 @@ namespace MiniECommerce.Gateway.Consumption.ProductService
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<ProductView>(jsonResponse);
+            return JsonSerializer.Deserialize<ProductView>(jsonResponse, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
     }
 }
