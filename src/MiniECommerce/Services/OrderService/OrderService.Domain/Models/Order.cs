@@ -12,9 +12,15 @@ namespace OrderService.Domain.Models
     {
         public Guid Id { get; set; }
         public int Number { get; set; }
+        public string BuyersName { get; set; }
+        public string AddressLine { get; set; }
+        public string PostalCode { get; set; }
+        public string PostalOffice { get; set; }
+        public string Country { get; set; }
+
         private List<OrderLine> _orderLines = new List<OrderLine>();
 
-        public Order()
+        internal Order()
         {
 
         }
@@ -22,10 +28,20 @@ namespace OrderService.Domain.Models
         internal Order(
             Guid id,
             int number,
+            string buyersName,
+            string addressLine,
+            string postalCode,
+            string postalOffice,
+            string country,
             IEnumerable<OrderLine> orderLines)
         {
             Id = id;
             Number = number;
+            BuyersName = buyersName;
+            AddressLine = addressLine;
+            PostalCode = postalCode;
+            PostalOffice = postalOffice;
+            Country = country;
             _orderLines = orderLines?.ToList() ?? new();
         }
 
@@ -34,6 +50,10 @@ namespace OrderService.Domain.Models
             if (Number <= 0)
                 yield return new(
                     nameof(Number), "Number must be higher than 0.");
+
+            if (string.IsNullOrWhiteSpace(BuyersName))
+                yield return new(
+                    nameof(BuyersName), "Cannot be null/whitespace.");
 
             if (_orderLines.Any())
             {
@@ -78,7 +98,7 @@ namespace OrderService.Domain.Models
                 PricePerQuantity = pricePerQuantity;
             }
 
-            public OrderLine Load(
+            public static OrderLine Load(
                 Guid id,
                 int number,
                 Guid productId,

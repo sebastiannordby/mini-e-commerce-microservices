@@ -31,11 +31,23 @@ namespace OrderService.DataAccess.Services
 
             var orderLinesDao = await _dbContext.OrderLines
                 .Where(x => x.OrderId == id)
-                .ToListAsync();
+                .Select(x => Order.OrderLine.Load(
+                    x.Id,
+                    x.Number,
+                    x.ProductId,
+                    x.ProductDescription,
+                    x.Quantity,
+                    x.PricePerQuantity)
+                ).ToListAsync();
 
             var order = await _loadOrderService.LoadAsync(
                 id: orderDao.Id,
-                number: orderDao.Number,
+                number: orderDao.Number, 
+                buyersName: orderDao.BuyersFullName,
+                addressLine: orderDao.AddressLine,
+                postalCode: orderDao.PostalCode,
+                postalOffice: orderDao.PostalOffice,
+                country: orderDao.Country,
                 orderLines: null);
 
             return order;
@@ -57,7 +69,11 @@ namespace OrderService.DataAccess.Services
                 orderDao = new Models.OrderDao(
                     id: Guid.NewGuid(),
                     number: orderNumber,
-                    userPrincipalName: "");
+                    buyersFullName: order.BuyersName,
+                    addressLine: order.AddressLine,
+                    postalCode: order.PostalCode,
+                    postalOffice: order.PostalOffice,
+                    country: order.Country);
 
                 _dbContext.Orders.Add(orderDao);
                 _dbContext.SaveChanges();

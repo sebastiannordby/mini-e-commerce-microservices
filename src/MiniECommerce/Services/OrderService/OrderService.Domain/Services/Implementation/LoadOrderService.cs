@@ -12,11 +12,24 @@ namespace OrderService.Domain.Services.Implementation
 {
     internal class LoadOrderService : ILoadOrderService
     {
-        public async Task<Order> LoadAsync(Guid id, int number, IEnumerable<OrderLine> orderLines)
+        public async Task<Order> LoadAsync(
+            Guid id, 
+            int number,
+            string buyersName,
+            string addressLine,
+            string postalCode,
+            string postalOffice,
+            string country,
+            IEnumerable<OrderLine> orderLines)
         {
             var order = new Order(
                 id: id,
                 number: number,
+                buyersName: buyersName,
+                addressLine: addressLine,
+                postalCode: postalCode,
+                postalOffice: postalOffice,
+                country: country,
                 orderLines: orderLines);
 
             var validationResult = order.Validate();

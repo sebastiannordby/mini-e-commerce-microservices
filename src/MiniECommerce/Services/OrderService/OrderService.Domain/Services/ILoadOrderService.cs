@@ -20,6 +20,11 @@ namespace OrderService.Domain.Services
         Task<Order> LoadAsync(
             Guid id,
             int number,
+            string buyersName,
+            string addressLine,
+            string postalCode,
+            string postalOffice,
+            string country,
             IEnumerable<OrderLine> orderLines);
 
     }

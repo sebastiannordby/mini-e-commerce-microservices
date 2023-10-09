@@ -22,8 +22,19 @@ services:
     ports:
         - 50013:80
         #- 50003:443
+    depends_on: 
+        - order_service_db
     networks:
         - backend
+
+  order_service_db:
+    container_name: order_service_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+        - 50113:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=myStong_Password123# 
 
   purchase_service:
     container_name: purchase-service
