@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -6,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MiniECommerce.Authentication;
 using OrderService.DataAccess;
 using OrderService.Domain;
+using System.Diagnostics.Metrics;
 
 namespace OrderService.API;
 
@@ -30,6 +30,8 @@ public class Program
 
         var app = builder.Build();
 
+        MigrateDatabase(app);
+
         if (app.Environment.IsDevelopment())
         {
             app.UseCors(x =>
@@ -48,5 +50,15 @@ public class Program
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
+    }
+
+    private static void MigrateDatabase(WebApplication app)
+    {
+        using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+        {
+            var context = serviceScope.ServiceProvider.GetService<OrderDbContext>();
+            if (context is not null)
+                context.Database.Migrate();
+        }
     }
 }

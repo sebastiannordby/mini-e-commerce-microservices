@@ -1,43 +1,64 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
+using FluentValidation;
 using System.Threading.Tasks;
+using FluentValidation.Results;
+using System.Collections.Generic;
 
 namespace OrderService.Domain.Models 
 {
     public class Order
     {
-        public Guid Id { get; set; }
-        public int Number { get; set; }
-        public string BuyersName { get; set; }
-        public string AddressLine { get; set; }
-        public string PostalCode { get; set; }
-        public string PostalOffice { get; set; }
-        public string Country { get; set; }
+        public Guid Id { get; private set; }
+        public int Number { get; private set; }
+        public OrderStatus Status { get; private set; }
+        public string BuyersName { get; private set; }
+        public string BuyersEmailAddress { get; private set; }
+        public string? AddressLine { get; private set; }
+        public string? PostalCode { get; private set; }
+        public string? PostalOffice { get; private set; }
+        public string? Country { get; private set; }
 
         private List<OrderLine> _orderLines = new List<OrderLine>();
 
-        internal Order()
-        {
+        private IReadOnlyCollection<OrderLine> OrderLines => 
+            _orderLines.AsReadOnly();
 
+        public enum OrderStatus
+        {
+            InFill = 0,
+            WaitingForConfirmation = 1,
+            Confirmed = 2,
+            Delivered = 3
+        }
+
+        internal Order(
+            int newNumber,
+            string buyersName,
+            string buyersEmailAddress)
+        {
+            Number = newNumber;
+            BuyersName = buyersName;
+            BuyersEmailAddress = buyersEmailAddress;
+            Status = OrderStatus.InFill;
         }
 
         internal Order(
             Guid id,
             int number,
             string buyersName,
-            string addressLine,
-            string postalCode,
-            string postalOffice,
-            string country,
+            string buyersEmailAddress,
+            string? addressLine,
+            string? postalCode,
+            string? postalOffice,
+            string? country,
             IEnumerable<OrderLine> orderLines)
         {
             Id = id;
             Number = number;
             BuyersName = buyersName;
+            BuyersEmailAddress = buyersEmailAddress;
             AddressLine = addressLine;
             PostalCode = postalCode;
             PostalOffice = postalOffice;

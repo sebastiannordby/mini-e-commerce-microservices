@@ -24,6 +24,12 @@ namespace OrderService.Tests.Domain
                 await loadOrderService.LoadAsync(
                     id: Guid.Empty,
                     number: -1,
+                    buyersName: null,
+                    buyersEmailAddress: null,
+                    addressLine: null,
+                    postalCode: null,
+                    postalOffice: null,
+                    country: null,
                     orderLines: null
                 );
             });
@@ -42,12 +48,11 @@ namespace OrderService.Tests.Domain
         [Test]
         public async Task TestFindOrder()
         {
-            var loadOrderService = Services.GetService<ILoadOrderService>();
+            var initOrderService = Services.GetService<IInitializeOrderService>();
             var orderService = Services.GetService<IOrderService>();
-            var orderToSave = new Order() 
-            { 
-                Number = 1
-            };
+
+            var orderToSave = await initOrderService.Initialize(
+                nameof(TestFindOrder), nameof(TestFindOrder));
 
             var newOrderId = await orderService.Save(orderToSave);
             var order = await orderService.FindAsync(newOrderId);

@@ -10,8 +10,8 @@ namespace OrderService.DataAccess
 {
     public class OrderDbContext : DbContext
     {
-        public DbSet<OrderDao> Orders { get; set; }
-        public DbSet<OrderLineDao> OrderLines { get; set; }
+        internal DbSet<OrderDao> Orders { get; set; }
+        internal DbSet<OrderLineDao> OrderLines { get; set; }
 
         public OrderDbContext(DbContextOptions options) : base(options)
         {

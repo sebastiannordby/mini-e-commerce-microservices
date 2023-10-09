@@ -19,10 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\MiniECommece.APIUtilities\MiniECommece.APIUtilities.csproj" />
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj" />
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
     <ProjectReference Include="..\OrderService.DataAccess\OrderService.DataAccess.csproj" />
     <ProjectReference Include="..\OrderService.Domain\OrderService.Domain.csproj" />
+    <ProjectReference Include="..\OrderService.Library\OrderService.Library.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

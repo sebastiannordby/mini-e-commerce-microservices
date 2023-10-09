@@ -1,14 +1,33 @@
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrderService.Domain.UseCases.Commands.Start;
+using OrderService.Library.Commands;
+using MiniECommece.APIUtilities;
 
 namespace OrderService.API.Controllers
 {
     public class OrderController : OrderServiceController
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly IMediator _mediator;
+
+        public OrderController(IMediator mediator)
         {
-            return Ok("OrderController: Hello");
+            _mediator = mediator;
+        }
+
+        [HttpPost("place")]
+        public async Task<IActionResult> PlaceOrder(
+            [FromBody] StartOrderCommandDto commandDto)
+        {
+            var result = await _mediator.Send(new StartOrderCommand(
+                Request.GetRequestId(),
+                commandDto.BasketId,
+                commandDto.BuyersFullName,
+                commandDto.BuyersEmailAddress
+            ));
+
+            return Ok(result);
         }
     }
 }

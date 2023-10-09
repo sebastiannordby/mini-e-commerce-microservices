@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderService.DataAccess.Models;
 using OrderService.Domain.Models;
 using OrderService.Domain.Services;
 using System;
@@ -22,14 +23,14 @@ namespace OrderService.DataAccess.Services
             _loadOrderService = loadOrderService;
         }
 
-        public async Task<Order> FindAsync(Guid id)
+        public async Task<Order?> FindAsync(Guid id)
         {
             var orderDao = await _dbContext.Orders
                 .FindAsync(id);
             if (orderDao == null)
                 return null;
 
-            var orderLinesDao = await _dbContext.OrderLines
+            var orderLines = await _dbContext.OrderLines
                 .Where(x => x.OrderId == id)
                 .Select(x => Order.OrderLine.Load(
                     x.Id,
@@ -44,13 +45,31 @@ namespace OrderService.DataAccess.Services
                 id: orderDao.Id,
                 number: orderDao.Number, 
                 buyersName: orderDao.BuyersFullName,
+                buyersEmailAddress: orderDao.BuyersEmailAddress,
                 addressLine: orderDao.AddressLine,
                 postalCode: orderDao.PostalCode,
                 postalOffice: orderDao.PostalOffice,
                 country: orderDao.Country,
-                orderLines: null);
+                orderLines: orderLines);
 
             return order;
+        }
+
+        public async Task<int> GetNewNumber()
+        {
+            var takenNumbers = _dbContext.Orders
+                .Select(x => x.Number);
+
+            return await takenNumbers.AnyAsync() ?
+                await takenNumbers.MaxAsync() + 1 : 1;  
+        }
+
+        public async Task<bool> HasOrderInProgress(string buyersEmailAddress)
+        {
+            return await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .AnyAsync();
         }
 
         public async Task<Guid> Save(Order order)
@@ -58,7 +77,7 @@ namespace OrderService.DataAccess.Services
             var orderDao = await _dbContext.Orders
                 .FirstOrDefaultAsync(x => x.Id == order.Id);
 
-            if(orderDao == null)
+            if(orderDao is null)
             {
                 var orderNumbers = _dbContext.Orders
                     .AsNoTracking()
@@ -66,19 +85,21 @@ namespace OrderService.DataAccess.Services
                 var orderNumber = orderNumbers.Any() ? 
                     orderNumbers.Max() + 1 : 1;
 
-                orderDao = new Models.OrderDao(
-                    id: Guid.NewGuid(),
-                    number: orderNumber,
-                    buyersFullName: order.BuyersName,
-                    addressLine: order.AddressLine,
-                    postalCode: order.PostalCode,
-                    postalOffice: order.PostalOffice,
-                    country: order.Country);
+                orderDao = new OrderDao(order);
 
-                _dbContext.Orders.Add(orderDao);
-                _dbContext.SaveChanges();
+                await _dbContext.Orders.AddAsync(orderDao);
+                await _dbContext.SaveChangesAsync();
 
                 return orderDao.Id;
+            }
+            else
+            {
+                orderDao.Update(order);
+                await _dbContext.SaveChangesAsync();
+
+
+
+
             }
 
             return Guid.Empty;

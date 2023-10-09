@@ -15,7 +15,12 @@ namespace OrderService.Domain
             this IServiceCollection services)
         {
             return services
-                .AddScoped<ILoadOrderService, LoadOrderService>();
+                .AddScoped<IInitializeOrderService, InitializeOrderService>()
+                .AddScoped<ILoadOrderService, LoadOrderService>()
+                .AddMediatR(options =>
+                {
+                    options.RegisterServicesFromAssembly(typeof(DomainInstaller).Assembly);
+                });
         }
     }
 }

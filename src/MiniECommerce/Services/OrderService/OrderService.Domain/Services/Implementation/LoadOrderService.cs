@@ -16,16 +16,18 @@ namespace OrderService.Domain.Services.Implementation
             Guid id, 
             int number,
             string buyersName,
-            string addressLine,
-            string postalCode,
-            string postalOffice,
-            string country,
+            string buyersEmailAddress,
+            string? addressLine,
+            string? postalCode,
+            string? postalOffice,
+            string? country,
             IEnumerable<OrderLine> orderLines)
         {
             var order = new Order(
                 id: id,
                 number: number,
                 buyersName: buyersName,
+                buyersEmailAddress: buyersEmailAddress,
                 addressLine: addressLine,
                 postalCode: postalCode,
                 postalOffice: postalOffice,

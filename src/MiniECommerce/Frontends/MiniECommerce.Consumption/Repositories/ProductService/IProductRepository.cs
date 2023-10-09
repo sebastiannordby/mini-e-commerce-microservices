@@ -9,9 +9,9 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<ProductView>> List();
+        Task<IEnumerable<ProductView>?> List();
         Task<Guid> Add(ProductDto product);
         Task Update(ProductDto product);
-        Task<ProductDto> Find(Guid id);
+        Task<ProductDto?> Find(Guid id);
     }
 }

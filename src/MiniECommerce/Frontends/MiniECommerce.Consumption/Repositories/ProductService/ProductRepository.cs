@@ -12,15 +12,12 @@ using System.Threading.Tasks;
 
 namespace MiniECommerce.Consumption.Repositories.ProductService
 {
-    internal class ProductRepository : IProductRepository
+    internal class ProductRepository : HttpRepository, IProductRepository
     {
-        private readonly HttpClient _httpClient;
-
         public ProductRepository(
-            AuthenticationStateProvider prov,
-            HttpClient httpClient)
+            HttpClient httpClient) : base(httpClient)
         {
-            _httpClient = httpClient;
+
         }
 
         public async Task<Guid> Add(ProductDto product)
@@ -33,28 +30,10 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
                     JsonSerializer.Serialize(product), Encoding.UTF8, "application/json")
             };
 
-            var requestId = Guid.NewGuid().ToString();
-
-            Log.Information(
-                $"Sending request({requestId}) to: {req.RequestUri}");
-
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", requestId);
-
-            var httpResponse = await _httpClient.SendAsync(req);
-
-            Log.Information(
-                $"Request({requestId}) Statuscode: {httpResponse.StatusCode} to: {req.RequestUri}");
-
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<Guid>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await Send<Guid>(req);
         }
 
-        public async Task<ProductDto> Find(Guid id)
+        public async Task<ProductDto?> Find(Guid id)
         {
             var req = new HttpRequestMessage()
             {
@@ -62,35 +41,17 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
                     $"http://gateway/api/product-service/product/id/{id}")
             };
 
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", Guid.NewGuid().ToString());
-
-            var httpResponse = await _httpClient.SendAsync(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<ProductDto>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await Send<ProductDto>(req);
         }
 
-        public async Task<IEnumerable<ProductView>> List()
+        public async Task<IEnumerable<ProductView>?> List()
         {
             var req = new HttpRequestMessage()
             {
                 RequestUri = new Uri("http://gateway/api/product-service/productview")
             };
 
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", Guid.NewGuid().ToString());
-
-            var httpResponse = await _httpClient.SendAsync(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<IEnumerable<ProductView>>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await Send<IEnumerable<ProductView>>(req);
         }
 
         public async Task Update(ProductDto product)
@@ -103,18 +64,7 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
                     JsonSerializer.Serialize(product), Encoding.UTF8, "application/json")
             };
 
-            var requestId = Guid.NewGuid().ToString();
-
-            Log.Information(
-                $"Sending request({requestId}) to: {req.RequestUri}");
-
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", requestId);
-
-            var httpResponse = await _httpClient.SendAsync(req);
-
-            Log.Information(
-                $"Request({requestId}) Statuscode: {httpResponse.StatusCode} to: {req.RequestUri}");
+            await Send(req);
         }
     }
 }

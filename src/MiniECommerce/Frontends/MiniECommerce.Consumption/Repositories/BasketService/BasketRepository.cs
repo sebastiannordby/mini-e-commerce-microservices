@@ -1,5 +1,6 @@
 ﻿using BasketService.Library;
 using ProductService.Library.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,11 @@ using System.Threading.Tasks;
 
 namespace MiniECommerce.Consumption.Repositories.BasketService
 {
-    internal class BasketRepository : IBasketRepository
+    internal class BasketRepository : HttpRepository, IBasketRepository
     {
-        private readonly HttpClient _httpClient;
-
-        public BasketRepository(HttpClient httpClient)
+        public BasketRepository(HttpClient httpClient) : base(httpClient)
         {
-            _httpClient = httpClient;
+        
         }
 
         public async Task<List<BasketItemView>> AddToBasket(Guid productId)
@@ -27,16 +26,7 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
                     $"http://gateway/api/basket-service/basket/add/productid/{productId}")
             };
 
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", Guid.NewGuid().ToString());
-
-            var httpResponse = await _httpClient.SendAsync(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<List<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
         }
 
         public async Task<List<BasketItemView>> DecreaseQuantity(Guid productId)
@@ -48,16 +38,7 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
                     $"http://gateway/api/basket-service/basket/decrease-quantity/{productId}")
             };
 
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", Guid.NewGuid().ToString());
-
-            var httpResponse = await _httpClient.SendAsync(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<List<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
         }
 
         public async Task<List<BasketItemView>> IncreaseQuantity(Guid productId)
@@ -69,16 +50,7 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
                     $"http://gateway/api/basket-service/basket/increase-quantity/{productId}")
             };
 
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", Guid.NewGuid().ToString());
-
-            var httpResponse = await _httpClient.SendAsync(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<List<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
         }
     }
 }

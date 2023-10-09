@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MiniECommerce.Consumption.Repositories.OrderService;
 using MiniECommerce.Consumption.Repositories.BasketService;
 using MiniECommerce.Consumption.Repositories.ProductService;
 
@@ -11,7 +12,8 @@ namespace MiniECommerce.Consumption
         {
             return services
                 .AddScoped<IProductRepository, ProductRepository>()
-                .AddScoped<IBasketRepository, BasketRepository>();
+                .AddScoped<IBasketRepository, BasketRepository>()
+                .AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }

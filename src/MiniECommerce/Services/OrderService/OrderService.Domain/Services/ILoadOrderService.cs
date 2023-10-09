@@ -21,10 +21,11 @@ namespace OrderService.Domain.Services
             Guid id,
             int number,
             string buyersName,
-            string addressLine,
-            string postalCode,
-            string postalOffice,
-            string country,
+            string buyersEmailAddress,
+            string? addressLine,
+            string? postalCode,
+            string? postalOffice,
+            string? country,
             IEnumerable<OrderLine> orderLines);
 
     }
