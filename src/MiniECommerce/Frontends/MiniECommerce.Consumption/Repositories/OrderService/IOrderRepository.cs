@@ -9,6 +9,6 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
 {
     public interface IOrderRepository
     {
-        Task<Guid> Place(StartOrderCommandDto command);
+        Task<Guid> Start(StartOrderCommandDto command);
     }
 }

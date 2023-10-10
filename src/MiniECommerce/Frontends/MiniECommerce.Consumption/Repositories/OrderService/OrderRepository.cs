@@ -16,12 +16,12 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
 
         }
 
-        public async Task<Guid> Place(StartOrderCommandDto command)
+        public async Task<Guid> Start(StartOrderCommandDto command)
         {
             var req = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("http://gateway/api/order-service/order/place"),
+                RequestUri = new Uri("http://gateway/api/order-service/order/start"),
                 Content = new StringContent(
                     JsonSerializer.Serialize(command), Encoding.UTF8, "application/json")
             };

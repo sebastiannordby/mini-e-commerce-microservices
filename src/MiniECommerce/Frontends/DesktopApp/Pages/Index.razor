@@ -27,7 +27,7 @@
 
             @if(_basketItems != null && _basketItems.Any())
             {
-                <ul>
+                <ul class="pr-2 flex-1 overflow-auto">
                     @foreach(var item in _basketItems)
                     {
                         <li class="mt-2">
@@ -44,6 +44,8 @@
                         </li>
                     }
                 </ul>
+
+                <MudButton OnClick="StartOrder">Order</MudButton>
             }
         </div>
     </div>

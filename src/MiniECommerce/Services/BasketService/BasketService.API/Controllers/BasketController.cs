@@ -5,77 +5,99 @@ using MiniECommece.APIUtilities;
 using BasketService.Library;
 using System.Threading.Tasks;
 using System;
+using System.Collections.Concurrent;
 
 namespace BasketService.API.Controllers
 {
-
     public class BasketController : BasketServiceController
     {
         private readonly IGatewayProductRepository _productRepository;
-        private static readonly List<BasketItemView> _items = new();
-
+        private static readonly ConcurrentDictionary<string, List<BasketItemView>> _baskets = new();
+        
         public BasketController(
             IGatewayProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        [HttpGet]
-        public IEnumerable<BasketItemView> GetList()
+        [HttpGet("{userEmail}")]
+        public IEnumerable<BasketItemView> GetList([FromRoute] string userEmail)
         {
-            return _items;
+            var basket = _baskets
+                .FirstOrDefault(x => x.Key == userEmail);
+
+            return basket.Value ?? new();
         }
 
-        [HttpPost("add/productid/{productId}")]
-        public async Task<List<BasketItemView>> AddToBasket([FromRoute] Guid productId)
+        [HttpPost("add/{userEmail}/productid/{productId}")]
+        public async Task<List<BasketItemView>> AddToBasket(
+            [FromRoute] string userEmail,
+            [FromRoute] Guid productId)
         {
-            var existsInBasket = _items
-                .Any(x => x.ProductId == productId);
-            if (existsInBasket)
-                throw new Exception("Product already exists in basket.");
-
             var product = await _productRepository
                 .Find(productId, Request.GetRequestId());
             if (product == null)
                 throw new Exception("Product not found");
 
-            _items.Add(new BasketItemView()
+            var newBasketItem = new BasketItemView()
             {
                 PricePerQuantity = product.PricePerQuantity,
                 ProductId = productId,
                 ProductName = product.Name,
                 Quantity = 1
-            });
+            };
 
-            return _items;
+            var basketItems = _baskets.AddOrUpdate(userEmail,
+                addValue: new List<BasketItemView>() { newBasketItem }, (key, value) =>
+                {
+                    if (value.Any(x => x.ProductId == productId))
+                        throw new Exception("Product already exists in basket.");
+
+                    value.Add(newBasketItem);
+
+                    return value;
+                });
+
+            return basketItems;
         }
 
-        [HttpPost("increase-quantity/{productId}")]
-        public List<BasketItemView> IncreaseQuantity([FromRoute] Guid productId)
+        [HttpPost("increase-quantity/{userEmail}/{productId}")]
+        public List<BasketItemView> IncreaseQuantity(
+            [FromRoute] string userEmail,
+            [FromRoute] Guid productId)
         {
-            var product = _items
+            if (!_baskets.TryGetValue(userEmail, out var basketItems))
+                throw new ArgumentException("Could not find basket.");
+
+            var basketItem = basketItems
                 .FirstOrDefault(x => x.ProductId == productId);
-            if (product == null)
+            if (basketItem == null)
                 throw new Exception("Product not in basket.");
 
-            product.Quantity += 1;
+            basketItem.Quantity += 1;
 
-            return _items;
+            return basketItems;
         }
 
-        [HttpPost("decrease-quantity/{productId}")]
-        public List<BasketItemView> DecreaseQuantity([FromRoute] Guid productId)
+        [HttpPost("decrease-quantity/{userEmail}/{productId}")]
+        public List<BasketItemView> DecreaseQuantity(
+            [FromRoute] string userEmail,
+            [FromRoute] Guid productId)
         {
-            var product = _items
+            if (!_baskets.TryGetValue(userEmail, out var basketItems))
+                throw new ArgumentException("Could not find basket.");
+
+            var basketItem = basketItems
                 .FirstOrDefault(x => x.ProductId == productId);
-            if (product == null)
+            if (basketItem == null)
                 throw new Exception("Product not in basket.");
 
-            product.Quantity -= 1;
-            if (product.Quantity <= 0)
-                _items.Remove(product);
+            basketItem.Quantity -= 1;
 
-            return _items;
+            if (basketItem.Quantity <= 0)
+                basketItems.Remove(basketItem);
+
+            return basketItems;
         }
     }
 }

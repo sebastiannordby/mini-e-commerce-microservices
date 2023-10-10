@@ -17,37 +17,37 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
         
         }
 
-        public async Task<List<BasketItemView>> AddToBasket(Guid productId)
+        public async Task<List<BasketItemView>> AddToBasket(string userEmail, Guid productId)
         {
             var req = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(
-                    $"http://gateway/api/basket-service/basket/add/productid/{productId}")
+                    $"http://gateway/api/basket-service/basket/add/{userEmail}/productid/{productId}")
             };
 
             return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
         }
 
-        public async Task<List<BasketItemView>> DecreaseQuantity(Guid productId)
+        public async Task<List<BasketItemView>> DecreaseQuantity(string userEmail, Guid productId)
         {
             var req = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(
-                    $"http://gateway/api/basket-service/basket/decrease-quantity/{productId}")
+                    $"http://gateway/api/basket-service/basket/decrease-quantity/{userEmail}/{productId}")
             };
 
             return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
         }
 
-        public async Task<List<BasketItemView>> IncreaseQuantity(Guid productId)
+        public async Task<List<BasketItemView>> IncreaseQuantity(string userEmail, Guid productId)
         {
             var req = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(
-                    $"http://gateway/api/basket-service/basket/increase-quantity/{productId}")
+                    $"http://gateway/api/basket-service/basket/increase-quantity/{userEmail}/{productId}")
             };
 
             return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();

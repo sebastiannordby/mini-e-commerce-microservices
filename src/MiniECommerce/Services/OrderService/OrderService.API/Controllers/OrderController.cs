@@ -16,8 +16,8 @@ namespace OrderService.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("place")]
-        public async Task<IActionResult> PlaceOrder(
+        [HttpPost("start")]
+        public async Task<IActionResult> StartOrder(
             [FromBody] StartOrderCommandDto commandDto)
         {
             var result = await _mediator.Send(new StartOrderCommand(
