@@ -35,6 +35,8 @@ services:
     environment:
         - ACCEPT_EULA=Y
         - MSSQL_SA_PASSWORD=myStong_Password123# 
+    networks:
+        - backend
 
   purchase_service:
     container_name: purchase-service
