@@ -58,7 +58,7 @@ namespace BasketService.API.Controllers
             if (product == null)
                 throw new Exception("Product not in basket.");
 
-            product.PricePerQuantity += 1;
+            product.Quantity += 1;
 
             return _items;
         }
@@ -71,8 +71,8 @@ namespace BasketService.API.Controllers
             if (product == null)
                 throw new Exception("Product not in basket.");
 
-            product.PricePerQuantity -= 1;
-            if (product.PricePerQuantity <= 0)
+            product.Quantity -= 1;
+            if (product.Quantity <= 0)
                 _items.Remove(product);
 
             return _items;
