@@ -13,6 +13,8 @@ using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using MiniECommerce.Consumption;
 using MudBlazor.Services;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -49,19 +51,18 @@ builder.Services.AddHttpClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+    .AddAuthentication(options =>
     {
-        options.Cookie.Name = "GoogleAuth";
-        options.LoginPath = "/Identity/Login";
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddCookie()
+    .AddGoogle(options =>
+    {
+        options.ClientId = googleClientId;
+        options.ClientSecret = googleClientSecret;
+        options.SaveTokens = true;
     });
-
-builder.Services.AddAuthentication().AddGoogle(options =>
-{
-    options.ClientId = googleClientId;
-    options.ClientSecret = googleClientSecret;
-    options.SaveTokens = true;
-});
 
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddAuthorization();
@@ -70,6 +71,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextAccessor>();
 builder.Services.AddConsumptionLayer();
 builder.Services.AddMudServices();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -88,6 +90,7 @@ else
 }
 
 app.UseStaticFiles();
+app.UseSession();
 app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always

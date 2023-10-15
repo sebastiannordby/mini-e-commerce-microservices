@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace DesktopApp.Pages.Identity
 {
@@ -45,6 +46,10 @@ namespace DesktopApp.Pages.Identity
                     scheme: CookieAuthenticationDefaults.AuthenticationScheme,
                     principal: new ClaimsPrincipal(GoogleUser),
                     properties: authProperties);
+
+                var authResult = await Request.HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+                var accessToken = authResult?.Properties?.GetTokenValue("access_token");
+                HttpContext.Session.SetString("access_token", accessToken);
             }
 
             return LocalRedirect("/");

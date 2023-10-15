@@ -24,12 +24,19 @@ public class Program
                 .AllowAnyMethod()
                 .AllowAnyOrigin());
         }
+        else
+        {
+            app.UseHttpsRedirection();
+        }
 
-        app.UseHttpsRedirection();
+        app.UseRouting();
         app.MapControllers();
         //app.UseAuthentication();
         //app.UseAuthorization();
-        app.MapControllers();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
         app.Run();
     }
 }

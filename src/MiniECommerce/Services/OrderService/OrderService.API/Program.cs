@@ -46,9 +46,13 @@ public class Program
             app.UseHttpsRedirection();
         }
 
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapControllers();
+        app.UseRouting();
+        //app.UseAuthentication();
+        //app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
         app.Run();
     }
 

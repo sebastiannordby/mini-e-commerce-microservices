@@ -39,12 +39,14 @@ public class Program
                 .AllowAnyOrigin());
         }
 
-        app.UseCookiePolicy();
         app.UseHttpsRedirection();
-        app.MapControllers();
-        //app.UseAuthentication();
-        //app.UseAuthorization();
-        app.MapControllers();
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
         app.Run();
     }
 }

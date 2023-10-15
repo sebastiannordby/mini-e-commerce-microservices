@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 using ProductService.Library.Models;
 using Serilog;
 using System;
@@ -15,7 +16,8 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
     internal class ProductRepository : HttpRepository, IProductRepository
     {
         public ProductRepository(
-            HttpClient httpClient) : base(httpClient)
+            HttpClient httpClient,
+            IHttpContextAccessor accessor) : base(httpClient, accessor)
         {
 
         }

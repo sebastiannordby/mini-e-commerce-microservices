@@ -36,12 +36,12 @@ namespace DesktopApp.Pages
 
         private async Task IncreaseQuantity(BasketItemView item)
         {
-            _basketItems = await BasketRepository.IncreaseQuantity(UserEmail, item.ProductId);
+            //_basketItems = await BasketRepository.IncreaseQuantity(UserEmail, item.ProductId);
         }
 
         private async Task DecreaseQuantity(BasketItemView item)
         {
-            _basketItems = await BasketRepository.DecreaseQuantity(UserEmail, item.ProductId);
+            //_basketItems = await BasketRepository.DecreaseQuantity(UserEmail, item.ProductId);
         }
 
         private async Task StartOrder()

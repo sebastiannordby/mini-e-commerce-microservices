@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MiniECommerce.Authentication
@@ -23,35 +24,15 @@ namespace MiniECommerce.Authentication
             var googleClientSecret = configuration["Authentication:Google:ClientSecret"] ?? 
                 throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided.");
 
-            services
-                .AddAuthentication(o =>
-                {
-                    // This forces challenge results to be handled by Google OpenID Handler, so there's no
-                    // need to add an AccountController that emits challenges for Login.
-                    o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-                    
-                    // This forces forbid results to be handled by Google OpenID Handler, which checks if
-                    // extra scopes are required and does automatic incremental auth.
-                    o.DefaultForbidScheme = GoogleDefaults.AuthenticationScheme;
-                    
-                    // Default scheme that will handle everything else.
-                    // Once a user is authenticated, the OAuth2 token info is stored in cookies.
-                    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie(options =>
-                {
-                    options.CookieManager = new ChunkingCookieManager();
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-                })
-                .AddGoogle(options =>
-                {
-                    options.ClientId = googleClientId;
-                    options.ClientSecret = googleClientSecret;
-                });
+            //services.AddAuthorization();
+            //services
+            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.Authority = "https://accounts.google.com";
+            //        options.Audience = googleClientId;
+            //    });
 
-            services.AddAuthorization();
             services.AddCors();
             services.AddControllers();
 
