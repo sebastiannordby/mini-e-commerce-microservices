@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Gateway\MiniECommerce.Gateway.Consumption\MiniECommerce.Gateway.Consumption.csproj" />
   </ItemGroup>
 

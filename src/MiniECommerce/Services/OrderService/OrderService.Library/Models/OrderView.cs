@@ -10,7 +10,17 @@ namespace OrderService.Library.Models
     {
         public Guid Id { get; set; }
         public int Number { get; set; }
-        public DateTime PlacedDateTime { get; set; }
+        public IEnumerable<OrderLine> Lines { get; set; }
+
+        public OrderView(
+            Guid id, 
+            int number,
+            IEnumerable<OrderLine> lines)
+        {
+            Id = id;
+            Number = number;
+            Lines = lines;
+        }
 
         public class OrderLine
         {
@@ -19,6 +29,25 @@ namespace OrderService.Library.Models
             public string ProductDescription { get; set; }
             public int Quantity { get; set; }
             public decimal PricePerQuantity { get; set; }
+
+            public OrderLine()
+            {
+
+            }
+
+            public OrderLine(
+                int number,
+                Guid productId,
+                string productDescription,
+                int quantity,
+                decimal pricePerQuantity)
+            {
+                Number = number;
+                ProductId = productId;
+                ProductDescription = productDescription;
+                Quantity = quantity;
+                PricePerQuantity = pricePerQuantity;
+            }
         }
     }
 }

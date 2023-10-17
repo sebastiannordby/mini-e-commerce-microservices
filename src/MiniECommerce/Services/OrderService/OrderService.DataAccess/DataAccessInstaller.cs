@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using OrderService.DataAccess.Repositories;
+using OrderService.Domain.Repositories;
 
 namespace OrderService.DataAccess
 {
@@ -22,6 +24,7 @@ namespace OrderService.DataAccess
             return services
                 .AddDbContextFactory<OrderDbContext>(
                     efContextBuilderDelegate)
+                .AddScoped<IOrderViewRepository, OrderViewRepository>()
                 .AddScoped<IOrderService, OrderServiceImpl>();
         }
     }
