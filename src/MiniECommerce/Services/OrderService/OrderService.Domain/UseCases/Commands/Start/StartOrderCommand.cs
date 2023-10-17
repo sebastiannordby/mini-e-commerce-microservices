@@ -9,7 +9,6 @@ namespace OrderService.Domain.UseCases.Commands.Start
 {
     public sealed record StartOrderCommand(
         Guid RequestId,
-        Guid BasketId,
         string BuyersFullName,
         string BuyersEmailAddress
     ) : IRequest<Guid>;

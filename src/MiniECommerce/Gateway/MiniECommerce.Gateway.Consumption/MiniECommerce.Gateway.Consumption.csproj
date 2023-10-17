@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\BasketService\BasketService.Library\BasketService.Library.csproj" />
     <ProjectReference Include="..\..\Services\OrderService\OrderService.Library\OrderService.Library.csproj" />
     <ProjectReference Include="..\..\Services\ProductService\ProductService.Library\ProductService.Library.csproj" />
   </ItemGroup>

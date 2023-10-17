@@ -30,9 +30,7 @@ public class Program
         }
 
         app.UseRouting();
-        app.MapControllers();
-        //app.UseAuthentication();
-        //app.UseAuthorization();
+        app.UseECommerceAutentication();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

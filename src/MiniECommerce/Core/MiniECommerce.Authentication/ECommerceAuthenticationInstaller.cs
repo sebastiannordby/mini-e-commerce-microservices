@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MiniECommerce.Authentication.Services;
 
 namespace MiniECommerce.Authentication
 {
@@ -33,10 +35,18 @@ namespace MiniECommerce.Authentication
             //        options.Audience = googleClientId;
             //    });
 
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddCors();
             services.AddControllers();
 
             return services;
+        }
+
+        public static void UseECommerceAutentication(
+            this WebApplication app)
+        {
+
         }
     }
 }

@@ -8,8 +8,7 @@ namespace OrderService.Library.Commands
 {
     public class StartOrderCommandDto
     {
-        public Guid BasketId { get; set; }
-        public string BuyersFullName { get; set; }
-        public string BuyersEmailAddress { get; set; }
+        public required string BuyersFullName { get; set; }
+        public required string BuyersEmailAddress { get; set; }
     }
 }

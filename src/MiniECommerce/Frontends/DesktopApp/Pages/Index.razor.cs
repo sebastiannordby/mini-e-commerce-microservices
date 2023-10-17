@@ -12,6 +12,7 @@ using BasketService.Library;
 using MiniECommerce.Consumption.Repositories.OrderService;
 using OrderService.Library.Commands;
 using System.Security.Claims;
+using Microsoft.JSInterop;
 
 namespace DesktopApp.Pages
 {
@@ -25,7 +26,7 @@ namespace DesktopApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _products = await ProductRepository.List();
+            _products = await ProductRepository.List() ?? new List<ProductView>();
         }
 
         private async Task AddToBasket(ProductView product)
@@ -36,22 +37,28 @@ namespace DesktopApp.Pages
 
         private async Task IncreaseQuantity(BasketItemView item)
         {
-            //_basketItems = await BasketRepository.IncreaseQuantity(UserEmail, item.ProductId);
+            _basketItems = await BasketRepository.IncreaseQuantity(UserEmail, item.ProductId);
         }
 
         private async Task DecreaseQuantity(BasketItemView item)
         {
-            //_basketItems = await BasketRepository.DecreaseQuantity(UserEmail, item.ProductId);
+            _basketItems = await BasketRepository.DecreaseQuantity(UserEmail, item.ProductId);
         }
 
         private async Task StartOrder()
         {
+            var fullName = await JSRuntime.InvokeAsync<string>("prompt", "Your full name");
+            if (string.IsNullOrWhiteSpace(fullName))
+                return;
+
             var orderId = await OrderRepository.Start(new StartOrderCommandDto()
             {
-                
+                BuyersEmailAddress = UserEmail,
+                BuyersFullName = fullName 
             });
         }
 
+        [Inject] private IJSRuntime JSRuntime { get; set; }
         [Inject] private IHttpContextAccessor HttpContextAccessor { get; set; }
         [Inject] private IOrderRepository OrderRepository { get; set; }
         [Inject] private IBasketRepository BasketRepository { get; set; }

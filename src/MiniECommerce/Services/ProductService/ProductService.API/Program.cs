@@ -39,10 +39,8 @@ public class Program
                 .AllowAnyOrigin());
         }
 
-        app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseAuthentication();
-        app.UseAuthorization();
+        app.UseECommerceAutentication();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

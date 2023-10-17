@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MiniECommerce.Gateway.Consumption.BasketService;
 using MiniECommerce.Gateway.Consumption.ProductService;
 
 namespace MiniECommerce.Gateway.Consumption
@@ -10,7 +11,8 @@ namespace MiniECommerce.Gateway.Consumption
         {
             return services
                 .AddHttpClient()
-                .AddScoped<IGatewayProductRepository, GatewayProductRepository>();
+                .AddScoped<IGatewayProductRepository, GatewayProductRepository>()
+                .AddScoped<IGatewayBasketRepository, GatewayBasketRepository>();
         }
     }
 }

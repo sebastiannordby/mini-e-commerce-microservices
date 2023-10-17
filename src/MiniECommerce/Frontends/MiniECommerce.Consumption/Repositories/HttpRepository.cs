@@ -66,12 +66,8 @@ namespace MiniECommerce.Consumption.Repositories
 
             if (_accessor?.HttpContext != null)
             {
-                var accessToken = _accessor.HttpContext.Session.GetString("access_token");
-                if(accessToken != null)
-                {
-                    req.Headers.Add("Authorization", "Bearer " + accessToken);
-                }
-
+                var userEmail = _accessor.HttpContext.User.FindFirst("email");
+                req.Headers.Add("UserEmail", userEmail?.Value);
             }
 
             req.Headers.Accept.Add(new("application/json"));

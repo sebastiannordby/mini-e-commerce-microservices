@@ -5,6 +5,7 @@ using FluentValidation;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using System.Collections.Generic;
+using BasketService.Library;
 
 namespace OrderService.Domain.Models 
 {
@@ -87,6 +88,28 @@ namespace OrderService.Domain.Models
                     yield return new(
                         "OrderLines", "Same orderline number is used multiple times.");
             }
+        }
+
+        internal OrderLine Create(BasketItemView basketItem)
+        {
+            if (basketItem == null)
+                throw new ArgumentNullException(nameof(basketItem));
+
+            var orderLineNumbers = _orderLines
+                .Select(x => x.Number);
+
+            var orderLine = new OrderLine()
+            {
+                Number = orderLineNumbers.Any() ? orderLineNumbers.Max() + 1 : 1,
+                PricePerQuantity = basketItem.PricePerQuantity,
+                ProductDescription = basketItem.ProductName,
+                ProductId = basketItem.ProductId,
+                Quantity = basketItem.Quantity
+            };
+
+            _orderLines.Add(orderLine);
+
+            return orderLine;
         }
 
         public class OrderLine

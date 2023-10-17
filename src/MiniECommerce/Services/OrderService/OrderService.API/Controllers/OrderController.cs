@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderService.Domain.UseCases.Commands.Start;
 using OrderService.Library.Commands;
 using MiniECommece.APIUtilities;
+using MiniECommerce.Authentication.Services;
 
 namespace OrderService.API.Controllers
 {
@@ -22,7 +23,6 @@ namespace OrderService.API.Controllers
         {
             var result = await _mediator.Send(new StartOrderCommand(
                 Request.GetRequestId(),
-                commandDto.BasketId,
                 commandDto.BuyersFullName,
                 commandDto.BuyersEmailAddress
             ));
