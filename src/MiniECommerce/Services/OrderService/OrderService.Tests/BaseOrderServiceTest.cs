@@ -2,6 +2,8 @@ using MiniECommerce.Testing;
 using OrderService.Domain;
 using OrderService.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OrderService.Tests
 {
@@ -22,6 +24,14 @@ namespace OrderService.Tests
                     });
                 });
             });
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            var dbContext = Services.GetService<OrderDbContext>();
+
+            dbContext.Database.EnsureDeleted();
         }
     }
 }
