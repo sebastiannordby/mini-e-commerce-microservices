@@ -6,27 +6,28 @@ using BasketService.Library;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Concurrent;
+using BasketService.Domain.Services;
 
 namespace BasketService.API.Controllers
 {
     public class BasketController : BasketServiceController
     {
+        private readonly IUserBasketService _basketService;
         private readonly IGatewayProductRepository _productRepository;
-        private static readonly ConcurrentDictionary<string, List<BasketItemView>> _baskets = new();
         
         public BasketController(
+            IUserBasketService basketService,
             IGatewayProductRepository productRepository)
         {
+            _basketService = basketService;
             _productRepository = productRepository;
         }
 
         [HttpGet("{userEmail}")]
-        public IEnumerable<BasketItemView> GetList([FromRoute] string userEmail)
+        public async Task<IEnumerable<BasketItemView>> GetList(
+            [FromRoute] string userEmail)
         {
-            var basket = _baskets
-                .FirstOrDefault(x => x.Key == userEmail);
-
-            return basket.Value ?? new();
+            return await _basketService.GetBasket(userEmail);
         }
 
         [HttpPost("add/{userEmail}/productid/{productId}")]
@@ -34,70 +35,24 @@ namespace BasketService.API.Controllers
             [FromRoute] string userEmail,
             [FromRoute] Guid productId)
         {
-            var product = await _productRepository
-                .Find(productId, Request.GetRequestId());
-            if (product == null)
-                throw new Exception("Product not found");
-
-            var newBasketItem = new BasketItemView()
-            {
-                PricePerQuantity = product.PricePerQuantity,
-                ProductId = productId,
-                ProductName = product.Name,
-                Quantity = 1
-            };
-
-            var basketItems = _baskets.AddOrUpdate(userEmail,
-                addValue: new List<BasketItemView>() { newBasketItem }, (key, value) =>
-                {
-                    if (value.Any(x => x.ProductId == productId))
-                        throw new Exception("Product already exists in basket.");
-
-                    value.Add(newBasketItem);
-
-                    return value;
-                });
-
-            return basketItems;
+            return await _basketService.AddToBasket(
+                Request.GetRequestId(), userEmail, productId);
         }
 
         [HttpPost("increase-quantity/{userEmail}/{productId}")]
-        public List<BasketItemView> IncreaseQuantity(
+        public async Task<List<BasketItemView>> IncreaseQuantity(
             [FromRoute] string userEmail,
             [FromRoute] Guid productId)
         {
-            if (!_baskets.TryGetValue(userEmail, out var basketItems))
-                throw new ArgumentException("Could not find basket.");
-
-            var basketItem = basketItems
-                .FirstOrDefault(x => x.ProductId == productId);
-            if (basketItem == null)
-                throw new Exception("Product not in basket.");
-
-            basketItem.Quantity += 1;
-
-            return basketItems;
+            return await _basketService.IncreaseQuantity(userEmail, productId);
         }
 
         [HttpPost("decrease-quantity/{userEmail}/{productId}")]
-        public List<BasketItemView> DecreaseQuantity(
+        public async Task<List<BasketItemView>> DecreaseQuantity(
             [FromRoute] string userEmail,
             [FromRoute] Guid productId)
         {
-            if (!_baskets.TryGetValue(userEmail, out var basketItems))
-                throw new ArgumentException("Could not find basket.");
-
-            var basketItem = basketItems
-                .FirstOrDefault(x => x.ProductId == productId);
-            if (basketItem == null)
-                throw new Exception("Product not in basket.");
-
-            basketItem.Quantity -= 1;
-
-            if (basketItem.Quantity <= 0)
-                basketItems.Remove(basketItem);
-
-            return basketItems;
+            return await _basketService.DecreaseQuantity(userEmail, productId);
         }
     }
 }
