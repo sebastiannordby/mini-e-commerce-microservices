@@ -7,8 +7,8 @@ using ProductService.Domain.UseCases;
 namespace ProductService.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
     [Authorize]
+    [Route("api/[controller]")]
     public abstract class ProductServiceController : Controller
     {
 

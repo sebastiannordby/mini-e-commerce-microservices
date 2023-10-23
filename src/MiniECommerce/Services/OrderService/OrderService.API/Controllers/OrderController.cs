@@ -34,8 +34,7 @@ namespace OrderService.API.Controllers
         {
             var result = await _mediator.Send(new StartOrderCommand(
                 Request.GetRequestId(),
-                commandDto.BuyersFullName,
-                commandDto.BuyersEmailAddress
+                commandDto.BuyersFullName
             ));
 
             return Ok(result);

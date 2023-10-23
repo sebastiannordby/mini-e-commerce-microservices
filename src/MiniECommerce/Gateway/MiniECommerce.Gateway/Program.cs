@@ -2,6 +2,7 @@ using Ocelot;
 using Microsoft.Extensions.Hosting;
 using Ocelot.Middleware;
 using Ocelot.DependencyInjection;
+using MiniECommerce.Authentication;
 
 internal class Program
 {
@@ -10,7 +11,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.WebHost.UseIISIntegration();
-
+        builder.Services.AddECommerceAuthentication(builder.Configuration);
         builder.Host.ConfigureAppConfiguration((hostingContext, ic) =>
         {
             ic.SetBasePath(builder.Environment.ContentRootPath);
@@ -23,6 +24,7 @@ internal class Program
 
         var app = builder.Build();
 
+        app.UseECommerceAutentication();
         app.UseStaticFiles();
         await app.UseOcelot();
 

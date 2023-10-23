@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MiniECommerce.Authentication.Services;
 using MiniECommerce.Gateway.Consumption.BasketService;
 using OrderService.Domain.Services;
 using System;
@@ -15,27 +16,28 @@ namespace OrderService.Domain.UseCases.Commands.Start
         private readonly IInitializeOrderService _initializeOrderService;
         private readonly IGatewayBasketRepository _basketRepository;
         private readonly IOrderService _orderService;
+        private readonly ICurrentUserService _currentUserService;
 
         public StartOrderCommandHandler(
-            IInitializeOrderService initializeOrderService, 
+            IInitializeOrderService initializeOrderService,
             IGatewayBasketRepository basketRepository,
-            IOrderService orderService)
+            IOrderService orderService,
+            ICurrentUserService currentUserService)
         {
             _initializeOrderService = initializeOrderService;
             _basketRepository = basketRepository;
             _orderService = orderService;
+            _currentUserService = currentUserService;
         }
 
         public async Task<Guid> Handle(StartOrderCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.BuyersEmailAddress))
-                throw new ArgumentException($"{nameof(request.BuyersEmailAddress)} cannot be null/whitespace.");
-
             var order = await _initializeOrderService.Initialize(
                 request.BuyersFullName,
-                request.BuyersEmailAddress);
+                _currentUserService.UserEmail);
 
-            var basketItems = await _basketRepository.GetList(request.RequestId, request.BuyersEmailAddress);
+            var basketItems = await _basketRepository.GetList(
+                request.RequestId, _currentUserService.UserEmail);
             if (basketItems == null)
                 throw new Exception("Could not retrieve basket items.");
 

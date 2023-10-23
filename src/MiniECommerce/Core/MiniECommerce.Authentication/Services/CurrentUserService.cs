@@ -10,13 +10,12 @@ namespace MiniECommerce.Authentication.Services
 {
     internal class CurrentUserService : ICurrentUserService
     {
-        public string? UserEmail { get; init; }
+        public string UserEmail { get; init; }
 
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             var user = httpContextAccessor.HttpContext?.User;
-
-            UserEmail = user?.FindFirstValue(ClaimTypes.Email);
+            UserEmail = user?.FindFirstValue(ClaimTypes.Email) ?? "NOT_SIGNED_IN";
         }
     }
 }

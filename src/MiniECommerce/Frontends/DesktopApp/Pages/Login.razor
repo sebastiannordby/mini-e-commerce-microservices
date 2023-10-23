@@ -1,0 +1,28 @@
+﻿@page "/Identity/Account/Login"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JSRuntime
+
+<h1>Login</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <p>You are already logged in. <a href="Identity/Account/Logout">Log out</a></p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Please sign in to access the application.</p>
+        <button class="btn btn-primary" @onclick="LoginWithGoogle">Sign in with Google</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async Task LoginWithGoogle()
+    {
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            await JSRuntime.InvokeAsync<object>("BlazorSample.loginWithGoogle");
+        }
+    }
+}

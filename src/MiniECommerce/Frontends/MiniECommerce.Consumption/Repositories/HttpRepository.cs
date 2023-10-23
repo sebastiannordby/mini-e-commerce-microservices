@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using Polly;
 using ProductService.Library.Models;
@@ -36,6 +37,8 @@ namespace MiniECommerce.Consumption.Repositories
             var httpResponse = await Send(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
 
+            Log.Information("Response: \r\n{0}\r\n---END RESPONSE\r\n", jsonResponse);
+
             return JsonSerializer.Deserialize<T>(jsonResponse, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -68,6 +71,10 @@ namespace MiniECommerce.Consumption.Repositories
             {
                 var userEmail = _accessor.HttpContext.User.FindFirst("email");
                 req.Headers.Add("UserEmail", userEmail?.Value);
+
+                var accessToken = _accessor.HttpContext.Session.GetString("access_token");
+                Log.Information("access_token: {0}", accessToken);
+                req.Headers.Add("Authorization", "Bearer " + accessToken);
             }
 
             req.Headers.Accept.Add(new("application/json"));
@@ -81,6 +88,9 @@ namespace MiniECommerce.Consumption.Repositories
 
             Log.Information("Request({0}): {1} - {2} ",
                 requestId, req.RequestUri, httpResponse.StatusCode);
+
+            if(httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                throw new Exception("Unathorized: " + await httpResponse.Content.ReadAsStringAsync());
 
             return httpResponse;
         }

@@ -15,6 +15,13 @@ using MiniECommerce.Consumption;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
+using Polly;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -50,22 +57,73 @@ Log.Information("GoogleClientSecret: " + googleClientSecret);
 builder.Services.AddHttpClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services
-    .AddAuthentication(options =>
-    {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-    })
-    .AddCookie()
-    .AddGoogle(options =>
-    {
-        options.ClientId = googleClientId;
-        options.ClientSecret = googleClientSecret;
-        options.SaveTokens = true;
-    });
+//builder.Services
+//    .AddAuthentication(options =>
+//    {
+//        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+//    })
+//    .AddCookie()
+//    .AddGoogle(options =>
+//    {
+//        options.ClientId = googleClientId;
+//        options.ClientSecret = googleClientSecret;
+//        options.SaveTokens = true;
+//    });
 
-builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
+{
+    options.LoginPath = "/Identity/Login"; // Specify your login page
+})
+.AddOpenIdConnect("Google", options =>
+{
+    options.Authority = "https://accounts.google.com";
+    options.ClientId = googleClientId;
+    options.ClientSecret = googleClientSecret;
+    options.RefreshInterval = TimeSpan.FromMinutes(5);
+    options.ResponseType = "code id_token token";
+    options.CallbackPath = "/signin-google"; // Specify your callback path
+    options.SignedOutCallbackPath = "/signout-callback-google"; // Specify your sign-out callback path
+    options.Scope.Add("openid");
+    options.Scope.Add("email");
+    options.SaveTokens = true; // Save tokens received from the authentication server
+
+    // Configure any additional OpenID Connect options
+
+    options.Events = new OpenIdConnectEvents
+    {
+        OnTokenResponseReceived = async context =>
+        {
+            var user = context.Principal;
+            // Extract and save the access token
+            var accessToken = context.TokenEndpointResponse.AccessToken;
+            // You can store the access token in a secure manner, or use it as needed
+
+            // Optionally, customize token response handling
+            // Add or update claims as needed
+            user.AddIdentity(new ClaimsIdentity(
+                user.Claims,
+                user.Identity.AuthenticationType,
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType));
+        }
+    };
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = "https://accounts.google.com";
+    options.Audience = googleClientId;
+    options.SaveToken = true;
+});
+
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextAccessor>();
@@ -90,15 +148,33 @@ else
 }
 
 app.UseStaticFiles();
+app.UseRouting();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
-app.UseAuthentication();
-app.UseAuthorization();
+//app.Use(async delegate (HttpContext context, Func<Task> next)
+//{
+//    if (context.User.Identity!.IsAuthenticated && 
+//        !context.Request.Path.Value.Contains("signin-google"))
+//    {
+//        foreach (string key in context.Request.Cookies.Keys)
+//            context.Response.Cookies.Delete(key);
+        
+//        context.Response.Redirect("/");
+//    }
+
+//    await next();
+//});
 app.UseRouting();
-app.MapControllers();
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapBlazorHub();
+    endpoints.MapRazorPages();
+    endpoints.MapFallbackToPage("/_Host").RequireAuthorization();
+});
 app.Run();
