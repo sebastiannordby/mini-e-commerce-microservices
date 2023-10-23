@@ -8,6 +8,6 @@ namespace MiniECommerce.Authentication.Services
 {
     public interface ICurrentUserService
     {
-        public string? UserEmail { get; }
+        public string UserEmail { get; }
     }
 }

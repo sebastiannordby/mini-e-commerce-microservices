@@ -5,6 +5,7 @@ using ProductService.Library.Models;
 using MiniECommece.APIUtilities;
 using ProductService.Domain.UseCases.Queries.Find;
 using MiniECommerce.Library;
+using System.Security.Claims;
 
 namespace ProductService.API.Controllers
 {

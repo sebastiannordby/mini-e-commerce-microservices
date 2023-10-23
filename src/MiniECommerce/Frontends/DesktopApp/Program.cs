@@ -75,6 +75,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
 .AddCookie(options =>
 {
@@ -85,10 +86,12 @@ builder.Services.AddAuthentication(options =>
     options.Authority = "https://accounts.google.com";
     options.ClientId = googleClientId;
     options.ClientSecret = googleClientSecret;
+    options.RefreshInterval = TimeSpan.FromMinutes(5);
     options.ResponseType = "code id_token token";
     options.CallbackPath = "/signin-google"; // Specify your callback path
     options.SignedOutCallbackPath = "/signout-callback-google"; // Specify your sign-out callback path
     options.Scope.Add("openid");
+    options.Scope.Add("email");
     options.SaveTokens = true; // Save tokens received from the authentication server
 
     // Configure any additional OpenID Connect options
@@ -119,7 +122,7 @@ builder.Services.AddAuthentication(options =>
     options.SaveToken = true;
 });
 
-
+builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
@@ -153,6 +156,19 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
+//app.Use(async delegate (HttpContext context, Func<Task> next)
+//{
+//    if (context.User.Identity!.IsAuthenticated && 
+//        !context.Request.Path.Value.Contains("signin-google"))
+//    {
+//        foreach (string key in context.Request.Cookies.Keys)
+//            context.Response.Cookies.Delete(key);
+        
+//        context.Response.Redirect("/");
+//    }
+
+//    await next();
+//});
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
