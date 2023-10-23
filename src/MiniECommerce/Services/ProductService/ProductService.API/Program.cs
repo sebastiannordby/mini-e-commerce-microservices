@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MiniECommerce.Authentication;
+using MiniECommerce.Library;
 using ProductService.DataAccess;
 using ProductService.Domain;
 
@@ -14,8 +15,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
         builder.Services.AddECommerceAuthentication(builder.Configuration);
         builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductServiceDataAccessLayer(efOptions =>
@@ -25,14 +24,15 @@ public class Program
             });
         });
 
+        builder.Services.AddHostedService<RabbitMQSubscriber>();
+        builder.Services.AddScoped<RabbitMQPublisher>();
+
         var app = builder.Build();
 
         app.UseDummyData();
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
             app.UseCors(x =>
                 x.AllowAnyHeader()
                 .AllowAnyMethod()

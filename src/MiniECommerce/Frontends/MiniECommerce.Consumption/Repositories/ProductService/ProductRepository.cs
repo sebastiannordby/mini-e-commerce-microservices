@@ -50,7 +50,8 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
         {
             var req = new HttpRequestMessage()
             {
-                RequestUri = new Uri("http://gateway/api/product-service/productview")
+                //RequestUri = new Uri("http://gateway/api/product-service/productview")
+                RequestUri = new Uri("http://product_service/api/productview")
             };
 
             return await Send<IEnumerable<ProductView>>(req);

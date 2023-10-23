@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @namespace DesktopApp.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@attribute [Authorize]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +17,22 @@
     <link href="DesktopApp.styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.png"/>
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
+    <script>
+        window.BlazorSample = {
+            loginWithGoogle: async function () {
+                const auth2 = await gapi.auth2.getAuthInstance();
+                if (!auth2) {
+                    return;
+                }
+                const user = await auth2.signIn();
+                // Handle the sign-in process here, e.g., send the ID token to your server.
+            }
+        };
+    </script>
+
     <component type="typeof(App)" render-mode="Server" />
 
     <div id="blazor-error-ui">

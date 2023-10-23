@@ -15,6 +15,13 @@ using MiniECommerce.Consumption;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
+using Polly;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -50,22 +57,66 @@ Log.Information("GoogleClientSecret: " + googleClientSecret);
 builder.Services.AddHttpClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services
-    .AddAuthentication(options =>
+//builder.Services
+//    .AddAuthentication(options =>
+//    {
+//        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+//    })
+//    .AddCookie()
+//    .AddGoogle(options =>
+//    {
+//        options.ClientId = googleClientId;
+//        options.ClientSecret = googleClientSecret;
+//        options.SaveTokens = true;
+//    });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = "https://accounts.google.com";
+    options.ClientId = googleClientId;
+    options.ResponseType = "code id_token token";
+    options.CallbackPath = "/signin-google"; // Specify your callback path
+    options.SignedOutCallbackPath = "/signout-callback-google"; // Specify your sign-out callback path
+    options.Scope.Add("openid");
+    options.SaveTokens = true; // Save tokens received from the authentication server
+
+    // Configure any additional OpenID Connect options
+
+    options.Events = new OpenIdConnectEvents
     {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-    })
-    .AddCookie()
-    .AddGoogle(options =>
-    {
-        options.ClientId = googleClientId;
-        options.ClientSecret = googleClientSecret;
-        options.SaveTokens = true;
-    });
+        OnTokenResponseReceived = async context =>
+        {
+            var user = context.Principal;
+            // Extract and save the access token
+            var accessToken = context.TokenEndpointResponse.AccessToken;
+            // You can store the access token in a secure manner, or use it as needed
+
+            // Optionally, customize token response handling
+            // Add or update claims as needed
+            user.AddIdentity(new ClaimsIdentity(
+                user.Claims,
+                user.Identity.AuthenticationType,
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType));
+        }
+    };
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = "https://accounts.google.com";
+    options.Audience = googleClientId;
+});
+
 
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
-builder.Services.AddAuthorization();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextAccessor>();
@@ -90,15 +141,20 @@ else
 }
 
 app.UseStaticFiles();
+app.UseRouting();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseRouting();
-app.MapControllers();
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapBlazorHub();
+    endpoints.MapRazorPages();
+    endpoints.MapFallbackToPage("/_Host").RequireAuthorization();
+});
 app.Run();
