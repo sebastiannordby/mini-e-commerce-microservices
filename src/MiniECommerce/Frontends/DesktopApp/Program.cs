@@ -74,14 +74,17 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 })
-.AddCookie()
-.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+.AddCookie(options =>
+{
+    options.LoginPath = "/Identity/Login"; // Specify your login page
+})
+.AddOpenIdConnect("Google", options =>
 {
     options.Authority = "https://accounts.google.com";
     options.ClientId = googleClientId;
+    options.ClientSecret = googleClientSecret;
     options.ResponseType = "code id_token token";
     options.CallbackPath = "/signin-google"; // Specify your callback path
     options.SignedOutCallbackPath = "/signout-callback-google"; // Specify your sign-out callback path
@@ -113,6 +116,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.Authority = "https://accounts.google.com";
     options.Audience = googleClientId;
+    options.SaveToken = true;
 });
 
 

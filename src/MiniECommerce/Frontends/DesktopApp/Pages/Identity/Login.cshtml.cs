@@ -42,54 +42,61 @@ namespace DesktopApp.Pages.Identity
             // Get the information about the user from the external login provider
             var googleUser = this.User.Identities.FirstOrDefault();
 
-            //if (googleUser.IsAuthenticated)
-            //{
-            //    var authProperties = new AuthenticationProperties
-            //    {
-            //        IsPersistent = true,
-            //        RedirectUri = this.Request.Host.Value,
-            //        AllowRefresh = true,
-            //        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
-            //    };
+            if (googleUser.IsAuthenticated)
+            {
+                //var authProperties = new AuthenticationProperties
+                //{
+                //    IsPersistent = true,
+                //    RedirectUri = this.Request.Host.Value,
+                //    AllowRefresh = true,
+                //    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
+                //};
 
-            //    await HttpContext.SignInAsync(
-            //        scheme: CookieAuthenticationDefaults.AuthenticationScheme,
-            //        principal: new ClaimsPrincipal(googleUser),
-            //        properties: authProperties);
+                //await HttpContext.SignInAsync(
+                //    scheme: CookieAuthenticationDefaults.AuthenticationScheme,
+                //    principal: new ClaimsPrincipal(googleUser),
+                //    properties: authProperties);
+                var identities = HttpContext.User.Identities;
+                var identity = identities.First(x => x.Claims.Count() > 7);
 
-            //    var res = await _authService.AuthenticateAsync(
-            //        HttpContext, "Google");
+                var hello = identity.FindFirst("access_token");
+                Log.Information("hello: {0}", hello);
 
-            //    var test = await HttpContext.AuthenticateAsync("Google");
-            //    if(test.Succeeded)
-            //    {
-            //        var test1 = test.Properties.GetTokenValue("access_token");
-            //        var test2 = test.Properties.GetTokenValue("id_token");
-            //        Log.Information("test1: {0}", test1);
-            //        Log.Information("test2: {0}", test2);
-            //    }
+                var res = await _authService.AuthenticateAsync(
+                    HttpContext, "Google");
+
+                var test = await HttpContext.AuthenticateAsync("Google");
+                if (test.Succeeded)
+                {
+                    var test1 = test.Properties.GetTokenValue("access_token");
+                    var test2 = test.Properties.GetTokenValue("id_token");
+                    Log.Information("test1: {0}", test1);
+                    Log.Information("test2: {0}", test2);
+
+                    HttpContext.Session.SetString("access_token", test2);
+                }
 
 
-            //    var htConAcc = HttpContext.User.FindFirst("access_token");
-            //    var htConId = HttpContext.User.FindFirst("id_token");
-            //    Log.Information("htConAcc: {0}", htConAcc);
-            //    Log.Information("htConId: {0}", htConId);
-                
-            //    var goAccTok1 = googleUser.FindFirst("access_token");
+                var htConAcc = HttpContext.User.FindFirst("access_token");
+                var htConId = HttpContext.User.FindFirst("id_token");
+                Log.Information("htConAcc: {0}", htConAcc);
+                Log.Information("htConId: {0}", htConId);
 
-            //    if (res.Succeeded)
-            //    {
-            //        var goIdTok1 = res.Properties.GetTokenValue("id_token");
-            //        var goIdTok2 = res.Properties.GetTokenValue("idToken");
-            //        var goAccTok2 = res.Properties.GetTokenValue("idToken");
+                var goAccTok1 = googleUser.FindFirst("access_token");
 
-            //        Log.Information("goIdTok1: {0}", goIdTok1);
-            //        Log.Information("goIdTok2: {0}", goIdTok2);
-            //        Log.Information("goAccTok1: {0}", goAccTok2);
-            //        Log.Information("goAccTok2: {0}", goAccTok2);
+                if (res.Succeeded)
+                {
+                    var goIdTok1 = res.Properties.GetTokenValue("id_token");
+                    var goIdTok2 = res.Properties.GetTokenValue("idToken");
+                    var goAccTok2 = res.Properties.GetTokenValue("idToken");
 
-            //    }
-            //}
+                    Log.Information("goIdTok1: {0}", goIdTok1);
+                    Log.Information("goIdTok2: {0}", goIdTok2);
+                    Log.Information("goAccTok1: {0}", goAccTok2);
+                    Log.Information("goAccTok2: {0}", goAccTok2);
+
+                }
+            }
 
             return LocalRedirect("/");
         }
