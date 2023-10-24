@@ -1,4 +1,5 @@
 ﻿using BasketService.Library;
+using Microsoft.AspNetCore.Http;
 using ProductService.Library.Models;
 using Serilog;
 using System;
@@ -12,9 +13,12 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
 {
     internal class BasketRepository : HttpRepository, IBasketRepository
     {
-        public BasketRepository(HttpClient httpClient) : base(httpClient)
+        public BasketRepository(
+            HttpClient httpClient,
+            IHttpContextAccessor httpContextAccessor
+        ) : base(httpClient, httpContextAccessor)
         {
-        
+
         }
 
         public async Task<List<BasketItemView>> AddToBasket(Guid productId)

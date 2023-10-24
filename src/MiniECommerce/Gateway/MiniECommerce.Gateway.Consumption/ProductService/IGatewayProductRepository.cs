@@ -16,11 +16,14 @@ namespace MiniECommerce.Gateway.Consumption.ProductService
     internal sealed class GatewayProductRepository : IGatewayProductRepository
     {
         private readonly HttpClient _httpClient;
+        private readonly AuthorizationHeaderService _authHeaderService;
 
         public GatewayProductRepository(
-            HttpClient httpClient)
+            HttpClient httpClient,
+            AuthorizationHeaderService authHeaderService)
         {
             _httpClient = httpClient;
+            _authHeaderService = authHeaderService;
         }
 
         public async Task<ProductView?> Find(
@@ -34,6 +37,8 @@ namespace MiniECommerce.Gateway.Consumption.ProductService
 
             req.Headers.Accept.Add(new("application/json"));
             req.Headers.Add("RequestId", requestId.ToString());
+            req.Headers.Add("Authorization", 
+                await _authHeaderService.GetAuthorizationHeaderValue());
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();

@@ -18,13 +18,18 @@ namespace DesktopApp.Pages
 {
     public partial class Index : ComponentBase
     {
-        private IEnumerable<ProductView> _products;
+        private IEnumerable<ProductView> _products = Enumerable.Empty<ProductView>();
         private List<BasketItemView> _basketItems = new();
         private string UserEmail =>
             HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
 
         protected override async Task OnInitializedAsync()
+        {
+            await FetchProducts();
+        }
+
+        private async Task FetchProducts()
         {
             _products = await ProductRepository.List() ?? new List<ProductView>();
         }
