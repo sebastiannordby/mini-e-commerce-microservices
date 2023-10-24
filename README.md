@@ -27,6 +27,7 @@ Since this is a microservices driven kind of architecture, the different service
 
 ![Et bilde som inneholder skjermbilde, tekst, design
 
-Automatisk generert beskrivelse](architecture.png)
+[Automatisk generert beskrivelse](architecture.png)
+](https://github.com/sebastiannordby/mini-e-commerce-microservices/blob/main/architecture.png)
 #### *Final notes*
 The course is taken in Java, but to challenge myself I have chose to go with Dotnet C#. This to get a deeper understanding of different technologies and forces me to get my hands dirty. 
