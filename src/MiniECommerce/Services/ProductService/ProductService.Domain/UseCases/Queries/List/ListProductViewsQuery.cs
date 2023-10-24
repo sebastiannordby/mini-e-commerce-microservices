@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.UseCases.Queries.List
 {
-    public sealed record ListProductViewsQuery(
-        Guid RequestId
-    ) : Query<IEnumerable<ProductView>>(RequestId);
+    public sealed record ListProductViewsQuery() : Query<IEnumerable<ProductView>>();
 }

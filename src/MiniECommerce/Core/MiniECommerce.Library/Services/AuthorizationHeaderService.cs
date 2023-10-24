@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniECommerce.Gateway.Consumption
+namespace MiniECommerce.Library.Services
 {
     internal class AuthorizationHeaderService
     {

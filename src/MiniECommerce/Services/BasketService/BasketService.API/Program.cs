@@ -1,5 +1,5 @@
 using MiniECommerce.Authentication;
-using MiniECommerce.Gateway.Consumption;
+using MiniECommerce.Library.Services;
 using BasketService.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddGatewayConsumption();
 builder.Services.AddBasketServiceDomainLayer();
-builder.Services.AddECommerceAuthentication(builder.Configuration);
+builder.AddECommerceLibrary(builder.Configuration);
 
 var app = builder.Build();
 
@@ -28,7 +27,7 @@ else
 }
 
 app.UseRouting();
-app.UseECommerceAutentication();
+app.UseECommerceLibrary();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

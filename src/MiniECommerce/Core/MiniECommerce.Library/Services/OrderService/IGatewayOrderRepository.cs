@@ -1,4 +1,4 @@
-﻿using BasketService.Library;
+﻿using OrderService.Library.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,32 +6,32 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MiniECommerce.Gateway.Consumption.BasketService
+namespace MiniECommerce.Library.Services.OrderService
 {
-    public interface IGatewayBasketRepository
+    public interface IGatewayOrderRepository
     {
-        Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail);
+        Task<Guid> StartOrder(Guid requestId, StartOrderCommandDto command);
     }
 
-    internal sealed class GatewayBasketRepository : IGatewayBasketRepository
+    internal sealed class GatewayOrderRepository : IGatewayOrderRepository
     {
         private readonly HttpClient _httpClient;
         private readonly AuthorizationHeaderService _authHeaderService;
 
-        public GatewayBasketRepository(
-            HttpClient httpClient, 
+        public GatewayOrderRepository(
+            HttpClient httpClient,
             AuthorizationHeaderService authHeaderService)
         {
             _httpClient = httpClient;
             _authHeaderService = authHeaderService;
         }
 
-        public async Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail)
+        public async Task<Guid> StartOrder(Guid requestId, StartOrderCommandDto command)
         {
             var req = new HttpRequestMessage()
             {
                 RequestUri = new Uri(
-                $"http://gateway/api/basket-service/basket")
+                $"http://gateway/api/order-service/order/place")
             };
 
             req.Headers.Accept.Add(new("application/json"));
@@ -41,10 +41,8 @@ namespace MiniECommerce.Gateway.Consumption.BasketService
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-            if (string.IsNullOrWhiteSpace(jsonResponse))
-                return null;
 
-            return JsonSerializer.Deserialize<IEnumerable<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
+            return JsonSerializer.Deserialize<Guid>(jsonResponse, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });

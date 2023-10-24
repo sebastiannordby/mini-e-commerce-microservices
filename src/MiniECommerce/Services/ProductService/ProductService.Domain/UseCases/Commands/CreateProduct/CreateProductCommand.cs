@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace ProductService.Domain.UseCases.Commands.CreateProduct
 {
     public sealed record CreateProductCommand(
-        Guid RequestId,
         ProductDto Product
-    ) : Command<Guid>(RequestId);
+    ) : Command<Guid>();
 }

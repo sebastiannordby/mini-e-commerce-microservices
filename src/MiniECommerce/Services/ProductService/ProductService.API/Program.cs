@@ -13,9 +13,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
         builder.Services.AddControllers();
-        builder.Services.AddECommerceAuthentication(builder.Configuration);
+        builder.AddECommerceLibrary(builder.Configuration);
         builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductServiceDataAccessLayer(efOptions =>
         {
@@ -40,7 +39,7 @@ public class Program
         }
 
         app.UseRouting();
-        app.UseECommerceAutentication();
+        app.UseECommerceLibrary();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

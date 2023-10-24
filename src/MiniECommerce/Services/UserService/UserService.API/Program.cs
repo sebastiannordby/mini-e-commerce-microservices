@@ -4,12 +4,12 @@ using MiniECommerce.Authentication;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddECommerceAuthentication(builder.Configuration);
+builder.AddECommerceLibrary(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseRouting();
-app.UseECommerceAutentication();
+app.UseECommerceLibrary();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

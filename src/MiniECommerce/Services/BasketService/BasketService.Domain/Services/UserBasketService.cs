@@ -1,5 +1,5 @@
 ﻿using BasketService.Library;
-using MiniECommerce.Gateway.Consumption.ProductService;
+using MiniECommerce.Library.Services.ProductService;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

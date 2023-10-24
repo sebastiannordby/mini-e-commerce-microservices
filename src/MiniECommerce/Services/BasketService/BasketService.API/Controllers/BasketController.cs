@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MiniECommerce.Gateway.Consumption.ProductService;
+using MiniECommerce.Library.Services.ProductService;
 using ProductService.Library.Models;
 using MiniECommece.APIUtilities;
 using BasketService.Library;

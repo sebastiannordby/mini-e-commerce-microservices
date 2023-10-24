@@ -14,9 +14,6 @@ namespace MiniECommerce.Gateway.Consumption
             return services
                 .AddHttpClient()
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .AddScoped<AuthorizationHeaderService>()
-                .AddScoped<IGatewayProductRepository, GatewayProductRepository>()
-                .AddScoped<IGatewayBasketRepository, GatewayBasketRepository>();
         }
     }
 }

@@ -11,7 +11,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.WebHost.UseIISIntegration();
-        builder.Services.AddECommerceAuthentication(builder.Configuration);
+        builder.AddECommerceLibrary(builder.Configuration);
         builder.Host.ConfigureAppConfiguration((hostingContext, ic) =>
         {
             ic.SetBasePath(builder.Environment.ContentRootPath);
@@ -24,7 +24,7 @@ internal class Program
 
         var app = builder.Build();
 
-        app.UseECommerceAutentication();
+        app.UseECommerceLibrary();
         app.UseStaticFiles();
         await app.UseOcelot();
 

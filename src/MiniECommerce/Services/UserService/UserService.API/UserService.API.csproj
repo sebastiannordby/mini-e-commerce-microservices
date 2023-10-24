@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\MiniECommerce.Authentication\MiniECommerce.Authentication.csproj" />
+    <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
     <ProjectReference Include="..\UserService.Library\UserService.Library.csproj" />
   </ItemGroup>
 

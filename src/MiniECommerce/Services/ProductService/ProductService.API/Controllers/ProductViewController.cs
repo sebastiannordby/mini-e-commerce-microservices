@@ -26,7 +26,7 @@ namespace ProductService.API.Controllers
         public async Task<IEnumerable<ProductView>> ListViews()
         {
             var res = await _mediator.Send(
-                new ListProductViewsQuery(Request.GetRequestId()));
+                new ListProductViewsQuery());
 
             _rabbitMQPublisher.PublishMessage(
                 "myExchange", "product-request", "Item added to basket");
@@ -37,7 +37,7 @@ namespace ProductService.API.Controllers
         [HttpGet("id/{productId}")]
         public async Task<ProductView?> ListViews([FromRoute] Guid productId)
             => await _mediator.Send(
-                new FindProductViewByIdQuery(productId, Request.GetRequestId()));
+                new FindProductViewByIdQuery(productId));
 
     }
 }

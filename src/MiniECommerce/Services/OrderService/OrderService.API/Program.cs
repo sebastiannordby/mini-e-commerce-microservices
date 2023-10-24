@@ -6,7 +6,7 @@ using MiniECommerce.Authentication;
 using OrderService.DataAccess;
 using OrderService.Domain;
 using System.Diagnostics.Metrics;
-using MiniECommerce.Gateway.Consumption;
+using MiniECommerce.Library.Services;
 
 namespace OrderService.API;
 
@@ -27,8 +27,7 @@ public class Program
             efOptions.UseSqlServer(sqlConnectionString);
         });
         builder.Services.AddOrderServiceDomainLayer();
-        builder.Services.AddECommerceAuthentication(configuration);
-        builder.Services.AddGatewayConsumption();
+        builder.AddECommerceLibrary(configuration);
 
         var app = builder.Build();
 
@@ -49,7 +48,7 @@ public class Program
         }
 
         app.UseRouting();
-        app.UseECommerceAutentication();
+        app.UseECommerceLibrary();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

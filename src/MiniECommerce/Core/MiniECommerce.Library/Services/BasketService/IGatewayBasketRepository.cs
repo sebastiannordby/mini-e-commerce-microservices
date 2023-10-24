@@ -1,4 +1,4 @@
-﻿using ProductService.Library.Models;
+﻿using BasketService.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,44 +6,45 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MiniECommerce.Gateway.Consumption.ProductService
+namespace MiniECommerce.Library.Services.BasketService
 {
-    public interface IGatewayProductRepository
+    public interface IGatewayBasketRepository
     {
-        Task<ProductView?> Find(Guid id, Guid requestId);
+        Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail);
     }
 
-    internal sealed class GatewayProductRepository : IGatewayProductRepository
+    internal sealed class GatewayBasketRepository : IGatewayBasketRepository
     {
         private readonly HttpClient _httpClient;
         private readonly AuthorizationHeaderService _authHeaderService;
 
-        public GatewayProductRepository(
-            HttpClient httpClient,
+        public GatewayBasketRepository(
+            HttpClient httpClient, 
             AuthorizationHeaderService authHeaderService)
         {
             _httpClient = httpClient;
             _authHeaderService = authHeaderService;
         }
 
-        public async Task<ProductView?> Find(
-            Guid id, Guid requestId)
+        public async Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail)
         {
             var req = new HttpRequestMessage()
             {
                 RequestUri = new Uri(
-                    $"http://gateway/api/product-service/productview/id/{id}")
+                $"http://gateway/api/basket-service/basket")
             };
 
             req.Headers.Accept.Add(new("application/json"));
             req.Headers.Add("RequestId", requestId.ToString());
-            req.Headers.Add("Authorization", 
+            req.Headers.Add("Authorization",
                 await _authHeaderService.GetAuthorizationHeaderValue());
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+            if (string.IsNullOrWhiteSpace(jsonResponse))
+                return null;
 
-            return JsonSerializer.Deserialize<ProductView>(jsonResponse, new JsonSerializerOptions()
+            return JsonSerializer.Deserialize<IEnumerable<BasketItemView>>(jsonResponse, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });

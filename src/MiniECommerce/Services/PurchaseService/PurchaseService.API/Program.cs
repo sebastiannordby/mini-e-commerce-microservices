@@ -10,8 +10,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddECommerceAuthentication(
-            builder.Configuration);
+        builder.AddECommerceLibrary(builder.Configuration);
 
         var app = builder.Build();
 
@@ -30,7 +29,7 @@ public class Program
         }
 
         app.UseRouting();
-        app.UseECommerceAutentication();
+        app.UseECommerceLibrary();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

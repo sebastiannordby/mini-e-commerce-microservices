@@ -21,15 +21,7 @@ namespace ProductService.Domain
         public static IServiceCollection AddProductServiceDomainLayer(
             this IServiceCollection services)
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-                .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} | {Level}] {Message:lj}{NewLine}{Exception}")
-                .CreateLogger();
-
             return services
-                .AddLogging()
                 .AddMediatR(options =>
                 {
                     options.RegisterServicesFromAssembly(typeof(DomainInstaller).Assembly);

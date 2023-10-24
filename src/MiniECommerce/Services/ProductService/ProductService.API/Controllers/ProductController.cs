@@ -29,18 +29,18 @@ namespace ProductService.API.Controllers
         [HttpGet("id/{id}")]
         public async Task<ProductDto?> Find([FromRoute] Guid id)
             => await _mediator.Send(
-                new FindProductByIdQuery(Request.GetRequestId(), id));
+                new FindProductByIdQuery(id));
 
         [HttpPost]
         public async Task<Guid> Create([FromBody] ProductDto product)
             => await _mediator.Send(
-                new CreateProductCommand(Request.GetRequestId(), product));
+                new CreateProductCommand(product));
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ProductDto product)
         {
             await _mediator.Send(
-                new UpdateProductCommand(Request.GetRequestId(), product));
+                new UpdateProductCommand(product));
 
             return Ok();
         }

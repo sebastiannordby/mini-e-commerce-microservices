@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.UseCases.Commands
 {
-    public abstract record Command(Guid RequestId) : Request(RequestId);
-    public abstract record Command<TResult>(Guid RequestId) : Request<TResult>(RequestId);
+    public abstract record Command() : Request();
+    public abstract record Command<TResult>() : Request<TResult>();
 }
