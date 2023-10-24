@@ -57,19 +57,6 @@ Log.Information("GoogleClientSecret: " + googleClientSecret);
 builder.Services.AddHttpClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-//builder.Services
-//    .AddAuthentication(options =>
-//    {
-//        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-//    })
-//    .AddCookie()
-//    .AddGoogle(options =>
-//    {
-//        options.ClientId = googleClientId;
-//        options.ClientSecret = googleClientSecret;
-//        options.SaveTokens = true;
-//    });
 
 builder.Services.AddAuthentication(options =>
 {
@@ -95,7 +82,6 @@ builder.Services.AddAuthentication(options =>
     options.SaveTokens = true; // Save tokens received from the authentication server
 
     // Configure any additional OpenID Connect options
-
     options.Events = new OpenIdConnectEvents
     {
         OnTokenResponseReceived = async context =>

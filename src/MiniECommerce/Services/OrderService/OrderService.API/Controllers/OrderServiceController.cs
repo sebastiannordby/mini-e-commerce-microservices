@@ -5,7 +5,7 @@ namespace OrderService.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public abstract class OrderServiceController : ControllerBase
     {
 

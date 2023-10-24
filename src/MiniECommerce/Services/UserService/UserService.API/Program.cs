@@ -1,17 +1,17 @@
+using Microsoft.AspNetCore.Builder;
+using MiniECommerce.Authentication;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
+builder.AddECommerceLibrary(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
+app.UseRouting();
+app.UseECommerceLibrary();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.Run();

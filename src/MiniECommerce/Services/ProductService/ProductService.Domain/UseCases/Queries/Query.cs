@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.UseCases.Queries
 {
-    public abstract record Query<TResponse>(Guid RequestId) : Request<TResponse>(RequestId);
+    public abstract record Query<TResponse>() : Request<TResponse>();
 }

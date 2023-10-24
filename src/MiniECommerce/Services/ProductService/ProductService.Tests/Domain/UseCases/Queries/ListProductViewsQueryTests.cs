@@ -15,7 +15,8 @@ namespace ProductService.Tests.Domain.UseCases.Queries
         public async Task TestQuery()
         {
             var mediator = Services.GetService<IMediator>();
-            var productViews = await mediator.Send(new ListProductViewsQuery(Guid.NewGuid()));
+            var productViews = await mediator.Send(
+                new ListProductViewsQuery());
 
             Assert.IsNotNull(productViews);
         }

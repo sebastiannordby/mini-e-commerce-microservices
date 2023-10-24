@@ -1,5 +1,4 @@
 ﻿using OrderService.Library.Commands;
-using ProductService.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MiniECommerce.Gateway.Consumption.OrderService
+namespace MiniECommerce.Library.Services.OrderService
 {
     public interface IGatewayOrderRepository
     {
@@ -17,11 +16,14 @@ namespace MiniECommerce.Gateway.Consumption.OrderService
     internal sealed class GatewayOrderRepository : IGatewayOrderRepository
     {
         private readonly HttpClient _httpClient;
+        private readonly AuthorizationHeaderService _authHeaderService;
 
         public GatewayOrderRepository(
-            HttpClient httpClient)
+            HttpClient httpClient,
+            AuthorizationHeaderService authHeaderService)
         {
             _httpClient = httpClient;
+            _authHeaderService = authHeaderService;
         }
 
         public async Task<Guid> StartOrder(Guid requestId, StartOrderCommandDto command)
@@ -34,6 +36,8 @@ namespace MiniECommerce.Gateway.Consumption.OrderService
 
             req.Headers.Accept.Add(new("application/json"));
             req.Headers.Add("RequestId", requestId.ToString());
+            req.Headers.Add("Authorization",
+                await _authHeaderService.GetAuthorizationHeaderValue());
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();

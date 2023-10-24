@@ -2,23 +2,26 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor _httpContextAccessor
 @inject HttpClient Http
-@if (User.Identity.Name != null)
-{
-    <img src="@Avatar" />
-    <b>You are logged in as: @GivenName @Surname</b>
-    <a class="ml-md-auto btn btn-primary"
-       href="/Identity/Logout"
-       target="_top">Logout</a>
-}
-else
-{
-    <a class="ml-md-auto btn btn-primary"
+
+<div class="d-flex align-items-center gap-2">
+    @if (!string.IsNullOrWhiteSpace(_email))
+    {
+        <img src="@Avatar" />
+        <b>@_email</b>
+        <a class="ml-md-auto"
+           href="/Identity/Logout"
+           target="_top">Logout</a>
+    }
+
+    <a class="ml-md-auto"
        href="/Identity/Login"
        target="_top">Login</a>
-}
+</div>
+
+
 @code {
     private ClaimsPrincipal User;
-    private string GivenName;
+    private string _email;
     private string Surname;
     private string Avatar;
     protected override void OnInitialized()
@@ -29,17 +32,12 @@ else
             // Set the user to determine if they are logged in
             User = _httpContextAccessor.HttpContext.User;
             // Try to get the GivenName
-            var givenName =
+            var email =
                 _httpContextAccessor.HttpContext.User
-                .FindFirst(ClaimTypes.GivenName);
-            if (givenName != null)
-            {
-                GivenName = givenName.Value;
-            }
-            else
-            {
-                GivenName = User.Identity.Name;
-            }
+                .FindFirst(ClaimTypes.Email);
+            if (email != null)
+                _email = email.Value;
+
             // Try to get the Surname
             var surname =
                 _httpContextAccessor.HttpContext.User

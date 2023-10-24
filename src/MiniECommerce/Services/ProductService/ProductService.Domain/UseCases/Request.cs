@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.UseCases
 {
-    public abstract record Request(Guid RequestId) : IRequest;
-    public abstract record Request<TResponse>(Guid RequestId) : IRequest<TResponse>;
+    public abstract record Request() : IRequest;
+    public abstract record Request<TResponse>() : IRequest<TResponse>;
 }

@@ -9,7 +9,8 @@
         "productservice.api": "StartDebugging",
         "desktopapp": "StartDebugging",
         "miniecommerce.gateway": "StartDebugging",
-        "basketservice.api": "StartDebugging"
+        "basketservice.api": "StartDebugging",
+        "userservice.api": "StartDebugging"
       }
     }
   }

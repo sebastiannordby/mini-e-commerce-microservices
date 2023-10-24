@@ -2,6 +2,17 @@ version: '3.4'
 name: mini-e-commerce
 
 services:
+  user_service:
+    container_name: user_service
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    ports:
+        - 50015:80
+    build:
+      context: .
+      dockerfile: Services/UserService/UserService.API/Dockerfile
+    networks:
+        - backend
+
   basket_service:
     container_name: basket_service
     image: ${DOCKER_REGISTRY-}basketserviceapi
@@ -76,7 +87,7 @@ services:
     networks:
         - backend
     depends_on:
-        - order_service   
+        - gateway 
 
   rabbitmq:
     image: rabbitmq:management
@@ -102,15 +113,18 @@ services:
         - product_service
         - purchase_service
         - order_service 
+        - user_service 
     depends_on:
         - product_service
         - purchase_service
         - order_service
+        - user_service 
     networks:
         - backend
-  
+   
 networks:
   backend:
     driver: bridge
+
 
 

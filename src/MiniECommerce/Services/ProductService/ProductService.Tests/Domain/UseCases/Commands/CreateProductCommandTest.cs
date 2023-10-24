@@ -18,7 +18,6 @@ namespace ProductService.Tests.Domain.UseCases.Commands
         {
             var mediator = Services.GetService<IMediator>();
             var response = await mediator.Send(new CreateProductCommand(
-                Guid.NewGuid(),
                 new ProductDto()
                 {
                     Number = 1,
@@ -26,7 +25,7 @@ namespace ProductService.Tests.Domain.UseCases.Commands
                 }
             ));
 
-            var productViews = await mediator.Send(new ListProductViewsQuery(Guid.NewGuid()));
+            var productViews = await mediator.Send(new ListProductViewsQuery());
 
             Assert.IsFalse(response == Guid.Empty);
             Assert.IsNotNull(productViews);

@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace ProductService.Domain.UseCases.Queries.Find
 {
     public sealed record FindProductViewByIdQuery(
-        Guid ProductId, Guid RequestId
-    ) : Query<ProductView?>(RequestId);
+        Guid ProductId
+    ) : Query<ProductView?>();
 }

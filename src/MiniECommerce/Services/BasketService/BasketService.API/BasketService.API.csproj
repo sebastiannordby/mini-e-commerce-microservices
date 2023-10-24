@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\MiniECommece.APIUtilities\MiniECommece.APIUtilities.csproj" />
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
-    <ProjectReference Include="..\..\..\Gateway\MiniECommerce.Gateway.Consumption\MiniECommerce.Gateway.Consumption.csproj" />
     <ProjectReference Include="..\BasketService.Domain\BasketService.Domain.csproj" />
     <ProjectReference Include="..\BasketService.Library\BasketService.Library.csproj" />
   </ItemGroup>

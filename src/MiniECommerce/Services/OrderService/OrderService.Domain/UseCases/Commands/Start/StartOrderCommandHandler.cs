@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MiniECommerce.Authentication.Services;
-using MiniECommerce.Gateway.Consumption.BasketService;
+using MiniECommerce.Library.Services.BasketService;
 using OrderService.Domain.Services;
 using System;
 using System.Collections.Generic;

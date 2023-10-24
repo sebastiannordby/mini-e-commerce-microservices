@@ -1,4 +1,5 @@
-﻿using OrderService.Library.Commands;
+﻿using Microsoft.AspNetCore.Http;
+using OrderService.Library.Commands;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,10 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
 {
     internal class OrderRepository : HttpRepository, IOrderRepository
     {
-        public OrderRepository(HttpClient httpClient) : base(httpClient)
+        public OrderRepository(
+            HttpClient httpClient,
+            IHttpContextAccessor httpContextAccessor
+        ) : base(httpClient, httpContextAccessor)
         {
 
         }

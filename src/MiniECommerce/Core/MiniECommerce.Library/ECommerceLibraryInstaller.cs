@@ -12,14 +12,20 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using MiniECommerce.Authentication.Middleware;
 using MiniECommerce.Authentication.Services;
+using MiniECommerce.Library.Services.BasketService;
+using MiniECommerce.Library.Services.ProductService;
+using MiniECommerce.Library.Services;
+using Serilog;
+using MiniECommerce.Library.Services.OrderService;
 
 namespace MiniECommerce.Authentication
 {
-    public static class ECommerceAuthenticationInstaller
+    public static class ECommerceLibraryInstaller
     {
-        public static IServiceCollection AddECommerceAuthentication(
-            this IServiceCollection services, ConfigurationManager configuration)
+        public static IServiceCollection AddECommerceLibrary(
+            this WebApplicationBuilder builder, ConfigurationManager configuration)
         {
             IdentityModelEventSource.ShowPII = true;
 
@@ -29,6 +35,11 @@ namespace MiniECommerce.Authentication
             var googleClientSecret = configuration["Authentication:Google:ClientSecret"] ?? 
                 throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided.");
 
+            builder.Host.UseSerilog((ctx, lc) => lc
+                .WriteTo.Console(
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {RequestId} {Message:lj}{NewLine}{Exception}"));
+
+            var services = builder.Services;
 
             services.AddAuthorization();
             services
@@ -49,32 +60,28 @@ namespace MiniECommerce.Authentication
                     options.Audience = googleClientId;
                 });
 
-
-            //services
-            //    .AddAuthentication(options =>
-            //    {
-            //        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            //    })
-            //    .AddCookie()
-            //    .AddGoogle(options =>
-            //    {
-            //        options.ClientId = googleClientId;
-            //        options.ClientSecret = googleClientSecret;
-            //        options.SaveTokens = true;
-            //    });
-
             services.AddHttpContextAccessor();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddCors();
+            services.AddTransient<IRequestIdService, RequestIdService>();
+            services.AddTransient<OutgoingRequestHandler>();
             services.AddControllers();
+            services.AddScoped<AuthorizationHeaderService>();
+            services.AddHttpClient<HttpClient>()
+              .AddHttpMessageHandler<OutgoingRequestHandler>();
+            services.AddScoped<HttpClient>();
+
+            services.AddScoped<IGatewayProductRepository, GatewayProductRepository>();
+            services.AddScoped<IGatewayBasketRepository, GatewayBasketRepository>();
+            services.AddScoped<IGatewayOrderRepository, GatewayOrderRepository>();
 
             return services;
         }
 
-        public static void UseECommerceAutentication(
+        public static void UseECommerceLibrary(
             this WebApplication app)
         {
+            app.UseMiddleware<RequestLoggingMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
         }

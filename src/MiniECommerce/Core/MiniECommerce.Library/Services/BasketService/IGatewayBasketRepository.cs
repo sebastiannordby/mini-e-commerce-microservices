@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MiniECommerce.Gateway.Consumption.BasketService
+namespace MiniECommerce.Library.Services.BasketService
 {
     public interface IGatewayBasketRepository
     {
@@ -16,10 +16,14 @@ namespace MiniECommerce.Gateway.Consumption.BasketService
     internal sealed class GatewayBasketRepository : IGatewayBasketRepository
     {
         private readonly HttpClient _httpClient;
+        private readonly AuthorizationHeaderService _authHeaderService;
 
-        public GatewayBasketRepository(HttpClient httpClient)
+        public GatewayBasketRepository(
+            HttpClient httpClient, 
+            AuthorizationHeaderService authHeaderService)
         {
             _httpClient = httpClient;
+            _authHeaderService = authHeaderService;
         }
 
         public async Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail)
@@ -32,6 +36,8 @@ namespace MiniECommerce.Gateway.Consumption.BasketService
 
             req.Headers.Accept.Add(new("application/json"));
             req.Headers.Add("RequestId", requestId.ToString());
+            req.Headers.Add("Authorization",
+                await _authHeaderService.GetAuthorizationHeaderValue());
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();

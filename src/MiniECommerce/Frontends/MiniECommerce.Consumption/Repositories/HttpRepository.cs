@@ -19,11 +19,6 @@ namespace MiniECommerce.Consumption.Repositories
         protected readonly HttpClient _httpClient;
         protected readonly IHttpContextAccessor _accessor;
 
-        public HttpRepository(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         public HttpRepository(
             HttpClient httpClient,
             IHttpContextAccessor accessor)
@@ -35,7 +30,8 @@ namespace MiniECommerce.Consumption.Repositories
         public async Task<T?> Send<T>(HttpRequestMessage req)
         {
             var httpResponse = await Send(req);
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+            var jsonResponse = await httpResponse
+                .Content.ReadAsStringAsync();
 
             Log.Information("Response: \r\n{0}\r\n---END RESPONSE\r\n", jsonResponse);
 
@@ -45,7 +41,7 @@ namespace MiniECommerce.Consumption.Repositories
             });
         }
 
-        public async Task<HttpResponseMessage> Send(HttpRequestMessage req)
+        public async Task<HttpResponseMessage> Send(HttpRequestMessage httpRequest)
         {
             var requestId = Guid.NewGuid().ToString();
             var policyPipeline = new ResiliencePipelineBuilder()
@@ -55,8 +51,8 @@ namespace MiniECommerce.Consumption.Repositories
                     Delay = TimeSpan.FromSeconds(3),
                     OnRetry = (retry) =>
                     {
-                        Log.Information("Request({0}) Retry: {1} Uri: {2}",
-                            requestId, retry.AttemptNumber, req.RequestUri);
+                        Log.Information("Req({0}) Retry: {1} Uri: {2}",
+                            requestId, retry.AttemptNumber, httpRequest.RequestUri);
 
                         return ValueTask.CompletedTask;
                     },
@@ -65,29 +61,34 @@ namespace MiniECommerce.Consumption.Repositories
                 }).Build();
 
             Log.Information(
-                "Request({0}): {1}", requestId, req.RequestUri);
+                "Req({0}): {1}", requestId, httpRequest.RequestUri);
 
-            if (_accessor?.HttpContext != null)
+            var accessToken = _accessor?
+                .HttpContext?
+                .Session?
+                .GetString("access_token");
+           
+            if (!string.IsNullOrWhiteSpace(accessToken))
             {
-                var userEmail = _accessor.HttpContext.User.FindFirst("email");
-                req.Headers.Add("UserEmail", userEmail?.Value);
-
-                var accessToken = _accessor.HttpContext.Session.GetString("access_token");
-                Log.Information("access_token: {0}", accessToken);
-                req.Headers.Add("Authorization", "Bearer " + accessToken);
+                Log.Information("Req({0}): Sending request with access_token: {1}", requestId, accessToken);
+                httpRequest.Headers.Add("Authorization", "Bearer " + accessToken);
+            }
+            else
+            {
+                Log.Warning("Req({0}): Sending request without access_token.", requestId);
             }
 
-            req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", requestId);
+            httpRequest.Headers.Accept.Add(new("application/json"));
+            httpRequest.Headers.Add("RequestId", requestId);
 
             var httpResponse = await policyPipeline
                 .ExecuteAsync<HttpResponseMessage>(async cancellationToken =>
                 {
-                    return await _httpClient.SendAsync(req);
+                    return await _httpClient.SendAsync(httpRequest);
                 });
 
-            Log.Information("Request({0}): {1} - {2} ",
-                requestId, req.RequestUri, httpResponse.StatusCode);
+            Log.Information("Req({0}): {1} - {2} ",
+                requestId, httpRequest.RequestUri, httpResponse.StatusCode);
 
             if(httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 throw new Exception("Unathorized: " + await httpResponse.Content.ReadAsStringAsync());

@@ -1,11 +1,14 @@
-using MiniECommerce.Gateway.Consumption;
+using MiniECommerce.Authentication;
+using MiniECommerce.Library.Services;
+using BasketService.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddGatewayConsumption();
+builder.Services.AddBasketServiceDomainLayer();
+builder.AddECommerceLibrary(builder.Configuration);
 
 var app = builder.Build();
 
@@ -13,6 +16,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(x =>
+        x.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin());
 }
 else
 {
@@ -20,6 +27,7 @@ else
 }
 
 app.UseRouting();
+app.UseECommerceLibrary();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
