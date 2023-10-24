@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Concurrent;
 using BasketService.Domain.Services;
+using MiniECommerce.Authentication.Services;
 
 namespace BasketService.API.Controllers
 {
@@ -14,45 +15,47 @@ namespace BasketService.API.Controllers
     {
         private readonly IUserBasketService _basketService;
         private readonly IGatewayProductRepository _productRepository;
+        private readonly ICurrentUserService _currentUserService;
         
         public BasketController(
             IUserBasketService basketService,
-            IGatewayProductRepository productRepository)
+            IGatewayProductRepository productRepository,
+            ICurrentUserService currentUserService)
         {
             _basketService = basketService;
             _productRepository = productRepository;
+            _currentUserService = currentUserService;
         }
 
-        [HttpGet("{userEmail}")]
-        public async Task<IEnumerable<BasketItemView>> GetList(
-            [FromRoute] string userEmail)
+        [HttpGet]
+        public async Task<IEnumerable<BasketItemView>> GetList()
         {
-            return await _basketService.GetBasket(userEmail);
+            return await _basketService.GetBasket(
+                _currentUserService.UserEmail);
         }
 
-        [HttpPost("add/{userEmail}/productid/{productId}")]
+        [HttpPost("add/productid/{productId}")]
         public async Task<List<BasketItemView>> AddToBasket(
-            [FromRoute] string userEmail,
             [FromRoute] Guid productId)
         {
             return await _basketService.AddToBasket(
-                Request.GetRequestId(), userEmail, productId);
+                Request.GetRequestId(), _currentUserService.UserEmail, productId);
         }
 
         [HttpPost("increase-quantity/{userEmail}/{productId}")]
         public async Task<List<BasketItemView>> IncreaseQuantity(
-            [FromRoute] string userEmail,
             [FromRoute] Guid productId)
         {
-            return await _basketService.IncreaseQuantity(userEmail, productId);
+            return await _basketService.IncreaseQuantity(
+                _currentUserService.UserEmail, productId);
         }
 
         [HttpPost("decrease-quantity/{userEmail}/{productId}")]
         public async Task<List<BasketItemView>> DecreaseQuantity(
-            [FromRoute] string userEmail,
             [FromRoute] Guid productId)
         {
-            return await _basketService.DecreaseQuantity(userEmail, productId);
+            return await _basketService.DecreaseQuantity(
+                _currentUserService.UserEmail, productId);
         }
     }
 }
