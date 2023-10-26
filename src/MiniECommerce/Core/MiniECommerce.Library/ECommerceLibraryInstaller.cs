@@ -19,13 +19,16 @@ using MiniECommerce.Library.Services.ProductService;
 using MiniECommerce.Library.Services;
 using Serilog;
 using MiniECommerce.Library.Services.OrderService;
+using MassTransit;
+using System.Reflection;
 
 namespace MiniECommerce.Authentication
 {
     public static class ECommerceLibraryInstaller
     {
         public static IServiceCollection AddECommerceLibrary(
-            this WebApplicationBuilder builder, ConfigurationManager configuration)
+            this WebApplicationBuilder builder, ConfigurationManager configuration,
+            Assembly consumerAssembly = null)
         {
             IdentityModelEventSource.ShowPII = true;
 
@@ -34,6 +37,14 @@ namespace MiniECommerce.Authentication
 
             var googleClientSecret = configuration["Authentication:Google:ClientSecret"] ?? 
                 throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided.");
+
+            var ass = Assembly.GetExecutingAssembly().FullName;
+            var messageBrokerHost = builder.Configuration["MessageBroker:Host"] ?? 
+                throw new Exception("MessageBroker:Host must be provided");
+            var messageBrokerUsername = builder.Configuration["MessageBroker:Username"] ??
+                throw new Exception("MessageBroker:Host must be provided");
+            var messageBrokerPassword = builder.Configuration["MessageBroker:Password"] ??
+                throw new Exception("MessageBroker:Host must be provided");
 
             builder.Host.UseSerilog((ctx, lc) => lc
                 .WriteTo.Console(
@@ -59,6 +70,25 @@ namespace MiniECommerce.Authentication
                     options.Authority = "https://accounts.google.com";
                     options.Audience = googleClientId;
                 });
+
+            services.AddMassTransit(busConfigurator =>
+            {
+                if(consumerAssembly is not null)
+                    busConfigurator.AddConsumers(consumerAssembly);
+
+                busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+                busConfigurator.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(new Uri(messageBrokerHost) , c =>
+                    {
+                        c.Username(messageBrokerUsername);
+                        c.Password(messageBrokerPassword);
+                    });
+
+                    configurator.ConfigureEndpoints(context);
+                });
+            });
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICurrentUserService, CurrentUserService>();

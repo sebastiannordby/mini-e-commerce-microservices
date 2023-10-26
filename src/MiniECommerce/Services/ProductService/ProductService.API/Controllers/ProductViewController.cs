@@ -12,14 +12,11 @@ namespace ProductService.API.Controllers
     public class ProductViewController : ProductServiceController
     {
         private readonly IMediator _mediator;
-        private readonly RabbitMQPublisher _rabbitMQPublisher;
 
         public ProductViewController(
-            IMediator mediator, 
-            RabbitMQPublisher rabbitMQPublisher)
+            IMediator mediator)
         {
             _mediator = mediator;
-            _rabbitMQPublisher = rabbitMQPublisher;
         }
 
         [HttpGet]
@@ -27,9 +24,6 @@ namespace ProductService.API.Controllers
         {
             var res = await _mediator.Send(
                 new ListProductViewsQuery());
-
-            _rabbitMQPublisher.PublishMessage(
-                "myExchange", "product-request", "Item added to basket");
 
             return res;
         }
