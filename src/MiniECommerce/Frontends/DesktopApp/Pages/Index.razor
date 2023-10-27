@@ -10,7 +10,7 @@
         <div class="p-2 h-100 d-flex flex-column w-100">
             <MudText Typo="Typo.h5" Class="mb-2">Products</MudText>
 
-            <div class="overflow-auto d-flex flex-wrap gap-4 p-2">
+            <div class="overflow-auto d-flex flex-wrap gap-4 p-2 justify-content-center">
                 @foreach (var product in _products)
                 {
                     var isInBasket = _basketItems?
