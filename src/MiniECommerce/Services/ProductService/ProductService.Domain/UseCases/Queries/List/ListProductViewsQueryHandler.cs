@@ -23,7 +23,10 @@ namespace ProductService.Domain.UseCases.Queries.List
         public async Task<IEnumerable<ProductView>> Handle(
             ListProductViewsQuery request, CancellationToken cancellationToken)
         {
-            return await _productViewRepository.List();
+            return await _productViewRepository.List(
+                request.FromPricePerQuantity,
+                request.ToPricePerQuantity,
+                request.Categories);
         }
     }
 }

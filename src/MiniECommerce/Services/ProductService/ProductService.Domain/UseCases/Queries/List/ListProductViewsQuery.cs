@@ -7,5 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.UseCases.Queries.List
 {
-    public sealed record ListProductViewsQuery() : Query<IEnumerable<ProductView>>();
+    public sealed record ListProductViewsQuery(
+        decimal? FromPricePerQuantity, 
+        decimal? ToPricePerQuantity, 
+        IEnumerable<string>? Categories
+    ) : Query<IEnumerable<ProductView>>();
 }

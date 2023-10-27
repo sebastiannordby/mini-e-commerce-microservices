@@ -8,8 +8,8 @@ namespace DesktopApp.Pages.Admin
 {
     public partial class ProductManagement : ComponentBase
     {
-        private IEnumerable<ProductView> _products;
-        private ProductDto _managementProduct;
+        private IEnumerable<ProductView>? _products;
+        private ProductDto? _managementProduct;
         private bool _isManagementProductNew;
         private bool _isManagementDialogVisible;
 
@@ -20,17 +20,18 @@ namespace DesktopApp.Pages.Admin
 
         private async Task LoadProducts()
         {
-            _products = await ProductRepository.List();
+            _products = await ProductRepository.List(
+                null, null, null);
         }
 
         private void ShowAddProductDialog()
         {
             var takenNumbers = _products
-                .Select(x => x.Number);
+                ?.Select(x => x.Number);
 
             _managementProduct = new() 
             { 
-                Number = takenNumbers.Any() ? 
+                Number = takenNumbers?.Any() == true ? 
                     takenNumbers.Max() + 1 : 1
             };
             _isManagementProductNew = true;
@@ -54,6 +55,9 @@ namespace DesktopApp.Pages.Admin
 
         private async Task SubmitManagement()
         {
+            if (_managementProduct is null)
+                return;
+
             if(_isManagementProductNew)
             {
                 await ProductRepository.Add(_managementProduct);

@@ -10,6 +10,9 @@ namespace ProductService.DataAccess.Repositories
     public interface IProductViewRepository
     {
         Task<ProductView?> Find(Guid productId);
-        Task<IEnumerable<ProductView>> List();
+        Task<IEnumerable<ProductView>> List(
+            decimal? fromPricePerQuantity, 
+            decimal? toPricePerQuantity, 
+            IEnumerable<string>? categories);
     }
 }

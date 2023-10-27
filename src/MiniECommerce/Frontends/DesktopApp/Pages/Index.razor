@@ -10,6 +10,22 @@
         <div class="p-2 h-100 d-flex flex-column w-100">
             <MudText Typo="Typo.h5" Class="mb-2">Products</MudText>
 
+            <div class="d-flex align-items-center gap-2 p-2">
+                <MudNumericField 
+                    @bind-Value="_fromPricePerQuantity" 
+                    Label="From price" 
+                    Variant="Variant.Text" 
+                    Min="0"  />
+                <MudNumericField 
+                    @bind-Value="_toPricePerQuantity" 
+                    Label="To price" 
+                    Variant="Variant.Text" 
+                    Min="1"  />
+                <MudIconButton 
+                    Icon="@Icons.Material.Outlined.Refresh"
+                    OnClick="FetchProducts" />
+            </div>
+
             <div class="overflow-auto d-flex flex-wrap gap-4 p-2 justify-content-center">
                 @foreach (var product in _products)
                 {

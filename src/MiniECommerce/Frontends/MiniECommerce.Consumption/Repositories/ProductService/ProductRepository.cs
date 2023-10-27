@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MiniECommerce.Consumption.Repositories.ProductService
 {
@@ -46,11 +47,22 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             return await Send<ProductDto>(req);
         }
 
-        public async Task<IEnumerable<ProductView>?> List()
+        public async Task<IEnumerable<ProductView>?> List(
+            decimal? fromPricePerQuantity,
+            decimal? toPricePerQuantity,
+            IEnumerable<string>? categories)
         {
+            var categoriesStringList = categories?.Any() == true ?
+                string.Join(",", categories) : null;
+
+            // Encode the serialized string to ensure it's URL-safe
+            var categoriesStringListEncoded = categoriesStringList != null ?
+                HttpUtility.UrlEncode(categoriesStringList) : null;
+
             var req = new HttpRequestMessage()
             {
-                RequestUri = new Uri("http://gateway/api/product-service/productview")
+                RequestUri = new Uri(
+                    $"http://gateway/api/product-service/productview?fromPricePerQuantity={fromPricePerQuantity}&toPricePerQuantity={toPricePerQuantity}")
             };
 
             return await Send<IEnumerable<ProductView>>(req);

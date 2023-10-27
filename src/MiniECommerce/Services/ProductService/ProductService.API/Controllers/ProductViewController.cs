@@ -20,10 +20,18 @@ namespace ProductService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductView>> ListViews()
+        public async Task<IEnumerable<ProductView>> ListViews(
+            [FromQuery] decimal? fromPricePerQuantity = null,
+            [FromQuery] decimal? toPricePerQuantity = null,
+            [FromQuery] IEnumerable<string>? categories = null)
         {
             var res = await _mediator.Send(
-                new ListProductViewsQuery());
+                new ListProductViewsQuery(
+                    fromPricePerQuantity,
+                    toPricePerQuantity,
+                    categories
+                )
+            );
 
             return res;
         }

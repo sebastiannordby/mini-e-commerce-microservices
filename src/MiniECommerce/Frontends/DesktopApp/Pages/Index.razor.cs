@@ -21,7 +21,12 @@ namespace DesktopApp.Pages
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
         private IEnumerable<ProductView> _products = Enumerable.Empty<ProductView>();
+        private decimal? _fromPricePerQuantity;
+        private decimal? _toPricePerQuantity;
+        private IEnumerable<string>? _categories;
+
         private List<BasketItemView> _basketItems = new();
+     
         private string UserEmail =>
             HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
@@ -39,7 +44,8 @@ namespace DesktopApp.Pages
 
         private async Task FetchProducts()
         {
-            _products = await ProductRepository.List() ?? new List<ProductView>();
+            _products = await ProductRepository.List(
+                _fromPricePerQuantity, _toPricePerQuantity, _categories) ?? new List<ProductView>();
         }
 
         private async Task AddToBasket(ProductView product)
