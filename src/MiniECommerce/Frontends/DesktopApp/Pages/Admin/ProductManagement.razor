@@ -1,39 +1,63 @@
 ﻿@page "/product-management"
+@using ProductService.Library.Models;
 
 <h1>Product Management</h1>
 
 @if(_products == null)
 {
-    <label>Loading..</label>
+    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
 }
 else
 {
-    <MudButton 
-        ButtonType="ButtonType.Button"
-        Color="Color.Secondary"
-        OnClick="ShowAddProductDialog">Add</MudButton>
+    <div class="d-flex flex-column gap-2 h-100 w-100">
+        <MudPaper Elevation="25">
+            <MudToolBar>
+                <MudIconButton 
+                    Title="Add" 
+                    Icon="@Icons.Material.Outlined.Add" 
+                    OnClick="ShowAddProductDialog"/>
+            </MudToolBar>
+        </MudPaper>
 
-    if(_products.Any())
-    {
-        <div class="d-flex flex-column gap-2">
-            @foreach (var product in _products)
-            {
-                <div class="p-2 d-flex flex-column gap-2">
-                    <label>Number: @product.Number</label>
-                    <label>Name: @product.Name</label>
-                    <label>Category: @product.Category</label>
-                    <MudButton 
-                        OnClick="async() => await ShowEditProductDialog(product)">
-                        Edit
-                    </MudButton>
-                </div>
-            }
-        </div>
-    }
-    else
-    {
-        <label>No products registered.</label>
-    }
+        <MudDataGrid 
+            Items="_products" 
+            Filterable="true"
+            FixedHeader="true"
+            Hover="true"
+            Outlined="true"
+            RowsPerPage="20"
+            HorizontalScrollbar="true"
+            Groupable="true">
+            <Columns>
+                <PropertyColumn 
+                    Property="x => x.Number" 
+                    Title="Nr" />
+                <PropertyColumn 
+                    Property="x => x.Name" 
+                    Title="Name" />
+                <PropertyColumn 
+                    Property="x => x.Category" 
+                    Title="Category" Groupable="true"/>
+                <PropertyColumn 
+                    Property="x => x.PricePerQuantity" 
+                    Title="PricePerQuantity" />
+                <PropertyColumn 
+                    Property="x => x"
+                    Filterable="false" 
+                    Groupable="false">
+                    <CellTemplate>
+                        <MudIconButton 
+                            Icon="@Icons.Material.Filled.Edit" 
+                            OnClick="async() => await ShowEditProductDialog(context.Item)" />
+                    </CellTemplate>
+                </PropertyColumn>
+            </Columns>
+
+            <PagerContent>
+                <MudDataGridPager T="ProductView" PageSizeOptions=@(new int[] {10, 25, 50, 100, 150, 200 }) />
+            </PagerContent>
+        </MudDataGrid>
+    </div>
 }
 
 

@@ -2,6 +2,8 @@
 
 <PageTitle>MiniECommerce</PageTitle>
 
+<MudSnackbarProvider />
+
 <MudDialogProvider
     FullWidth="true"
     MaxWidth="MaxWidth.ExtraSmall"
@@ -13,17 +15,16 @@
 <MudThemeProvider />
 <div class="page h-100 w-100 d-flex">
     <main class="flex-grow-1 d-flex flex-column h-100 overflow-hidden">
-        <div class="d-flex align-items-center px-4 py-2 shadow auth">
+        <div class="d-flex align-items-center px-4 py-2 shadow auth" style="background: var(--mud-palette-primary);">
             <img src="logo.png" height="30" class="mr-auto"/>
             <LoginControl />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
         <article class="content flex-grow-1 px-4 overflow-auto">
             @Body
         </article>
 
-        <footer class="p-2 d-flex align-items-center gap-2">
+        <footer class="p-2 d-flex align-items-center gap-2" style="background: whitesmoke;">
             <label>Admin: </label>
             <a href="/product-management">Product management</a>
         </footer>

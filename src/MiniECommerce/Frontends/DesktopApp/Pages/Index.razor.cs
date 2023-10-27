@@ -13,10 +13,12 @@ using MiniECommerce.Consumption.Repositories.OrderService;
 using OrderService.Library.Commands;
 using System.Security.Claims;
 using Microsoft.JSInterop;
+using MudBlazor;
+using static MudBlazor.CategoryTypes;
 
 namespace DesktopApp.Pages
 {
-    public partial class Index : ComponentBase
+    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
         private IEnumerable<ProductView> _products = Enumerable.Empty<ProductView>();
         private List<BasketItemView> _basketItems = new();
@@ -27,6 +29,12 @@ namespace DesktopApp.Pages
         protected override async Task OnInitializedAsync()
         {
             await FetchProducts();
+            await FetchBasket();
+        }
+
+        private async Task FetchBasket()
+        {
+            _basketItems = await BasketRepository.GetBasket();
         }
 
         private async Task FetchProducts()
@@ -38,18 +46,21 @@ namespace DesktopApp.Pages
         {
             _basketItems = await BasketRepository
                 .AddToBasket(product.Id);
+            Snackbar.Add($"{product.Name} added to basket.");
         }
 
         private async Task IncreaseQuantity(BasketItemView item)
         {
             _basketItems = await BasketRepository
                 .IncreaseQuantity(item.ProductId);
+            Snackbar.Add($"{item.ProductName} increased quantity.");
         }
 
         private async Task DecreaseQuantity(BasketItemView item)
         {
             _basketItems = await BasketRepository
                 .DecreaseQuantity(item.ProductId);
+            Snackbar.Add($"{item.ProductName} decreased quantity.");
         }
 
         private async Task StartOrder()
@@ -63,6 +74,8 @@ namespace DesktopApp.Pages
                 BuyersEmailAddress = UserEmail,
                 BuyersFullName = fullName 
             });
+
+            Snackbar.Add("Order started.");
         }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
@@ -70,5 +83,6 @@ namespace DesktopApp.Pages
         [Inject] private IOrderRepository OrderRepository { get; set; }
         [Inject] private IBasketRepository BasketRepository { get; set; }
         [Inject] private IProductRepository ProductRepository { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; }
     }
 }

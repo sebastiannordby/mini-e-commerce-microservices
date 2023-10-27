@@ -7,13 +7,13 @@
     @if (!string.IsNullOrWhiteSpace(_email))
     {
         <img src="@Avatar" />
-        <b>@_email</b>
-        <a class="ml-md-auto"
+        <b class="text-white">@_email</b>
+        <a class="ml-md-auto text-white"
            href="/Identity/Logout"
            target="_top">Logout</a>
     }
 
-    <a class="ml-md-auto"
+    <a class="ml-md-auto text-white"
        href="/Identity/Login"
        target="_top">Login</a>
 </div>

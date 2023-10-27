@@ -42,7 +42,7 @@ namespace BasketService.API.Controllers
                 Request.GetRequestId(), _currentUserService.UserEmail, productId);
         }
 
-        [HttpPost("increase-quantity/{userEmail}/{productId}")]
+        [HttpPost("increase-quantity/{productId}")]
         public async Task<List<BasketItemView>> IncreaseQuantity(
             [FromRoute] Guid productId)
         {
@@ -50,7 +50,7 @@ namespace BasketService.API.Controllers
                 _currentUserService.UserEmail, productId);
         }
 
-        [HttpPost("decrease-quantity/{userEmail}/{productId}")]
+        [HttpPost("decrease-quantity/{productId}")]
         public async Task<List<BasketItemView>> DecreaseQuantity(
             [FromRoute] Guid productId)
         {
