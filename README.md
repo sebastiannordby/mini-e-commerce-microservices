@@ -27,9 +27,6 @@ The user functions should be, in order of importance: log in, browse products, a
 ### Architecture
 Since this is a microservices driven kind of architecture, the different services should communicate with a gateway. This allows us to do client-side load balancing and can help us finding dependencies between the services. The main services in this project are user-service, basket-service, order-service, product-service and purchase-service. The frontend will also communicate with the gateway. 
 
-![Et bilde som inneholder skjermbilde, tekst, design
-
-[Automatisk generert beskrivelse](architecture.png)
-](https://github.com/sebastiannordby/mini-e-commerce-microservices/blob/main/architecture.png)
+[Automatisk generert beskrivelse](https://github.com/sebastiannordby/mini-e-commerce-microservices/blob/main/architecture.png)
 #### *Final notes*
 The course is taken in Java, but to challenge myself I have chose to go with Dotnet C#. This to get a deeper understanding of different technologies and forces me to get my hands dirty. 
