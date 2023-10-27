@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddBasketServiceDomainLayer();
-builder.AddECommerceLibrary(builder.Configuration);
+builder.AddECommerceLibrary();
 
 var app = builder.Build();
 

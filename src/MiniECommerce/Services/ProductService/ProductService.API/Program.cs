@@ -14,7 +14,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllers();
-        builder.AddECommerceLibrary(builder.Configuration);
+        builder.AddECommerceLibrary();
         builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductServiceDataAccessLayer(efOptions =>
         {

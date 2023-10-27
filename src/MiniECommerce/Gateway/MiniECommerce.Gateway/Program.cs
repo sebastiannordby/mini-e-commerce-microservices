@@ -11,7 +11,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.WebHost.UseIISIntegration();
-        builder.AddECommerceLibrary(builder.Configuration);
+        builder.AddECommerceLibrary();
         builder.Host.ConfigureAppConfiguration((hostingContext, ic) =>
         {
             ic.SetBasePath(builder.Environment.ContentRootPath);

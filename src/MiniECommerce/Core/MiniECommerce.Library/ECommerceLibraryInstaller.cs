@@ -27,33 +27,59 @@ namespace MiniECommerce.Authentication
     public static class ECommerceLibraryInstaller
     {
         public static IServiceCollection AddECommerceLibrary(
-            this WebApplicationBuilder builder, ConfigurationManager configuration,
+            this WebApplicationBuilder builder, 
             Assembly consumerAssembly = null)
         {
-            IdentityModelEventSource.ShowPII = true;
-
-            var googleClientId = configuration["Authentication:Google:ClientId"] ?? 
-                throw new Exception("Configuration: Authentication:Google:ClientId must be provided.");
-
-            var googleClientSecret = configuration["Authentication:Google:ClientSecret"] ?? 
-                throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided.");
-
-            var ass = Assembly.GetExecutingAssembly().FullName;
-            var messageBrokerHost = builder.Configuration["MessageBroker:Host"] ?? 
-                throw new Exception("MessageBroker:Host must be provided");
-            var messageBrokerUsername = builder.Configuration["MessageBroker:Username"] ??
-                throw new Exception("MessageBroker:Host must be provided");
-            var messageBrokerPassword = builder.Configuration["MessageBroker:Password"] ??
-                throw new Exception("MessageBroker:Host must be provided");
+            var services = builder.Services;
 
             builder.Host.UseSerilog((ctx, lc) => lc
                 .WriteTo.Console(
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {RequestId} {Message:lj}{NewLine}{Exception}"));
 
-            var services = builder.Services;
+            builder.AddECommerceAuthentication();
+            builder.AddECommerceMessageBroker(consumerAssembly);
+            builder.AddCorrelationId();
+            builder.AddGatewayConsumption();
+            services.AddCors();
+            services.AddControllers();
 
-            services.AddAuthorization();
-            services
+            return services;
+        }
+
+        public static void AddGatewayConsumption(
+            this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IGatewayProductRepository, GatewayProductRepository>();
+            builder.Services.AddScoped<IGatewayBasketRepository, GatewayBasketRepository>();
+            builder.Services.AddScoped<IGatewayOrderRepository, GatewayOrderRepository>();
+        }
+
+        public static void AddCorrelationId(
+            this WebApplicationBuilder builder)
+        {
+            builder.Services.AddTransient<IRequestIdService, RequestIdService>();
+            builder.Services.AddTransient<OutgoingRequestHandler>();
+            builder.Services.AddHttpClient<HttpClient>()
+              .AddHttpMessageHandler<OutgoingRequestHandler>();
+            builder.Services.AddScoped<HttpClient>();
+        }
+
+        public static void AddECommerceAuthentication(
+            this WebApplicationBuilder builder)
+        {
+            IdentityModelEventSource.ShowPII = true;
+
+            var googleClientId = builder.Configuration["Authentication:Google:ClientId"] ??
+                throw new Exception("Configuration: Authentication:Google:ClientId must be provided.");
+
+            var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ??
+                throw new Exception("Configuration: Authentication:Google:ClientSecret must be provided.");
+
+            builder.Services.AddScoped<AuthorizationHeaderService>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+            builder.Services.AddAuthorization();
+            builder.Services
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,17 +96,29 @@ namespace MiniECommerce.Authentication
                     options.Authority = "https://accounts.google.com";
                     options.Audience = googleClientId;
                 });
+        }
 
-            services.AddMassTransit(busConfigurator =>
+        public static void AddECommerceMessageBroker(
+            this WebApplicationBuilder builder, Assembly consumerAssembly)
+        {
+            var ass = Assembly.GetExecutingAssembly().FullName;
+            var messageBrokerHost = builder.Configuration["MessageBroker:Host"] ??
+                throw new Exception("MessageBroker:Host must be provided");
+            var messageBrokerUsername = builder.Configuration["MessageBroker:Username"] ??
+                throw new Exception("MessageBroker:Host must be provided");
+            var messageBrokerPassword = builder.Configuration["MessageBroker:Password"] ??
+                throw new Exception("MessageBroker:Host must be provided");
+
+            builder.Services.AddMassTransit(busConfigurator =>
             {
-                if(consumerAssembly is not null)
+                if (consumerAssembly is not null)
                     busConfigurator.AddConsumers(consumerAssembly);
 
                 busConfigurator.SetKebabCaseEndpointNameFormatter();
 
                 busConfigurator.UsingRabbitMq((context, configurator) =>
                 {
-                    configurator.Host(new Uri(messageBrokerHost) , c =>
+                    configurator.Host(new Uri(messageBrokerHost), c =>
                     {
                         c.Username(messageBrokerUsername);
                         c.Password(messageBrokerPassword);
@@ -89,23 +127,6 @@ namespace MiniECommerce.Authentication
                     configurator.ConfigureEndpoints(context);
                 });
             });
-
-            services.AddHttpContextAccessor();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddCors();
-            services.AddTransient<IRequestIdService, RequestIdService>();
-            services.AddTransient<OutgoingRequestHandler>();
-            services.AddControllers();
-            services.AddScoped<AuthorizationHeaderService>();
-            services.AddHttpClient<HttpClient>()
-              .AddHttpMessageHandler<OutgoingRequestHandler>();
-            services.AddScoped<HttpClient>();
-
-            services.AddScoped<IGatewayProductRepository, GatewayProductRepository>();
-            services.AddScoped<IGatewayBasketRepository, GatewayBasketRepository>();
-            services.AddScoped<IGatewayOrderRepository, GatewayOrderRepository>();
-
-            return services;
         }
 
         public static void UseECommerceLibrary(

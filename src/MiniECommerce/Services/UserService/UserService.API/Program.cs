@@ -4,7 +4,7 @@ using MiniECommerce.Authentication;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.AddECommerceLibrary(builder.Configuration);
+builder.AddECommerceLibrary();
 
 var app = builder.Build();
 

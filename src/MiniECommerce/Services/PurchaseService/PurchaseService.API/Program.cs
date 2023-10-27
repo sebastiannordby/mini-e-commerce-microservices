@@ -10,7 +10,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.AddECommerceLibrary(builder.Configuration);
+        builder.AddECommerceLibrary();
 
         var app = builder.Build();
 

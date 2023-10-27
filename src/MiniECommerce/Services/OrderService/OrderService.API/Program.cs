@@ -28,7 +28,6 @@ public class Program
         });
         builder.Services.AddOrderServiceDomainLayer();
         builder.AddECommerceLibrary(
-            configuration, 
             consumerAssembly: typeof(OrderService.Domain.DomainInstaller).Assembly);
 
         var app = builder.Build();
