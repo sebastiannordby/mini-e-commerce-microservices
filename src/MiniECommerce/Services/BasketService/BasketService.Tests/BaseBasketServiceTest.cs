@@ -1,10 +1,12 @@
-using MiniECommerce.Testing;
+using MassTransit;
 using BasketService.Domain;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using MiniECommerce.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using BasketService.Tests.Mocking.Repositories;
 using MiniECommerce.Library.Services.ProductService;
-using MassTransit;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MiniECommerce.Library.Events.OrderService;
+using BasketService.Domain.Consumers;
 
 namespace BasketService.Tests
 {
@@ -15,14 +17,19 @@ namespace BasketService.Tests
         [SetUp]
         public void Setup()
         {
-            Services = ServiceProviderBuilder.BuildServiceProvider((services) =>
+            Services = GetServiceProvider();
+        }
+
+        private IServiceProvider GetServiceProvider()
+        {
+            return ServiceProviderBuilder.BuildServiceProvider((services) =>
             {
                 services.AddBasketServiceDomainLayer();
                 services.RemoveAll<IGatewayProductRepository>();
                 services.AddScoped<IGatewayProductRepository, GatewayMockProductRepository>();
                 services.AddMassTransitTestHarness(x =>
                 {
-
+                    x.AddConsumers(typeof(BasketService.Domain.Consumers.OrderStartedEventConsumer).Assembly);
                 });
             });
         }
