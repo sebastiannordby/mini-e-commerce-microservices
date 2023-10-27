@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using BasketService.Tests.Mocking.Repositories;
 using MiniECommerce.Library.Services.ProductService;
+using MassTransit;
 
 namespace BasketService.Tests
 {
@@ -19,6 +20,10 @@ namespace BasketService.Tests
                 services.AddBasketServiceDomainLayer();
                 services.RemoveAll<IGatewayProductRepository>();
                 services.AddScoped<IGatewayProductRepository, GatewayMockProductRepository>();
+                services.AddMassTransitTestHarness(x =>
+                {
+
+                });
             });
         }
     }
