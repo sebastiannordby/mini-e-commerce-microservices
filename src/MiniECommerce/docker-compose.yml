@@ -10,6 +10,8 @@ services:
     build:
       context: .
       dockerfile: Services/UserService/UserService.API/Dockerfile
+    depends_on:
+        - rabbitmq
     networks:
         - backend
 
@@ -21,6 +23,8 @@ services:
       dockerfile: Services/BasketService/BasketService.API/Dockerfile
     ports:
         - 50014:80
+    depends_on:
+        - rabbitmq
     networks:
         - backend
 
@@ -35,6 +39,7 @@ services:
         #- 50003:443
     depends_on: 
         - order_service_db
+        - rabbitmq 
     networks:
         - backend
 
@@ -58,6 +63,8 @@ services:
     ports:
         - 50012:80
         #- 50002:443
+    depends_on:
+        - rabbitmq
     networks:
         - backend
 
@@ -119,6 +126,7 @@ services:
         - purchase_service
         - order_service
         - user_service 
+        - rabbitmq 
     networks:
         - backend
    

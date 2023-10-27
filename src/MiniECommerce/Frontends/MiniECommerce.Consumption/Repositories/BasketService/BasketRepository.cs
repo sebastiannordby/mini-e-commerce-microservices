@@ -45,6 +45,18 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
             return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
         }
 
+        public async Task<List<BasketItemView>> GetBasket()
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(
+                    $"http://gateway/api/basket-service/basket")
+            };
+
+            return await Send<List<BasketItemView>>(req) ?? new List<BasketItemView>();
+        }
+
         public async Task<List<BasketItemView>> IncreaseQuantity(Guid productId)
         {
             var req = new HttpRequestMessage()

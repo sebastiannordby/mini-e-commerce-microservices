@@ -9,6 +9,7 @@ namespace MiniECommerce.Consumption.Repositories.BasketService
 {
     public interface IBasketRepository
     {
+        Task<List<BasketItemView>> GetBasket();
         Task<List<BasketItemView>> AddToBasket(Guid productId);
         Task<List<BasketItemView>> IncreaseQuantity(Guid productId);
         Task<List<BasketItemView>> DecreaseQuantity(Guid productId);

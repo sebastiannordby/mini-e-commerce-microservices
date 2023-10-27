@@ -23,9 +23,6 @@ public class Program
             });
         });
 
-        builder.Services.AddHostedService<RabbitMQSubscriber>();
-        builder.Services.AddScoped<RabbitMQPublisher>();
-
         var app = builder.Build();
 
         app.UseDummyData();

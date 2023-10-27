@@ -1,4 +1,6 @@
 ﻿using BasketService.Library;
+using MassTransit;
+using MiniECommerce.Library.Events.BasketService;
 using MiniECommerce.Library.Services.ProductService;
 using System;
 using System.Collections.Concurrent;
@@ -13,11 +15,14 @@ namespace BasketService.Domain.Services
     {
         private static readonly ConcurrentDictionary<string, List<BasketItemView>> _baskets = new();
         private readonly IGatewayProductRepository _productRepository;
+        private readonly IBus _bus;
 
         public UserBasketService(
-            IGatewayProductRepository productRepository)
+            IGatewayProductRepository productRepository, 
+            IBus bus)
         {
             _productRepository = productRepository;
+            _bus = bus;
         }
 
         public async Task<List<BasketItemView>> AddToBasket(
@@ -46,6 +51,8 @@ namespace BasketService.Domain.Services
 
                     return value;
                 });
+
+            await _bus.Publish(new ProductAddedToBasketEvent(productId, DateTime.Now));
 
             return basketItems;
         }

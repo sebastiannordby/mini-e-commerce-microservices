@@ -27,7 +27,9 @@ public class Program
             efOptions.UseSqlServer(sqlConnectionString);
         });
         builder.Services.AddOrderServiceDomainLayer();
-        builder.AddECommerceLibrary(configuration);
+        builder.AddECommerceLibrary(
+            configuration, 
+            consumerAssembly: typeof(OrderService.Domain.DomainInstaller).Assembly);
 
         var app = builder.Build();
 
