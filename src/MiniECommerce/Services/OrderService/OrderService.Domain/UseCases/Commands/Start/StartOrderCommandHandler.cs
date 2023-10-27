@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using MiniECommerce.Authentication.Services;
+using MiniECommerce.Library.Events.OrderService;
 using MiniECommerce.Library.Services.BasketService;
 using OrderService.Domain.Services;
 using System;
@@ -17,17 +19,20 @@ namespace OrderService.Domain.UseCases.Commands.Start
         private readonly IGatewayBasketRepository _basketRepository;
         private readonly IOrderService _orderService;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IBus _bus;
 
         public StartOrderCommandHandler(
             IInitializeOrderService initializeOrderService,
             IGatewayBasketRepository basketRepository,
             IOrderService orderService,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            IBus bus)
         {
             _initializeOrderService = initializeOrderService;
             _basketRepository = basketRepository;
             _orderService = orderService;
             _currentUserService = currentUserService;
+            _bus = bus;
         }
 
         public async Task<Guid> Handle(StartOrderCommand request, CancellationToken cancellationToken)
@@ -47,7 +52,15 @@ namespace OrderService.Domain.UseCases.Commands.Start
             var orderLines = basketItems
                 .Select(basketItem => order.Create(basketItem));
 
-            return await _orderService.Save(order);
+            var orderId = await _orderService.Save(order);
+
+            await _bus.Publish(new OrderStartedEvent(
+                orderId,
+                _currentUserService.UserEmail,
+                DateTime.UtcNow
+            ));
+
+            return orderId;
         }
     }
 }

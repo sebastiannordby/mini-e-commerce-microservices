@@ -4,6 +4,11 @@ using OrderService.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using MassTransit;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MiniECommerce.Library.Services.ProductService;
+using MiniECommerce.Library.Services.BasketService;
+using OrderService.Tests.Repositories;
 
 namespace OrderService.Tests
 {
@@ -22,6 +27,12 @@ namespace OrderService.Tests
                     efOptions.UseInMemoryDatabase(nameof(BaseOrderServiceTest), b => {
                         b.EnableNullChecks(false);
                     });
+                });
+                services.RemoveAll<IGatewayBasketRepository>();
+                services.AddScoped<IGatewayBasketRepository, GatewayMockBasketRepository>();
+                services.AddMassTransitTestHarness(x =>
+                {
+                    x.AddConsumers(typeof(OrderService.Domain.Consumers.ProductAddedToBasketConsumer).Assembly);
                 });
             });
         }
