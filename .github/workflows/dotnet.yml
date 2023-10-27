@@ -28,6 +28,3 @@ jobs:
     #  run: dotnet build --no-restore  
     - name: Test
       run: dotnet test MiniECommerce.sln --verbosity normal
-    - name: .Net Code Coverage Badge
-      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-  
