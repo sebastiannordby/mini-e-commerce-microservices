@@ -20,9 +20,8 @@
     {
         var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authenticationState.User;
-        if (!user.Identity.IsAuthenticated)
-        {
+     
+        if (user?.Identity?.IsAuthenticated == false)
             await JSRuntime.InvokeAsync<object>("BlazorSample.loginWithGoogle");
-        }
     }
 }

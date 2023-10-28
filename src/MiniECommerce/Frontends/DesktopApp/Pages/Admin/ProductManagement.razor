@@ -69,7 +69,7 @@ else
     </TitleContent>
     <DialogContent>
         <div class="d-flex flex-column gap-2">
-            @if(_managementProduct != null)
+            @if(_managementProduct is not null)
             {
                 <MudNumericField 
                     T="int" 

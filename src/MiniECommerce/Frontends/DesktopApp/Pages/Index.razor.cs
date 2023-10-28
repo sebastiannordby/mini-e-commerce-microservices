@@ -24,7 +24,7 @@ namespace DesktopApp.Pages
         private decimal? _fromPricePerQuantity;
         private decimal? _toPricePerQuantity;
         private IEnumerable<string>? _categories;
-        private string _searchValue;
+        private string? _searchValue;
 
         private List<BasketItemView> _basketItems = new();
      
@@ -85,11 +85,11 @@ namespace DesktopApp.Pages
             Snackbar.Add("Order started.");
         }
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
-        [Inject] private IHttpContextAccessor HttpContextAccessor { get; set; }
-        [Inject] private IOrderRepository OrderRepository { get; set; }
-        [Inject] private IBasketRepository BasketRepository { get; set; }
-        [Inject] private IProductRepository ProductRepository { get; set; }
-        [Inject] private ISnackbar Snackbar { get; set; }
+        [Inject] public required IJSRuntime JSRuntime { get; set; }
+        [Inject] public required IHttpContextAccessor HttpContextAccessor { get; set; }
+        [Inject] public required IOrderRepository OrderRepository { get; set; }
+        [Inject] public required IBasketRepository BasketRepository { get; set; }
+        [Inject] public required IProductRepository ProductRepository { get; set; }
+        [Inject] public required ISnackbar Snackbar { get; set; }
     }
 }

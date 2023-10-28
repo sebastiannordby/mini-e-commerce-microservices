@@ -11,7 +11,7 @@ namespace DesktopApp.Pages.Identity
         public string ReturnUrl { get; private set; }
         
         public async Task<IActionResult> OnGetAsync(
-            string returnUrl = null)
+            string? returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             

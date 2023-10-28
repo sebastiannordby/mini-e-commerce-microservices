@@ -14,7 +14,7 @@ namespace BasketService.Tests
         [Test]
         public async Task BasketReturnsEmptyListNotNull()
         {
-            var userBasketService = Services.GetService<IUserBasketService>();
+            var userBasketService = Services.GetRequiredService<IUserBasketService>();
 
             var basketItems = await userBasketService.GetBasket(
                 nameof(UserBasketServiceTests));
@@ -26,7 +26,7 @@ namespace BasketService.Tests
         [Test]
         public async Task AddsItemToBasket()
         {
-            var userBasketService = Services.GetService<IUserBasketService>();
+            var userBasketService = Services.GetRequiredService<IUserBasketService>();
 
             var basketWithOneItem = (
                 await userBasketService.AddToBasket(
@@ -52,7 +52,7 @@ namespace BasketService.Tests
         [Test]
         public async Task TestClearingBasket()
         {
-            var userBasketService = Services.GetService<IUserBasketService>();
+            var userBasketService = Services.GetRequiredService<IUserBasketService>();
 
             var basketWithOneItem = (
                 await userBasketService.AddToBasket(
@@ -88,7 +88,7 @@ namespace BasketService.Tests
         [Test]
         public async Task TestIncreaseQuantity()
         {
-            var userBasketService = Services.GetService<IUserBasketService>();
+            var userBasketService = Services.GetRequiredService<IUserBasketService>();
 
             var productOneId = Guid.NewGuid();
 
@@ -123,7 +123,7 @@ namespace BasketService.Tests
         [Test]
         public async Task TestDecreaseQuantity()
         {
-            var userBasketService = Services.GetService<IUserBasketService>();
+            var userBasketService = Services.GetRequiredService<IUserBasketService>();
 
             var productOneId = Guid.NewGuid();
 
@@ -171,7 +171,7 @@ namespace BasketService.Tests
         [Test]
         public async Task TestDecreaseQuantityShouldRemoveItem()
         {
-            var userBasketService = Services.GetService<IUserBasketService>();
+            var userBasketService = Services.GetRequiredService<IUserBasketService>();
 
             var productOneId = Guid.NewGuid();
 

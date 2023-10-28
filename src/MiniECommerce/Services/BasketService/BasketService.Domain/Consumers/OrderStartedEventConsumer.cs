@@ -26,9 +26,11 @@ namespace BasketService.Domain.Consumers
 
         public async Task Consume(ConsumeContext<OrderStartedEvent> context)
         {
-            _logger.LogInformation("{0}: Clearing user basket.");
+            _logger.LogInformation("{0}: Clearing {1} basket.", 
+                nameof(OrderStartedEventConsumer), context.Message.UserEmail);
             await _userBasketService.ClearBasket(context.Message.UserEmail);
-            _logger.LogInformation("{0}: User basket cleared.");
+            _logger.LogInformation("{0}: {1} basket cleared.",
+                nameof(OrderStartedEventConsumer), context.Message.UserEmail);
 
             await context.RespondAsync(new BasketClearedEvent(
                 context.Message.UserEmail));

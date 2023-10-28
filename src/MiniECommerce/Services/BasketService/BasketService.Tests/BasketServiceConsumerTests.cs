@@ -18,7 +18,7 @@ namespace BasketService.Tests
         public async Task TestAddingToBasketPublishesEvent()
         {
             var harness = Services.GetRequiredService<ITestHarness>();
-            var basketService = Services.GetService<IUserBasketService>();
+            var basketService = Services.GetRequiredService<IUserBasketService>();
 
             await harness.Start();
             await basketService.AddToBasket(Guid.NewGuid(), "test@test.com", Guid.NewGuid());

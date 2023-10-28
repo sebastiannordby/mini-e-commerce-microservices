@@ -28,7 +28,7 @@ namespace MiniECommerce.Authentication
     {
         public static IServiceCollection AddECommerceLibrary(
             this WebApplicationBuilder builder, 
-            Assembly consumerAssembly = null)
+            Assembly? consumerAssembly = null)
         {
             var services = builder.Services;
 
@@ -99,7 +99,7 @@ namespace MiniECommerce.Authentication
         }
 
         public static void AddECommerceMessageBroker(
-            this WebApplicationBuilder builder, Assembly consumerAssembly)
+            this WebApplicationBuilder builder, Assembly? consumerAssembly)
         {
             var ass = Assembly.GetExecutingAssembly().FullName;
             var messageBrokerHost = builder.Configuration["MessageBroker:Host"] ??

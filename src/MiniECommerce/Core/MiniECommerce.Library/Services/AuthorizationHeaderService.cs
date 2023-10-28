@@ -17,14 +17,14 @@ namespace MiniECommerce.Library.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> GetAuthorizationHeaderValue()
+        public async Task<string?> GetAuthorizationHeaderValue()
         {
             var authHeader = _httpContextAccessor
                 ?.HttpContext
                 ?.Request
                 ?.Headers?["Authorization"];
 
-            return await Task.FromResult(authHeader ?? "");
+            return await Task.FromResult(authHeader);
         }
     }
 }

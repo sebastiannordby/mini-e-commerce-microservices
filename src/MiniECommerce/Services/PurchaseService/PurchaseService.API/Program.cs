@@ -30,10 +30,7 @@ public class Program
 
         app.UseRouting();
         app.UseECommerceLibrary();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.MapControllers();
         app.Run();
     }
 }

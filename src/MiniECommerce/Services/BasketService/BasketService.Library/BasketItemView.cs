@@ -2,10 +2,10 @@
 {
     public class BasketItemView
     {
-        public Guid ProductId { get; set; }
-        public string ProductName { get; set; }
-        public int Quantity { get; set; }
-        public decimal PricePerQuantity { get; set; }
+        public required Guid ProductId { get; set; }
+        public required string ProductName { get; set; }
+        public required int Quantity { get; set; }
+        public required decimal PricePerQuantity { get; set; }
         public decimal Total => Quantity * PricePerQuantity;
     }
 }

@@ -18,7 +18,7 @@ namespace OrderService.Tests.Domain
         [Test]
         public async Task FindOrderTest()
         {
-            var orderViewRepository = Services.GetService<IOrderViewRepository>();
+            var orderViewRepository = Services.GetRequiredService<IOrderViewRepository>();
             var order = await orderViewRepository.Find(Guid.Empty);
 
             Assert.IsNull(order);
@@ -27,20 +27,20 @@ namespace OrderService.Tests.Domain
         [Test]
         public void TestLoadInvalidOrderOrder()
         {
-            var loadOrderService = Services.GetService<ILoadOrderService>();
+            var loadOrderService = Services.GetRequiredService<ILoadOrderService>();
 
             Assert.ThrowsAsync<ValidationException>(async() =>
             {
                 await loadOrderService.LoadAsync(
                     id: Guid.Empty,
                     number: -1,
-                    buyersName: null,
-                    buyersEmailAddress: null,
+                    buyersName: string.Empty,
+                    buyersEmailAddress: string.Empty,
                     addressLine: null,
                     postalCode: null,
                     postalOffice: null,
                     country: null,
-                    orderLines: null
+                    orderLines: new List<Order.OrderLine>()
                 );
             });
         }
@@ -48,8 +48,8 @@ namespace OrderService.Tests.Domain
         [Test]
         public async Task TestFindOrderIsNull()
         {
-            var loadOrderService = Services.GetService<ILoadOrderService>();
-            var orderService = Services.GetService<IOrderService>();
+            var loadOrderService = Services.GetRequiredService<ILoadOrderService>();
+            var orderService = Services.GetRequiredService<IOrderService>();
             var order = await orderService.FindAsync(Guid.Empty);
 
             Assert.IsNull(order);
@@ -58,8 +58,8 @@ namespace OrderService.Tests.Domain
         [Test]
         public async Task TestFindOrder()
         {
-            var initOrderService = Services.GetService<IInitializeOrderService>();
-            var orderService = Services.GetService<IOrderService>();
+            var initOrderService = Services.GetRequiredService<IInitializeOrderService>();
+            var orderService = Services.GetRequiredService<IOrderService>();
 
             var orderToSave = await initOrderService.Initialize(
                 nameof(TestFindOrder), nameof(TestFindOrder));
@@ -75,9 +75,9 @@ namespace OrderService.Tests.Domain
         [Test]
         public async Task TestFindOrderView()
         {
-            var initOrderService = Services.GetService<IInitializeOrderService>();
-            var orderService = Services.GetService<IOrderService>();
-            var orderViewRepository = Services.GetService<IOrderViewRepository>();
+            var initOrderService = Services.GetRequiredService<IInitializeOrderService>();
+            var orderService = Services.GetRequiredService<IOrderService>();
+            var orderViewRepository = Services.GetRequiredService<IOrderViewRepository>();
 
             var orderToSave = await initOrderService.Initialize(
                 nameof(TestFindOrder), nameof(TestFindOrder));

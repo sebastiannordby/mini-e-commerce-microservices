@@ -73,7 +73,7 @@ namespace DesktopApp.Pages.Admin
             await LoadProducts();
         }
 
-        [Inject] private IDialogService DialogService { get; set; }
-        [Inject] private IProductRepository ProductRepository { get; set; }
+        [Inject] public required IDialogService DialogService { get; set; }
+        [Inject] public required IProductRepository ProductRepository { get; set; }
     }
 }

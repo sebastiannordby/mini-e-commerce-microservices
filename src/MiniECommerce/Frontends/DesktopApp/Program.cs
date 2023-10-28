@@ -84,20 +84,22 @@ builder.Services.AddAuthentication(options =>
     // Configure any additional OpenID Connect options
     options.Events = new OpenIdConnectEvents
     {
-        OnTokenResponseReceived = async context =>
+        OnTokenResponseReceived = context =>
         {
-            var user = context.Principal;
-            // Extract and save the access token
-            var accessToken = context.TokenEndpointResponse.AccessToken;
-            // You can store the access token in a secure manner, or use it as needed
+            var user = context?.Principal;
 
-            // Optionally, customize token response handling
-            // Add or update claims as needed
-            user.AddIdentity(new ClaimsIdentity(
-                user.Claims,
-                user.Identity.AuthenticationType,
-                ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType));
+            if(user is not null && user.Identity is not null)
+            {
+                // Optionally, customize token response handling
+                // Add or update claims as needed
+                user.AddIdentity(new ClaimsIdentity(
+                    user.Claims,
+                    user.Identity.AuthenticationType,
+                    ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType));
+            }
+
+            return Task.CompletedTask;
         }
     };
 })
@@ -142,19 +144,6 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
-//app.Use(async delegate (HttpContext context, Func<Task> next)
-//{
-//    if (context.User.Identity!.IsAuthenticated && 
-//        !context.Request.Path.Value.Contains("signin-google"))
-//    {
-//        foreach (string key in context.Request.Cookies.Keys)
-//            context.Response.Cookies.Delete(key);
-        
-//        context.Response.Redirect("/");
-//    }
-
-//    await next();
-//});
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
@@ -164,3 +153,18 @@ app.UseEndpoints(endpoints =>
     endpoints.MapFallbackToPage("/_Host").RequireAuthorization();
 });
 app.Run();
+
+
+//app.Use(async delegate (HttpContext context, Func<Task> next)
+//{
+//    if (context.User.Identity!.IsAuthenticated && 
+//        !context.Request.Path.Value.Contains("signin-google"))
+//    {
+//        foreach (string key in context.Request.Cookies.Keys)
+//            context.Response.Cookies.Delete(key);
+
+//        context.Response.Redirect("/");
+//    }
+
+//    await next();
+//});

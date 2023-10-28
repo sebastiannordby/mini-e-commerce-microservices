@@ -29,9 +29,13 @@ namespace MiniECommerce.Authentication.Services
                 ?.HttpContext
                 ?.Request
                 ?.Headers?["RequestId"];
+            if (requestIdStr is null)
+                return null;
 
-            return string.IsNullOrWhiteSpace(requestIdStr) ? 
-                null : Guid.Parse(requestIdStr);
+            if (!Guid.TryParse(requestIdStr, out var requestId))
+                return null;
+
+            return requestId;
         }
 
         public string? GetRequestIdStr()

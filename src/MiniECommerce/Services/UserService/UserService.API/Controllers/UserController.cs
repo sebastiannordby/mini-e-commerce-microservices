@@ -15,7 +15,7 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet]
-        public UserInfoView Get()
+        public UserInfoView? Get()
         {
             return null;
         }

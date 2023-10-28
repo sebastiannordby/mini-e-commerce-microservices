@@ -56,7 +56,7 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
                 string.Join(",", categories) : null;
 
             // Encode the serialized string to ensure it's URL-safe
-            var categoriesStringListEncoded = categoriesStringList != null ?
+            var categoriesStringListEncoded = categoriesStringList is not null ?
                 HttpUtility.UrlEncode(categoriesStringList) : null;
 
             var req = new HttpRequestMessage()

@@ -6,7 +6,7 @@
 <div class="d-flex align-items-center gap-2">
     @if (!string.IsNullOrWhiteSpace(_email))
     {
-        <img src="@Avatar" />
+        <img src="@_avatar" />
         <b class="text-white">@_email</b>
         <a class="ml-md-auto text-white"
            href="/Identity/Logout"
@@ -21,48 +21,38 @@
 
 @code {
     private ClaimsPrincipal User;
-    private string _email;
-    private string Surname;
-    private string Avatar;
+    private string? _email;
+    private string? _surname;
+    private string? _avatar;
+
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         try
         {
             // Set the user to determine if they are logged in
             User = _httpContextAccessor.HttpContext.User;
             // Try to get the GivenName
+
             var email =
                 _httpContextAccessor.HttpContext.User
                 .FindFirst(ClaimTypes.Email);
-            if (email != null)
-                _email = email.Value;
+            _email = email?.Value;
 
             // Try to get the Surname
             var surname =
                 _httpContextAccessor.HttpContext.User
                 .FindFirst(ClaimTypes.Surname);
-            if (surname != null)
-            {
-                Surname = surname.Value;
-            }
-            else
-            {
-                Surname = "";
-            }
+            _surname = surname?.Value;
+
             // Try to get Avatar
             var avatar =
-            _httpContextAccessor.HttpContext.User
-            .FindFirst("urn:google:image");
-            if (avatar != null)
-            {
-                Avatar = avatar.Value;
-            }
-            else
-            {
-                Avatar = "";
-            }
+                _httpContextAccessor.HttpContext.User
+                .FindFirst("urn:google:image");
+            _avatar = avatar?.Value;
         }
-        catch { }
+        catch
+        {
+        
+        }
     }
 }
