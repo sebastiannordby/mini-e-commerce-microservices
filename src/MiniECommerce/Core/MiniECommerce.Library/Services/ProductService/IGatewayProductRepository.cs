@@ -20,7 +20,7 @@ namespace MiniECommerce.Library.Services.ProductService
 
         public GatewayProductRepository(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient();
+            _httpClient = factory.CreateClient("GatewayClient");
         }
 
         public async Task<ProductView?> Find(Guid id)

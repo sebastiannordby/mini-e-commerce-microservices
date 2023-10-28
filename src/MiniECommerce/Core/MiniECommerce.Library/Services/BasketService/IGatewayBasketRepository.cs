@@ -33,7 +33,9 @@ namespace MiniECommerce.Library.Services.BasketService
 
             req.Headers.Accept.Add(new("application/json"));
 
-            var httpResponse = await _httpClientFactory.CreateClient().SendAsync(req);
+            var httpResponse = await _httpClientFactory
+                .CreateClient("GatewayClient")
+                .SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             if (string.IsNullOrWhiteSpace(jsonResponse))
                 return null;

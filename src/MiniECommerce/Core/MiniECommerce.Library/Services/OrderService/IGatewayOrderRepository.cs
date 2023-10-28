@@ -32,7 +32,9 @@ namespace MiniECommerce.Library.Services.OrderService
 
             req.Headers.Accept.Add(new("application/json"));
 
-            var httpResponse = await _httpClientFactory.CreateClient().SendAsync(req);
+            var httpResponse = await _httpClientFactory
+                .CreateClient("GatewayClient")
+                .SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
 
             return JsonSerializer.Deserialize<Guid>(jsonResponse, new JsonSerializerOptions()

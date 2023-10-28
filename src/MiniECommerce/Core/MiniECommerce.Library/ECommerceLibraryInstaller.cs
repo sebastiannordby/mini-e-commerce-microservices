@@ -59,8 +59,8 @@ namespace MiniECommerce.Authentication
         {
             builder.Services.AddScoped<IRequestIdService, RequestIdService>();
             builder.Services.AddScoped<OutgoingRequestHandler>();
-            builder.Services.AddHttpClient<HttpClient>()
-              .AddHttpMessageHandler(sp => sp.GetRequiredService<OutgoingRequestHandler>());
+            builder.Services.AddHttpClient("GatewayClient")
+              .AddHttpMessageHandler<OutgoingRequestHandler>();
         }
 
         public static void AddECommerceAuthentication(
