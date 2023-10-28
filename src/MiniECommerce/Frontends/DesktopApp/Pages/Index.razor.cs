@@ -24,6 +24,7 @@ namespace DesktopApp.Pages
         private decimal? _fromPricePerQuantity;
         private decimal? _toPricePerQuantity;
         private IEnumerable<string>? _categories;
+        private string _searchValue;
 
         private List<BasketItemView> _basketItems = new();
      

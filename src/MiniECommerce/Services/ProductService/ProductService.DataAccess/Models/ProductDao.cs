@@ -14,6 +14,7 @@ namespace ProductService.DataAccess.Models
         public string Description { get; set; }
         public string Category { get; set; }
         public decimal PricePerQuantity { get; set; }
+        public string ImageUri { get; set; }
 
         public ProductDao()
         {
@@ -26,7 +27,8 @@ namespace ProductService.DataAccess.Models
             string name,
             string description,
             string category,
-            decimal pricePerQuantity)
+            decimal pricePerQuantity,
+            string imageUri)
         {
             Id = id;
             Number = number;
@@ -34,13 +36,15 @@ namespace ProductService.DataAccess.Models
             Description = description;
             Category = category;
             PricePerQuantity = pricePerQuantity;
+            ImageUri = imageUri;
         }
 
         internal void Update(
             string name, 
             string description, 
             string category, 
-            decimal pricePerQuantity)
+            decimal pricePerQuantity,
+            string imageUri)
         {
             Name = name;
             Description = description;

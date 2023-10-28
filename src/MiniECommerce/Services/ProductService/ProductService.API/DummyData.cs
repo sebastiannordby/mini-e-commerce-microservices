@@ -27,11 +27,28 @@ namespace ProductService.API
                     Name = GetRandomProductName(random),
                     Category = GetRandomCategory(random),
                     Description = GetRandomDescription(random),
+                    ImageUri = GetRandomImageUri(random),
                     PricePerQuantity = 20 + random.Next(1, 2500)
                 });
             }
 
             context.SaveChanges();
+        }
+
+        private static string GetRandomImageUri(Random random)
+        {
+            string[] imageUris = {
+                "https://images.pexels.com/photos/704555/pexels-photo-704555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/4549416/pexels-photo-4549416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/1706694/pexels-photo-1706694.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/12021852/pexels-photo-12021852.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/159472/headphones-instagram-video-games-razer-159472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/2102416/pexels-photo-2102416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/15372903/pexels-photo-15372903/free-photo-of-teknologi-ryddig-premium-skrivebord.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                "https://images.pexels.com/photos/52608/pexels-photo-52608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            };
+
+            return imageUris[random.Next(imageUris.Length)];
         }
 
         internal static string GetRandomProductName(Random random)

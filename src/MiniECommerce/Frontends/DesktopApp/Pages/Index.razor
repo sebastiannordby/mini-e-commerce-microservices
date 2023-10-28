@@ -11,14 +11,22 @@
             <MudText Typo="Typo.h5" Class="mb-2">Products</MudText>
 
             <div class="d-flex align-items-center gap-2 p-2">
+                <MudTextField 
+                    Style="max-width:250px" 
+                    @bind-Value="@_searchValue" 
+                    OnKeyUp="FetchProducts"
+                    Immediate="true" 
+                    Label="Search" />
                 <MudNumericField 
                     @bind-Value="_fromPricePerQuantity" 
                     Label="From price" 
+                    OnKeyUp="FetchProducts"
                     Variant="Variant.Text" 
                     Min="0"  />
                 <MudNumericField 
                     @bind-Value="_toPricePerQuantity" 
                     Label="To price" 
+                    OnKeyUp="FetchProducts"
                     Variant="Variant.Text" 
                     Min="1"  />
                 <MudIconButton 
@@ -32,17 +40,28 @@
                     var isInBasket = _basketItems?
                         .Any(x => x.ProductId == product.Id) ?? false;
 
-                    <MudCard Class="d-flex flex-column" Style="width: 300px; height: 250px;">
+                    <MudCard 
+                        Class="d-flex flex-column" Style="width: 300px; height: 200px;">
                         <MudCardHeader>
                             <CardHeaderContent>
-                                <MudText Typo="Typo.h6">@product.Name</MudText>
+                                <MudText Typo="Typo.h6">
+                                    <MudHighlighter 
+                                        Text="@product.Name"
+                                        HighlightedText="@_searchValue"/>
+                                </MudText>
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText>ArticleNo: @product.Number</MudText>
-                            <MudText>Price: $@product.PricePerQuantity</MudText>
+                            <MudText>
+                                <MudHighlighter 
+                                    HighlightedText="@_searchValue"
+                                    Text=@($"Article#: {product.Number}") />
+                            </MudText>
+                                <MudHighlighter 
+                                    HighlightedText="@_searchValue"
+                                    Text=@($"Price: ${product.PricePerQuantity}") />
                         </MudCardContent>
-                        <MudCardActions Class="mt-auto">
+                        <MudCardActions Class="mt-auto justify-content-end">
                             <MudIconButton 
                                 OnClick="async() => await AddToBasket(product)"
                                 Disabled="isInBasket"
@@ -53,45 +72,45 @@
             </div>
         </div>
         <div class="p-2 ml-auto shadow rounded d-flex flex-column" style="width: 400px;">
-            @if(_basketItems != null && _basketItems.Any())
+            <MudList Style="overflow: auto;">
+                <MudListSubheader>
+                    <MudText Typo="Typo.h6">Basket</MudText>
+                </MudListSubheader>
+
+                @foreach(var item in _basketItems ?? new())
+                {
+                    <MudListItem>
+                        <MudCard Class="d-flex flex-column">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">@item.ProductName</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText>Price: $@item.PricePerQuantity</MudText>
+                                <MudText>Total: $@item.Total</MudText>
+                            </MudCardContent>
+                            <MudCardActions Class="mt-auto align-items-center">
+                                <MudText Class="mr-2">Quantity: @item.Quantity</MudText>
+                                <MudIconButton 
+                                    OnClick="async() => await IncreaseQuantity(item)"
+                                    Icon="@Icons.Material.Filled.Add" />
+                                <MudIconButton 
+                                    OnClick="async() => await IncreaseQuantity(item)"
+                                    Icon="@Icons.Material.Filled.Remove" />
+                            </MudCardActions>
+                        </MudCard>
+                    </MudListItem>
+                }
+            </MudList>
+
+            @if(_basketItems?.Any() == true)
             {
-                <MudList Style="overflow: auto;">
-                    <MudListSubheader>
-                        <MudText Typo="Typo.h6">Basket</MudText>
-                    </MudListSubheader>
-
-                    @foreach(var item in _basketItems)
-                    {
-                        <MudListItem>
-                            <MudCard Class="d-flex flex-column">
-                                <MudCardHeader>
-                                    <CardHeaderContent>
-                                        <MudText Typo="Typo.h6">@item.ProductName</MudText>
-                                    </CardHeaderContent>
-                                </MudCardHeader>
-                                <MudCardContent>
-                                    <MudText>Quantity: @item.Quantity</MudText>
-                                    <MudText>Price: $@item.PricePerQuantity</MudText>
-                                    <MudText>Total: $@item.Total</MudText>
-                                </MudCardContent>
-                                <MudCardActions Class="mt-auto">
-                                    <MudIconButton 
-                                        OnClick="async() => await IncreaseQuantity(item)"
-                                        Icon="@Icons.Material.Filled.Add" />
-                                    <MudIconButton 
-                                        OnClick="async() => await IncreaseQuantity(item)"
-                                        Icon="@Icons.Material.Filled.Remove" />
-                                </MudCardActions>
-                            </MudCard>
-                        </MudListItem>
-                    }
-                </MudList>
-
                 <MudButton 
                     Class="mt-auto"
                     Variant="Variant.Filled" 
                     Color="Color.Primary" 
-                    OnClick="StartOrder">Proceed</MudButton>
+                    OnClick="StartOrder">Start order</MudButton>
             }
         </div>
     </div>

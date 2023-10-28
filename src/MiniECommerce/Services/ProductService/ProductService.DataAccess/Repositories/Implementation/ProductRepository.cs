@@ -36,7 +36,8 @@ namespace ProductService.DataAccess.Repositories.Implementation
                 name: x.Name,
                 description: x.Description,
                 category: x.Category,
-                pricePerQuantity: x.PricePerQuantity
+                pricePerQuantity: x.PricePerQuantity,
+                imageUri: x.ImageUri
             );
         }
 
@@ -51,7 +52,8 @@ namespace ProductService.DataAccess.Repositories.Implementation
                 name: product.Name,
                 description: product.Description,
                 category: product.Category,
-                pricePerQuantity: product.PricePerQuantity); 
+                pricePerQuantity: product.PricePerQuantity,
+                imageUri: product.ImageUri); 
 
             await _dbContext.Products.AddAsync( productDao );
             await _dbContext.SaveChangesAsync();
@@ -73,7 +75,8 @@ namespace ProductService.DataAccess.Repositories.Implementation
                 product.Name,
                 product.Description,
                 product.Category,
-                product.PricePerQuantity);
+                product.PricePerQuantity,
+                imageUri: product.ImageUri);
 
             _dbContext.Products.Update(productDao);
             await _dbContext.SaveChangesAsync();

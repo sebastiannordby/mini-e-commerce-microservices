@@ -40,7 +40,7 @@ namespace ProductService.DataAccess.Repositories.Implementation
 
             if (toPricePerQuantity.HasValue)
                 query = query.Where(x =>
-                    x.PricePerQuantity >= toPricePerQuantity.Value);
+                    x.PricePerQuantity <= toPricePerQuantity.Value);
 
             if (categories?.Any() == true)
                 query = query.Where(x =>
@@ -59,7 +59,8 @@ namespace ProductService.DataAccess.Repositories.Implementation
                 name: dao.Name,
                 description: dao.Description,
                 category: dao.Category,
-                pricePerQuantity: dao.PricePerQuantity
+                pricePerQuantity: dao.PricePerQuantity,
+                imageUri: dao.ImageUri
             );
         }
     }

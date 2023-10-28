@@ -14,6 +14,7 @@ namespace ProductService.Library.Models
         public string Description { get; set; }
         public string Category { get; set; }
         public decimal PricePerQuantity { get; set; }
+        public string ImageUri { get; set; }
 
         public ProductDto()
         {
@@ -26,7 +27,8 @@ namespace ProductService.Library.Models
             string name,
             string description,
             string category,
-            decimal pricePerQuantity)
+            decimal pricePerQuantity,
+            string imageUri)
         {
             Id = id;
             Number = number;
@@ -34,6 +36,7 @@ namespace ProductService.Library.Models
             Description = description;
             Category = category;
             PricePerQuantity = pricePerQuantity;
+            ImageUri = imageUri;
         }
 
     }
