@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,24 +11,19 @@ namespace MiniECommerce.Library.Services.ProductService
 {
     public interface IGatewayProductRepository
     {
-        Task<ProductView?> Find(Guid id, Guid requestId);
+        Task<ProductView?> Find(Guid id);
     }
 
     internal sealed class GatewayProductRepository : IGatewayProductRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly AuthorizationHeaderService _authHeaderService;
+        private HttpClient _httpClient;
 
-        public GatewayProductRepository(
-            HttpClient httpClient,
-            AuthorizationHeaderService authHeaderService)
+        public GatewayProductRepository(IHttpClientFactory factory)
         {
-            _httpClient = httpClient;
-            _authHeaderService = authHeaderService;
+            _httpClient = factory.CreateClient();
         }
 
-        public async Task<ProductView?> Find(
-            Guid id, Guid requestId)
+        public async Task<ProductView?> Find(Guid id)
         {
             var req = new HttpRequestMessage()
             {
@@ -36,9 +32,6 @@ namespace MiniECommerce.Library.Services.ProductService
             };
 
             req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", requestId.ToString());
-            req.Headers.Add("Authorization", 
-                await _authHeaderService.GetAuthorizationHeaderValue());
 
             var httpResponse = await _httpClient.SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MiniECommerce.Library.Events.BasketService;
 using BasketService.Domain.Services;
 using MiniECommerce.Library.Events.OrderService;
+using MiniECommerce.Authentication.Services;
 
 namespace BasketService.Tests
 {
@@ -19,9 +20,10 @@ namespace BasketService.Tests
         {
             var harness = Services.GetRequiredService<ITestHarness>();
             var basketService = Services.GetRequiredService<IUserBasketService>();
+            var userService = Services.GetRequiredService<ICurrentUserService>();
 
             await harness.Start();
-            await basketService.AddToBasket(Guid.NewGuid(), "test@test.com", Guid.NewGuid());
+            await basketService.AddToBasket(userService.UserEmail, Guid.NewGuid());
             await harness.Stop();
 
             Assert.IsTrue(await harness.Published.Any<ProductAddedToBasketEvent>());
@@ -33,10 +35,11 @@ namespace BasketService.Tests
             var harness = Services.GetRequiredService<ITestHarness>();
             var basketService = Services.GetRequiredService<IUserBasketService>();
             var client = harness.GetRequestClient<OrderStartedEvent>();
+            var userService = Services.GetRequiredService<ICurrentUserService>();
 
             await harness.Start();
             var response = await client.GetResponse<BasketClearedEvent>(new OrderStartedEvent(
-                Guid.NewGuid(), "test@test.com", DateTime.Now));
+                Guid.NewGuid(), userService.UserEmail, DateTime.Now));
             await harness.Stop();
 
             Assert.NotNull(response.Message);
@@ -48,10 +51,11 @@ namespace BasketService.Tests
         {
             var harness = Services.GetRequiredService<ITestHarness>();
             var basketService = Services.GetRequiredService<IUserBasketService>();
+            var userService = Services.GetRequiredService<ICurrentUserService>();
 
             await harness.Start();
             await harness.Bus.Publish(new OrderStartedEvent(
-                Guid.NewGuid(), "test@test.com", DateTime.Now));
+                Guid.NewGuid(), userService.UserEmail, DateTime.Now));
             await harness.Stop();
 
             Assert.IsTrue(await harness.Consumed.Any<OrderStartedEvent>());

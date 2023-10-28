@@ -25,11 +25,10 @@ namespace BasketService.Domain.Services
             _bus = bus;
         }
 
-        public async Task<List<BasketItemView>> AddToBasket(
-            Guid requestId, string userEmail, Guid productId)
+        public async Task<List<BasketItemView>> AddToBasket(string userEmail, Guid productId)
         {
             var product = await _productRepository
-                .Find(productId, requestId);
+                .Find(productId);
             if (product == null)
                 throw new Exception("Product not found");
 

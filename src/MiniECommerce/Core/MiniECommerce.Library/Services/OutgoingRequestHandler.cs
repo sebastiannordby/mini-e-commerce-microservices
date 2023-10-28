@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using MiniECommerce.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +12,33 @@ namespace MiniECommerce.Authentication.Services
     internal class OutgoingRequestHandler : DelegatingHandler
     {
         private readonly IRequestIdService _requestIdService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly AuthorizationHeaderService _authorizationHeaderService;
+        private readonly ILogger<OutgoingRequestHandler> _logger;
 
         public OutgoingRequestHandler(
-            IRequestIdService requestIdService, 
-            IHttpContextAccessor httpContextAccessor)
+            //IRequestIdService requestIdService,
+            //AuthorizationHeaderService authorizationHeaderService,
+            ILogger<OutgoingRequestHandler> logger)
         {
-            _requestIdService = requestIdService;
-            _httpContextAccessor = httpContextAccessor;
+            //_requestIdService = requestIdService;
+            //_authorizationHeaderService = authorizationHeaderService;
+            _logger = logger;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Add("RequestId", 
-                _requestIdService.GetRequestIdStr()); 
+            Console.WriteLine("HELLO OUTGOING");
+            _logger.LogInformation("OUTGOING HIT FOR GOD SAKE");
+            //request.Headers.Add("RequestId", 
+            //    _requestIdService.GetRequestIdStr());
 
-            return base.SendAsync(request, cancellationToken);
+            //var authHeader = await _authorizationHeaderService
+            //    .GetAuthorizationHeaderValue();
+            //if (authHeader is not null)
+            //    request.Headers.Add("Authorization", authHeader);
+
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

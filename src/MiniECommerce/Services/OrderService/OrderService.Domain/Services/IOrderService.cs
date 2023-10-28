@@ -13,5 +13,6 @@ namespace OrderService.Domain.Services
         Task<Guid> Save(Order order);
         Task<int> GetNewNumber();
         Task<bool> HasOrderInProgress(string buyersEmailAddress);
+        Task<Guid?> GetStartedOrderId(string buyersEmailAddress);
     }
 }

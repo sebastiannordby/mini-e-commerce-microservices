@@ -10,7 +10,7 @@ namespace BasketService.Tests.Mocking.Repositories
 {
     internal class GatewayMockProductRepository : IGatewayProductRepository
     {
-        public Task<ProductView?> Find(Guid id, Guid requestId)
+        public Task<ProductView?> Find(Guid id)
         {
             return Task.FromResult<ProductView?>(new ProductView()
             {

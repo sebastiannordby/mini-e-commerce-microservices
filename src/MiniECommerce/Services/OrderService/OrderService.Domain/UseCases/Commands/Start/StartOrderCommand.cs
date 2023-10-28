@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace OrderService.Domain.UseCases.Commands.Start
 {
     public sealed record StartOrderCommand(
-        Guid RequestId,
         string BuyersFullName
     ) : IRequest<Guid>;
 }

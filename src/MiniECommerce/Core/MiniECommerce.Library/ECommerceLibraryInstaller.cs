@@ -57,11 +57,10 @@ namespace MiniECommerce.Authentication
         public static void AddCorrelationId(
             this WebApplicationBuilder builder)
         {
-            builder.Services.AddTransient<IRequestIdService, RequestIdService>();
-            builder.Services.AddTransient<OutgoingRequestHandler>();
+            builder.Services.AddScoped<IRequestIdService, RequestIdService>();
+            builder.Services.AddScoped<OutgoingRequestHandler>();
             builder.Services.AddHttpClient<HttpClient>()
-              .AddHttpMessageHandler<OutgoingRequestHandler>();
-            builder.Services.AddScoped<HttpClient>();
+              .AddHttpMessageHandler(sp => sp.GetRequiredService<OutgoingRequestHandler>());
         }
 
         public static void AddECommerceAuthentication(

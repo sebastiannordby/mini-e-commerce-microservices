@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OrderService.Library.Commands;
+using OrderService.Library.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,28 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
         ) : base(httpClient, httpContextAccessor)
         {
 
+        }
+
+        public async Task<OrderView?> Get(Guid orderId)
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"http://gateway/api/order-service/order/{orderId}")
+            };
+
+            return await Send<OrderView?>(req);
+        }
+
+        public async Task<Guid?> GetStartedOrder()
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://gateway/api/order-service/order/started-order")
+            };
+
+            return await Send<Guid?>(req);
         }
 
         public async Task<Guid> Start(StartOrderCommandDto command)

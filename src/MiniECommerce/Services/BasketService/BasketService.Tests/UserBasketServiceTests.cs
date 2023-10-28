@@ -30,11 +30,11 @@ namespace BasketService.Tests
 
             var basketWithOneItem = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
+                    nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
 
             var basketWithTwoItems = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
+                    nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
 
             var basketItems = (await userBasketService.GetBasket(
                 nameof(UserBasketServiceTests))).ToArray();
@@ -56,11 +56,11 @@ namespace BasketService.Tests
 
             var basketWithOneItem = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
+                    nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
 
             var basketWithTwoItems = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
+                    nameof(UserBasketServiceTests), Guid.NewGuid())).ToArray();
 
             var basketItemsBeforeClear = (await userBasketService.GetBasket(
                 nameof(UserBasketServiceTests))).ToArray();
@@ -94,7 +94,7 @@ namespace BasketService.Tests
 
             var initialBasket = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), productOneId)).ToArray();
+                    nameof(UserBasketServiceTests), productOneId)).ToArray();
 
             var initialProductQuantity = initialBasket
                 .Where(x => x.ProductId == productOneId)
@@ -129,7 +129,7 @@ namespace BasketService.Tests
 
             var initialBasket = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), productOneId)).ToArray();
+                    nameof(UserBasketServiceTests), productOneId)).ToArray();
 
             var initialProductQuantity = initialBasket
                 .Where(x => x.ProductId == productOneId)
@@ -177,7 +177,7 @@ namespace BasketService.Tests
 
             var initialBasket = (
                 await userBasketService.AddToBasket(
-                    Guid.NewGuid(), nameof(UserBasketServiceTests), productOneId)).ToArray();
+                    nameof(UserBasketServiceTests), productOneId)).ToArray();
 
             var initialProductQuantity = initialBasket
                 .Where(x => x.ProductId == productOneId)
