@@ -25,7 +25,7 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/api/order/{endpoint}",
+      "UpstreamPathTemplate": "/api/order-service/{endpoint}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/{endpoint}",
       "DownstreamScheme": "http",

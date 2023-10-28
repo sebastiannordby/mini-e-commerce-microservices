@@ -40,7 +40,16 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
                 RequestUri = new Uri("http://gateway/api/order-service/order/started-order")
             };
 
-            return await Send<Guid?>(req);
+            var res = await Send(req);
+            var content = await res.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(content))
+                return null;
+
+            if (!Guid.TryParse(content, out var orderId))
+                return null;
+
+            return orderId;
         }
 
         public async Task<Guid> Start(StartOrderCommandDto command)

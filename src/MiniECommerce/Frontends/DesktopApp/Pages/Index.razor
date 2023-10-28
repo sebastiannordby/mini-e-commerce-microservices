@@ -4,7 +4,15 @@
 @inject IHttpContextAccessor httpContextAccessor
 <PageTitle>Shop</PageTitle>
 
-@if(_products is not null)
+@if(!_initialized)
+{
+    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
+}
+else if(_currentOrder is not null)
+{
+    <h1>Order is here</h1>
+}
+else if(_products is not null)
 {
     <div class="d-flex gap-2 h-100 w-100 overflow-hidden p-2">
         <div class="p-2 h-100 d-flex flex-column w-100">
@@ -114,8 +122,4 @@
             }
         </div>
     </div>
-}
-else
-{
-    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
 }

@@ -15,6 +15,7 @@ using System.Security.Claims;
 using Microsoft.JSInterop;
 using MudBlazor;
 using static MudBlazor.CategoryTypes;
+using OrderService.Library.Models;
 
 namespace DesktopApp.Pages
 {
@@ -27,7 +28,9 @@ namespace DesktopApp.Pages
         private string? _searchValue;
 
         private List<BasketItemView> _basketItems = new();
-     
+        private OrderView _currentOrder;
+        private bool _initialized;
+
         private string UserEmail =>
             HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
@@ -36,6 +39,21 @@ namespace DesktopApp.Pages
         {
             await FetchProducts();
             await FetchBasket();
+            await TryFetchStartedOrder();
+            _initialized = true;
+        }
+
+        private async Task TryFetchStartedOrder()
+        {
+            var orderId = await OrderRepository.GetStartedOrder();
+            if (!orderId.HasValue)
+                return;
+
+            var order = await OrderRepository.Get(orderId.Value);
+            if (order is null)
+                return;
+
+            _currentOrder = order;
         }
 
         private async Task FetchBasket()

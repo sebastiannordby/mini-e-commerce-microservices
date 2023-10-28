@@ -29,14 +29,11 @@ namespace OrderService.API.Controllers
         }
 
         [HttpGet("started-order")]
-        public async Task<IActionResult> GetStartedOrder()
+        public async Task<Guid?> GetStartedOrder()
         {
-            var result = await _mediator.Send(
+            return await _mediator.Send(
                 new FindStartedOrderQuery());
-
-            return Ok(result);
         }
-
 
         [HttpPost("start")]
         public async Task<IActionResult> StartOrder(
