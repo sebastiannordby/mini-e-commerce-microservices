@@ -48,7 +48,7 @@ namespace MiniECommerce.Consumption.Repositories
                 .AddRetry(new()
                 {
                     MaxRetryAttempts = 3,
-                    Delay = TimeSpan.FromSeconds(3),
+                    Delay = TimeSpan.FromSeconds(3.5),
                     OnRetry = (retry) =>
                     {
                         Log.Information("Req({0}) Retry: {1} Uri: {2}",
