@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace ProductService.Domain.UseCases.Queries.List
 {
     public sealed record ListProductViewsQuery(
-        decimal? FromPricePerQuantity, 
-        decimal? ToPricePerQuantity, 
-        IEnumerable<string>? Categories
+        decimal? FromPricePerQuantity = null, 
+        decimal? ToPricePerQuantity = null, 
+        IEnumerable<string>? Categories = null
     ) : Query<IEnumerable<ProductView>>();
 }

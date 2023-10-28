@@ -25,7 +25,7 @@ namespace OrderService.Tests.Domain
         }
 
         [Test]
-        public void TestLoadOrder()
+        public void TestLoadInvalidOrderOrder()
         {
             var loadOrderService = Services.GetService<ILoadOrderService>();
 
@@ -68,6 +68,8 @@ namespace OrderService.Tests.Domain
             var order = await orderService.FindAsync(newOrderId);
 
             Assert.IsNotNull(order);
+            Assert.That((int)orderToSave.Status == (int)order.Status);
+            Assert.That(orderToSave.Number == order.Number);
         }
 
         [Test]

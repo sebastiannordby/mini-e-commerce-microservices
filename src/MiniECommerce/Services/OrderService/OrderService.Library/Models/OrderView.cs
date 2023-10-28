@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderService.Library.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,13 @@ namespace OrderService.Library.Models
     {
         public Guid Id { get; set; }
         public int Number { get; set; }
+        public OrderStatus Status { get; set; }
         public IEnumerable<OrderLine> Lines { get; set; }
 
         public OrderView(
             Guid id, 
             int number,
+            OrderStatus status,
             IEnumerable<OrderLine> lines)
         {
             Id = id;

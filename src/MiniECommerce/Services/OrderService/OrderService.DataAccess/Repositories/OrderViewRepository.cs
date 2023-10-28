@@ -21,8 +21,10 @@ namespace OrderService.DataAccess.Repositories
         public async Task<OrderView?> Find(Guid id)
         {
             var orderView = await (
-                from order in _dbContext.Orders.AsNoTracking()
-                
+                from order in _dbContext.Orders
+                    .AsNoTracking()
+                    .Where(x => x.Id == id)
+
                 let orderLines = _dbContext.OrderLines
                     .Where(x => x.OrderId == order.Id)
                     .Select(x => new OrderView.OrderLine(
@@ -36,6 +38,7 @@ namespace OrderService.DataAccess.Repositories
                 select new OrderView(
                     order.Id,
                     order.Number,
+                    order.Status,
                     orderLines)
             ).FirstOrDefaultAsync();
 

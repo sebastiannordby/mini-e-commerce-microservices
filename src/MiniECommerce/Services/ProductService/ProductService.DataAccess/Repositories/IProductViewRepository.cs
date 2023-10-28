@@ -11,8 +11,8 @@ namespace ProductService.DataAccess.Repositories
     {
         Task<ProductView?> Find(Guid productId);
         Task<IEnumerable<ProductView>> List(
-            decimal? fromPricePerQuantity, 
-            decimal? toPricePerQuantity, 
-            IEnumerable<string>? categories);
+            decimal? fromPricePerQuantity = null, 
+            decimal? toPricePerQuantity = null, 
+            IEnumerable<string>? categories = null);
     }
 }

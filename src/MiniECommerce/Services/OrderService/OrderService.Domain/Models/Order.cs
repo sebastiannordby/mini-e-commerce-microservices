@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation.Results;
 using System.Collections.Generic;
 using BasketService.Library;
+using OrderService.Library.Enumerations;
 
 namespace OrderService.Domain.Models 
 {
@@ -26,13 +27,6 @@ namespace OrderService.Domain.Models
         private IReadOnlyCollection<OrderLine> OrderLines => 
             _orderLines.AsReadOnly();
 
-        public enum OrderStatus
-        {
-            InFill = 0,
-            WaitingForConfirmation = 1,
-            Confirmed = 2,
-            Delivered = 3
-        }
 
         internal Order(
             int newNumber,

@@ -48,9 +48,9 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
         }
 
         public async Task<IEnumerable<ProductView>?> List(
-            decimal? fromPricePerQuantity,
-            decimal? toPricePerQuantity,
-            IEnumerable<string>? categories)
+            decimal? fromPricePerQuantity = null,
+            decimal? toPricePerQuantity = null,
+            IEnumerable<string>? categories = null)
         {
             var categoriesStringList = categories?.Any() == true ?
                 string.Join(",", categories) : null;

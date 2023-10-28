@@ -1,4 +1,5 @@
 ﻿using OrderService.Domain.Models;
+using OrderService.Library.Enumerations;
 using System.Net.Sockets;
 
 namespace OrderService.DataAccess.Models
@@ -7,7 +8,7 @@ namespace OrderService.DataAccess.Models
     {
         public Guid Id { get; private set; }
         public int Number { get; private set; }
-        public int Status { get; private set; }
+        public OrderStatus Status { get; private set; }
         public string BuyersFullName { get; private set; }
         public string BuyersEmailAddress { get; private set; }
         public string? AddressLine { get; private set; }
@@ -25,7 +26,7 @@ namespace OrderService.DataAccess.Models
         {
             Id = order.Id;
             Number = order.Number;
-            Status = (int) order.Status;
+            Status = order.Status;
             BuyersFullName = order.BuyersName;
             BuyersEmailAddress = order.BuyersEmailAddress;
             AddressLine = order.AddressLine;
@@ -37,7 +38,7 @@ namespace OrderService.DataAccess.Models
         internal void Update(Order order)
         {
             BuyersFullName = order.BuyersName;
-            Status = (int)order.Status;
+            Status = order.Status;
             AddressLine = order.AddressLine;
             PostalCode = order.PostalCode;
             PostalOffice = order.PostalOffice;
