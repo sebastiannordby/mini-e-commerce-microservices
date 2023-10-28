@@ -10,7 +10,7 @@ namespace OrderService.Tests.Repositories
 {
     internal class GatewayMockBasketRepository : IGatewayBasketRepository
     {
-        public async Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail)
+        public async Task<IEnumerable<BasketItemView>?> GetList(string userEmail)
         {
             return await Task.FromResult(new List<BasketItemView>() 
             {

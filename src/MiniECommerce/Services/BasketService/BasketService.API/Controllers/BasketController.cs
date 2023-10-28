@@ -39,7 +39,7 @@ namespace BasketService.API.Controllers
             [FromRoute] Guid productId)
         {
             return await _basketService.AddToBasket(
-                Request.GetRequestId(), _currentUserService.UserEmail, productId);
+                _currentUserService.UserEmail, productId);
         }
 
         [HttpPost("increase-quantity/{productId}")]

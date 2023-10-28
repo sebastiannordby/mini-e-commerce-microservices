@@ -10,23 +10,20 @@ namespace MiniECommerce.Library.Services.BasketService
 {
     public interface IGatewayBasketRepository
     {
-        Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail);
+        Task<IEnumerable<BasketItemView>?> GetList(string userEmail);
     }
 
     internal sealed class GatewayBasketRepository : IGatewayBasketRepository
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly AuthorizationHeaderService _authHeaderService;
 
-        public GatewayBasketRepository(
-            HttpClient httpClient, 
-            AuthorizationHeaderService authHeaderService)
+        public GatewayBasketRepository(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
-            _authHeaderService = authHeaderService;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<BasketItemView>?> GetList(Guid requestId, string userEmail)
+        public async Task<IEnumerable<BasketItemView>?> GetList(string userEmail)
         {
             var req = new HttpRequestMessage()
             {
@@ -35,11 +32,10 @@ namespace MiniECommerce.Library.Services.BasketService
             };
 
             req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", requestId.ToString());
-            req.Headers.Add("Authorization",
-                await _authHeaderService.GetAuthorizationHeaderValue());
 
-            var httpResponse = await _httpClient.SendAsync(req);
+            var httpResponse = await _httpClientFactory
+                .CreateClient("GatewayClient")
+                .SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             if (string.IsNullOrWhiteSpace(jsonResponse))
                 return null;

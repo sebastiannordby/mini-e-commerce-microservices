@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MiniECommerce.Authentication.Services;
 using OrderService.DataAccess.Models;
 using OrderService.Domain.Models;
 using OrderService.Domain.Services;
+using OrderService.Library.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +66,16 @@ namespace OrderService.DataAccess.Services
                 await takenNumbers.MaxAsync() + 1 : 1;  
         }
 
+        public async Task<Guid?> GetStartedOrderId(string buyersEmailAddress)
+        {
+            return await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .Select(x => (Guid?) x.Id)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> HasOrderInProgress(string buyersEmailAddress)
         {
             return await _dbContext.Orders
@@ -96,10 +108,6 @@ namespace OrderService.DataAccess.Services
             {
                 orderDao.Update(order);
                 await _dbContext.SaveChangesAsync();
-
-
-
-
             }
 
             return Guid.Empty;

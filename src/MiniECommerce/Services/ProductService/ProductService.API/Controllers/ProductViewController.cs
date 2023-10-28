@@ -38,8 +38,6 @@ namespace ProductService.API.Controllers
 
         [HttpGet("id/{productId}")]
         public async Task<ProductView?> ListViews([FromRoute] Guid productId)
-            => await _mediator.Send(
-                new FindProductViewByIdQuery(productId));
-
+            => await _mediator.Send(new FindProductViewByIdQuery(productId));
     }
 }

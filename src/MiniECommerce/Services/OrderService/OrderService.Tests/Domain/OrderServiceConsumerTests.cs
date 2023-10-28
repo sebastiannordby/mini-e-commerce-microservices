@@ -21,7 +21,6 @@ namespace OrderService.Tests.Domain
 
             await harness.Start();
             var orderId = await mediator.Send<Guid>(new StartOrderCommand(
-                Guid.Empty,
                 "Sebastian Norby"
             ));
             await harness.Stop();

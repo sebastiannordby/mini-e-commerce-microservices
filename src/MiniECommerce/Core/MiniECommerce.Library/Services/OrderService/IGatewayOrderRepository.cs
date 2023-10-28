@@ -10,36 +10,31 @@ namespace MiniECommerce.Library.Services.OrderService
 {
     public interface IGatewayOrderRepository
     {
-        Task<Guid> StartOrder(Guid requestId, StartOrderCommandDto command);
+        Task<Guid> StartOrder(StartOrderCommandDto command);
     }
 
     internal sealed class GatewayOrderRepository : IGatewayOrderRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly AuthorizationHeaderService _authHeaderService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public GatewayOrderRepository(
-            HttpClient httpClient,
-            AuthorizationHeaderService authHeaderService)
+        public GatewayOrderRepository(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
-            _authHeaderService = authHeaderService;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<Guid> StartOrder(Guid requestId, StartOrderCommandDto command)
+        public async Task<Guid> StartOrder(StartOrderCommandDto command)
         {
             var req = new HttpRequestMessage()
             {
                 RequestUri = new Uri(
-                $"http://gateway/api/order-service/order/place")
+                $"http://gateway/api/order-service/order/start")
             };
 
             req.Headers.Accept.Add(new("application/json"));
-            req.Headers.Add("RequestId", requestId.ToString());
-            req.Headers.Add("Authorization",
-                await _authHeaderService.GetAuthorizationHeaderValue());
 
-            var httpResponse = await _httpClient.SendAsync(req);
+            var httpResponse = await _httpClientFactory
+                .CreateClient("GatewayClient")
+                .SendAsync(req);
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
 
             return JsonSerializer.Deserialize<Guid>(jsonResponse, new JsonSerializerOptions()

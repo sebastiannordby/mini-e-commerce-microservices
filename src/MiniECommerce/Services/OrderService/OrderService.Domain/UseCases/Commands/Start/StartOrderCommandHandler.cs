@@ -41,8 +41,7 @@ namespace OrderService.Domain.UseCases.Commands.Start
                 request.BuyersFullName,
                 _currentUserService.UserEmail);
 
-            var basketItems = await _basketRepository.GetList(
-                request.RequestId, _currentUserService.UserEmail);
+            var basketItems = await _basketRepository.GetList(_currentUserService.UserEmail);
             if (basketItems == null)
                 throw new Exception("Could not retrieve basket items.");
 

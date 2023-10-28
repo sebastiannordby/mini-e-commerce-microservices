@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using OrderService.Domain;
 using OrderService.Domain.Services;
 using OrderService.Domain.Repositories;
+using MediatR;
+using OrderService.Domain.UseCases.Commands.Start;
 
 namespace OrderService.Tests.Domain
 {
