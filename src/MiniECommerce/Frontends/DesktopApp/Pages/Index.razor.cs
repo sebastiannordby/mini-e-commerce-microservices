@@ -37,23 +37,28 @@ namespace DesktopApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await FetchProducts();
-            await FetchBasket();
-            await TryFetchStartedOrder();
+            if(!await TryFetchStartedOrder())
+            {
+                await FetchProducts();
+                await FetchBasket();
+            }
+
             _initialized = true;
         }
 
-        private async Task TryFetchStartedOrder()
+        private async Task<bool> TryFetchStartedOrder()
         {
             var orderId = await OrderRepository.GetStartedOrder();
             if (!orderId.HasValue)
-                return;
+                return false;
 
             var order = await OrderRepository.Get(orderId.Value);
             if (order is null)
-                return;
+                return false;
 
             _currentOrder = order;
+
+            return order is not null;
         }
 
         private async Task FetchBasket()

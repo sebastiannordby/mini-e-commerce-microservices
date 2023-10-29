@@ -47,6 +47,21 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
             return res?.Data;
         }
 
+        public async Task<bool> SetAddress(SetOrderAddressCommandDto command)
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://gateway/api/order-service/order/set-address"),
+                Content = new StringContent(
+                    JsonSerializer.Serialize(command), Encoding.UTF8, "application/json")
+            };
+
+            var res = await Send<CommandResponse<bool>>(req);
+
+            return res?.Data ?? false;
+        }
+
         public async Task<Guid?> Start(StartOrderCommandDto command)
         {
             var req = new HttpRequestMessage()

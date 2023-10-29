@@ -9,6 +9,7 @@ using OrderService.Domain.UseCases.Queries.FindView;
 using OrderService.Domain.UseCases.Queries.FindStarted;
 using MiniECommerce.Library.Responses;
 using OrderService.Library.Models;
+using OrderService.Domain.UseCases.Commands.SetAddress;
 
 namespace OrderService.API.Controllers
 {
@@ -37,6 +38,24 @@ namespace OrderService.API.Controllers
                 new FindStartedOrderQuery());
 
             return Ok(new QueryResponse<Guid?>(result));
+        }
+
+
+        [HttpGet("set-address")]
+        public async Task<IActionResult> SetAddress(
+            [FromBody] SetOrderAddressCommandDto command)
+        {
+            if (command is null)
+                return BadRequest();
+
+            var result = await _mediator.Send(
+                new SetOrderAddressCommand(
+                    command.AddressLine,
+                    command.PostalCode,
+                    command.PostalOffice,
+                    command.Country));
+
+            return Ok(new QueryResponse<bool>(result));
         }
 
         [HttpPost("start")]

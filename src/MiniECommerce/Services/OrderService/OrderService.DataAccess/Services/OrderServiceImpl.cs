@@ -114,5 +114,27 @@ namespace OrderService.DataAccess.Services
 
             return Guid.Empty;
         }
+
+        public async Task<bool> SetAddress(
+            string buyersEmailAddress,
+            string addressLine, 
+            string postalCode, 
+            string postalOffice, 
+            string country)
+        {
+            await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(o => o.AddressLine, addressLine)
+                    .SetProperty(o => o.PostalCode, postalCode)
+                    .SetProperty(o => o.PostalOffice, postalOffice)
+                    .SetProperty(o => o.Country, country));
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

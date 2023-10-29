@@ -13,5 +13,6 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
         Task<OrderView?> Get(Guid orderId);
         Task<Guid?> Start(StartOrderCommandDto command);
         Task<Guid?> GetStartedOrder();
+        Task<bool> SetAddress(SetOrderAddressCommandDto command);
     }
 }

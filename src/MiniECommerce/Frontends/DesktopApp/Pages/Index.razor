@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authentication;
 @using Microsoft.AspNetCore.Authentication.Cookies;
+@using OrderService.Library.Enumerations;
 @inject IHttpContextAccessor httpContextAccessor
 <PageTitle>Shop</PageTitle>
 
@@ -10,7 +11,39 @@
 }
 else if(_currentOrder is not null)
 {
-    <h1>Order is here</h1>
+    <div class="d-flex flex-column h-100 w-100 p-2">
+        <MudText Typo="Typo.h5" Class="mb-2">
+            Fullfil your order to continue shopping
+        </MudText>
+
+        @{
+            var orderStatus = _currentOrder.Status;
+        }
+
+        <div class="d-flex gap-2">
+            <div>
+                <MudTimeline>
+                    <MudTimelineItem>
+                        <MudText>Order started</MudText>
+                    </MudTimelineItem>
+                    <MudTimelineItem>
+                        <MudText 
+                            Color="orderStatus == OrderStatus.InFill ? Color.Primary : Color.Default" 
+                            Align="Align.End">Fill in information</MudText>
+                    </MudTimelineItem>
+                    <MudTimelineItem>
+                        <MudText
+                            Color="orderStatus == OrderStatus.WaitingForConfirmation ? Color.Primary : Color.Default">
+                            Waiting for confirmation
+                        </MudText>
+                    </MudTimelineItem>
+                </MudTimeline>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
 }
 else if(_products is not null)
 {
