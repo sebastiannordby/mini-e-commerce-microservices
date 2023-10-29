@@ -76,3 +76,38 @@ else
         </MudDataGrid>
     </div>
 }
+
+<MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
+    @bind-IsVisible="_showSetOrderAddressDialog">
+    <TitleContent>
+        <h5 class="mb-0">Order - @_setOrderAddressDialog.Number</h5>
+    </TitleContent>
+    <DialogContent>
+        @if (_setOrderAddressDialog is not null)
+        {
+            <MudNumericField 
+                T="int" 
+                Disabled="true"
+                @bind-Value="_setOrderAddressDialog.Number" 
+                Label="Number" />
+            <MudTextField 
+                T="string" 
+                Disabled="true"
+                @bind-Text="_setOrderAddressCommand.AddressLine"
+                Label="AddressLine" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setOrderAddressCommand.PostalCode"
+                Label="PostalCode" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setOrderAddressCommand.PostalOffice"
+                Label="PostalOffice" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setOrderAddressCommand.Country"
+                Label="Country" />
+        } 
+    </DialogContent>
+</MudDialog>
