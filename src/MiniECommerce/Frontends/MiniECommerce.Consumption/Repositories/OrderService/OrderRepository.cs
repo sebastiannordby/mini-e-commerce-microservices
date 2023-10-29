@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MiniECommerce.Consumption.Responses;
 using OrderService.Library.Commands;
 using OrderService.Library.Models;
 using Serilog;
@@ -18,7 +19,6 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
             IHttpContextAccessor httpContextAccessor
         ) : base(httpClient, httpContextAccessor)
         {
-
         }
 
         public async Task<OrderView?> Get(Guid orderId)
@@ -29,7 +29,9 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
                 RequestUri = new Uri($"http://gateway/api/order-service/order/{orderId}")
             };
 
-            return await Send<OrderView?>(req);
+            var res = await Send<QueryResponse<OrderView?>>(req);
+
+            return res?.Data;
         }
 
         public async Task<Guid?> GetStartedOrder()
@@ -40,19 +42,12 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
                 RequestUri = new Uri("http://gateway/api/order-service/order/started-order")
             };
 
-            var res = await Send(req);
-            var content = await res.Content.ReadAsStringAsync();
+            var res = await Send<QueryResponse<Guid?>>(req);
 
-            if (string.IsNullOrWhiteSpace(content))
-                return null;
-
-            if (!Guid.TryParse(content, out var orderId))
-                return null;
-
-            return orderId;
+            return res?.Data;
         }
 
-        public async Task<Guid> Start(StartOrderCommandDto command)
+        public async Task<Guid?> Start(StartOrderCommandDto command)
         {
             var req = new HttpRequestMessage()
             {
@@ -62,7 +57,9 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
                     JsonSerializer.Serialize(command), Encoding.UTF8, "application/json")
             };
 
-            return await Send<Guid>(req);
+            var res = await Send<CommandResponse<Guid>>(req);
+
+            return res?.Data;
         }
     }
 }

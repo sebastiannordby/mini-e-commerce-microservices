@@ -11,7 +11,7 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
     public interface IOrderRepository
     {
         Task<OrderView?> Get(Guid orderId);
-        Task<Guid> Start(StartOrderCommandDto command);
+        Task<Guid?> Start(StartOrderCommandDto command);
         Task<Guid?> GetStartedOrder();
     }
 }

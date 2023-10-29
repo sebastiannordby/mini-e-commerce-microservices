@@ -7,6 +7,8 @@ using MiniECommece.APIUtilities;
 using MiniECommerce.Authentication.Services;
 using OrderService.Domain.UseCases.Queries.FindView;
 using OrderService.Domain.UseCases.Queries.FindStarted;
+using MiniECommerce.Library.Responses;
+using OrderService.Library.Models;
 
 namespace OrderService.API.Controllers
 {
@@ -25,14 +27,16 @@ namespace OrderService.API.Controllers
             var result = await _mediator.Send(
                 new FindOrderViewByIdQuery(id));
 
-            return Ok(result);
+            return Ok(new QueryResponse<OrderView?>(result));
         }
 
         [HttpGet("started-order")]
-        public async Task<Guid?> GetStartedOrder()
+        public async Task<IActionResult> GetStartedOrder()
         {
-            return await _mediator.Send(
+            var result = await _mediator.Send(
                 new FindStartedOrderQuery());
+
+            return Ok(new QueryResponse<Guid?>(result));
         }
 
         [HttpPost("start")]
@@ -43,7 +47,7 @@ namespace OrderService.API.Controllers
                 commandDto.BuyersFullName
             ));
 
-            return Ok(result);
+            return Ok(new CommandResponse<Guid>(result));
         }
     }
 }

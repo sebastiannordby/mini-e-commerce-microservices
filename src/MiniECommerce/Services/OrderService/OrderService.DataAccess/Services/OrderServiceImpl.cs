@@ -68,12 +68,14 @@ namespace OrderService.DataAccess.Services
 
         public async Task<Guid?> GetStartedOrderId(string buyersEmailAddress)
         {
-            return await _dbContext.Orders
+            var orderId = await _dbContext.Orders
                 .AsNoTracking()
                 .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
                 .Where(x => x.Status <= OrderStatus.Confirmed)
                 .Select(x => (Guid?) x.Id)
                 .FirstOrDefaultAsync();
+
+            return orderId;
         }
 
         public async Task<bool> HasOrderInProgress(string buyersEmailAddress)
