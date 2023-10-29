@@ -1,15 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OrderService.Domain.UseCases.Commands.Start;
 using OrderService.Library.Commands;
 using MiniECommece.APIUtilities;
 using MiniECommerce.Authentication.Services;
-using OrderService.Domain.UseCases.Queries.FindView;
-using OrderService.Domain.UseCases.Queries.FindStarted;
 using MiniECommerce.Library.Responses;
 using OrderService.Library.Models;
-using OrderService.Domain.UseCases.Commands.SetAddress;
+using OrderService.Domain.UseCases.UserBased.Queries.FindStarted;
+using OrderService.Domain.UseCases.UserBased.Queries.FindView;
+using OrderService.Domain.UseCases.UserBased.Commands.Start;
+using OrderService.Domain.UseCases.UserBased.Commands.SetAddress;
 
 namespace OrderService.API.Controllers
 {

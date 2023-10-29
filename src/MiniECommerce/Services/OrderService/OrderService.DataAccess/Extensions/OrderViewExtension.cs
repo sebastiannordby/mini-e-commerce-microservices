@@ -9,7 +9,7 @@ namespace OrderService.DataAccess.Extensions
         internal static IQueryable<OrderView> AsViewQuery(
             this IQueryable<OrderDao> query, OrderDbContext dbContext)
         {
-            var viewQuery = 
+            var viewQuery = (
                 from order in query.AsNoTracking()
 
                 let orderLines = dbContext.OrderLines
@@ -26,8 +26,14 @@ namespace OrderService.DataAccess.Extensions
                         order.Id,
                         order.Number,
                         order.Status,
+                        order.BuyersFullName,
+                        order.BuyersEmailAddress,
+                        order.AddressLine,
+                        order.PostalCode,
+                        order.PostalOffice,
+                        order.Country,
                         orderLines)
-                ;
+            );
 
             return viewQuery;
         }

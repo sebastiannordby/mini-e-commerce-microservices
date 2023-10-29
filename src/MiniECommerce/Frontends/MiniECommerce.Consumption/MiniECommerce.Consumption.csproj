@@ -21,8 +21,4 @@
     <ProjectReference Include="..\..\Services\ProductService\ProductService.Library\ProductService.Library.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\OrderService\Administration\" />
-  </ItemGroup>
-
 </Project>

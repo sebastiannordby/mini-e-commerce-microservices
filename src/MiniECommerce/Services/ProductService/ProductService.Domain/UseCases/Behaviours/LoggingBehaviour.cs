@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.UseCases.Behaviours
 {
-    public sealed class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public sealed class LoggingBehaviour<TRequest, TResponse> : 
+        IPipelineBehavior<TRequest, TResponse>
+        where TRequest : notnull
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {

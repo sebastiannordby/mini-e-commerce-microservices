@@ -1,0 +1,78 @@
+﻿@page "/order-management"
+@using OrderService.Library.Models;
+
+<MudText Typo="Typo.h5" Class="mb-2 mt-2">Order - management</MudText>
+
+@if(_orders is null)
+{
+    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
+}
+else
+{
+    <div class="d-flex flex-column gap-2 h-100 w-100">
+        <MudPaper Elevation="25">
+            <MudToolBar>
+                <MudIconButton 
+                    Title="Add" 
+                    Icon="@Icons.Material.Outlined.Add"/>
+            </MudToolBar>
+        </MudPaper>
+
+        <MudDataGrid 
+            Items="_orders" 
+            Filterable="true"
+            FixedHeader="true"
+            Hover="true"
+            Height="100%"
+            Outlined="true"
+            RowsPerPage="20"
+            HorizontalScrollbar="true"
+            Groupable="true">
+            <Columns>
+                <PropertyColumn 
+                    Property="x => x.Number" 
+                    Title="Nr" />
+                <PropertyColumn 
+                    Property="x => x.Status" 
+                    Title="Status" />
+                <PropertyColumn 
+                    Property="x => x.BuyersFullName" 
+                    Title="BuyersFullName" />
+                <PropertyColumn 
+                    Property="x => x.BuyersEmailAddress"
+                    Title="BuyersEmailAddress" />
+                <PropertyColumn 
+                    Property="x => x.AddressLine" 
+                    Title="AddressLine" />
+                <PropertyColumn 
+                    Property="x => x.PostalCode" 
+                    Title="PostalCode" />
+                <PropertyColumn 
+                    Property="x => x.PostalOffice" 
+                    Title="PostalOffice" />
+                <PropertyColumn 
+                    Property="x => x.Country"
+                    Title="Country" />
+                <PropertyColumn 
+                    Property="x => x">
+                    <CellTemplate>
+                        <MudMenu Label="Actions">
+                            <MudMenuItem OnClick="() => ShowSetAddressDialog(context.Item)">
+                               Set address
+                            </MudMenuItem>
+                            <MudMenuItem OnClick="async() => await ConfirmOrder(context.Item)">
+                                Confirm
+                            </MudMenuItem>
+                        </MudMenu>
+                    </CellTemplate>
+                </PropertyColumn>
+            </Columns>
+
+            <PagerContent>
+                <MudDataGridPager 
+                    T="OrderView" 
+                    PageSizeOptions=@(new int[] {10, 25, 50, 100, 150, 200 }) />
+            </PagerContent>
+        </MudDataGrid>
+    </div>
+}

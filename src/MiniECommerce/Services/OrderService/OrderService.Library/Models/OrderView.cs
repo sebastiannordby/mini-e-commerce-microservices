@@ -12,16 +12,35 @@ namespace OrderService.Library.Models
         public Guid Id { get; set; }
         public int Number { get; set; }
         public OrderStatus Status { get; set; }
+        public string BuyersFullName { get; private set; }
+        public string BuyersEmailAddress { get; private set; }
+        public string? AddressLine { get; private set; }
+        public string? PostalCode { get; private set; }
+        public string? PostalOffice { get; private set; }
+        public string? Country { get; private set; }
         public IEnumerable<OrderLine> Lines { get; set; }
 
         public OrderView(
             Guid id, 
             int number,
             OrderStatus status,
+            string buyersFullName,
+            string buyersEmailAddress,
+            string? addressLine,
+            string? postalCode,
+            string? postalOffice,
+            string? country,
             IEnumerable<OrderLine> lines)
         {
             Id = id;
             Number = number;
+            Status = status;
+            BuyersFullName = buyersFullName;
+            BuyersEmailAddress = buyersEmailAddress;
+            AddressLine = addressLine;
+            PostalCode = postalCode;
+            PostalOffice = postalOffice;
+            Country = country;
             Lines = lines;
         }
 

@@ -1,7 +1,7 @@
 ﻿@page "/product-management"
 @using ProductService.Library.Models;
 
-<h1>Product Management</h1>
+<MudText Typo="Typo.h5" Class="mb-2 mt-2">Product - management</MudText>
 
 @if(_products == null)
 {
@@ -26,6 +26,7 @@ else
             Hover="true"
             Outlined="true"
             RowsPerPage="20"
+            Height="100%"
             HorizontalScrollbar="true"
             Groupable="true">
             <Columns>
