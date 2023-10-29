@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Queries.FindView
+namespace OrderService.Domain.UseCases.UserBased.Queries.FindView
 {
     public sealed class FindOrderViewByIdQuery : IRequest<OrderView?>
     {

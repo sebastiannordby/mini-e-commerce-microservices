@@ -2,14 +2,14 @@
 using MassTransit.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using MiniECommerce.Library.Events.OrderService;
-using OrderService.Domain.UseCases.Commands.Start;
+using OrderService.Domain.UseCases.UserBased.Commands.Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Tests.Domain
+namespace OrderService.Tests.Domain.UserBased
 {
     public class OrderServiceConsumerTests : BaseOrderServiceTest
     {
@@ -20,7 +20,7 @@ namespace OrderService.Tests.Domain
             var mediator = Services.GetRequiredService<MediatR.IMediator>();
 
             await harness.Start();
-            var orderId = await mediator.Send<Guid>(new StartOrderCommand(
+            var orderId = await mediator.Send(new StartOrderCommand(
                 "Sebastian Norby"
             ));
             await harness.Stop();

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Commands.SetAddress
+namespace OrderService.Domain.UseCases.UserBased.Commands.SetAddress
 {
     public sealed record SetOrderAddressCommand(
         string AddressLine,

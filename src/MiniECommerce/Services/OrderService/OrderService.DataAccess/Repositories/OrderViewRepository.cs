@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderService.DataAccess.Extensions;
 using OrderService.Domain.Repositories;
 using OrderService.Library.Models;
 using System;
@@ -20,27 +21,10 @@ namespace OrderService.DataAccess.Repositories
 
         public async Task<OrderView?> Find(Guid id)
         {
-            var orderView = await (
-                from order in _dbContext.Orders
-                    .AsNoTracking()
-                    .Where(x => x.Id == id)
-
-                let orderLines = _dbContext.OrderLines
-                    .Where(x => x.OrderId == order.Id)
-                    .Select(x => new OrderView.OrderLine(
-                        x.Number,
-                        x.ProductId,
-                        x.ProductDescription,
-                        x.Quantity,
-                        x.PricePerQuantity
-                    )).ToList()
-
-                select new OrderView(
-                    order.Id,
-                    order.Number,
-                    order.Status,
-                    orderLines)
-            ).FirstOrDefaultAsync();
+            var orderView = await _dbContext.Orders
+                .Where(x => x.Id == id)
+                .AsViewQuery(_dbContext)
+                .FirstOrDefaultAsync();
 
             return orderView;
         }

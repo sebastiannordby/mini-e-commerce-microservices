@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Repositories;
 using OrderService.Domain.Repositories;
+using OrderService.DataAccess.Repositories.Administration;
 
 namespace OrderService.DataAccess
 {
@@ -25,7 +26,8 @@ namespace OrderService.DataAccess
                 .AddDbContextFactory<OrderDbContext>(
                     efContextBuilderDelegate)
                 .AddScoped<IOrderViewRepository, OrderViewRepository>()
-                .AddScoped<IOrderService, OrderServiceImpl>();
+                .AddScoped<IOrderService, OrderServiceImpl>()
+                .AddScoped<IAdminOrderViewRepository, AdminOrderViewRepository>();
         }
     }
 }

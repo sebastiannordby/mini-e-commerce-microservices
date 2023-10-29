@@ -11,9 +11,8 @@ using OrderService.Domain;
 using OrderService.Domain.Services;
 using OrderService.Domain.Repositories;
 using MediatR;
-using OrderService.Domain.UseCases.Commands.Start;
 
-namespace OrderService.Tests.Domain
+namespace OrderService.Tests.Domain.UserBased
 {
     public class OrderTests : BaseOrderServiceTest
     {
@@ -31,7 +30,7 @@ namespace OrderService.Tests.Domain
         {
             var loadOrderService = Services.GetRequiredService<ILoadOrderService>();
 
-            Assert.ThrowsAsync<ValidationException>(async() =>
+            Assert.ThrowsAsync<ValidationException>(async () =>
             {
                 await loadOrderService.LoadAsync(
                     id: Guid.Empty,

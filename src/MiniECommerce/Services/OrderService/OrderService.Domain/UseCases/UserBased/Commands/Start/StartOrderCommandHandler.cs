@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Commands.Start
+namespace OrderService.Domain.UseCases.UserBased.Commands.Start
 {
     public sealed class StartOrderCommandHandler : IRequestHandler<StartOrderCommand, Guid>
     {

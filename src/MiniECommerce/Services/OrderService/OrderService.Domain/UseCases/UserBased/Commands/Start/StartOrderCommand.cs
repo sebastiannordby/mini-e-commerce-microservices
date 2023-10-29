@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Commands.Start
+namespace OrderService.Domain.UseCases.UserBased.Commands.Start
 {
     public sealed record StartOrderCommand(
         string BuyersFullName

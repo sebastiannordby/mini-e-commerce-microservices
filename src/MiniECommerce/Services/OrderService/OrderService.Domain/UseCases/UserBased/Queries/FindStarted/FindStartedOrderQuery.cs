@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Queries.FindStarted
+namespace OrderService.Domain.UseCases.UserBased.Queries.FindStarted
 {
     public sealed record FindStartedOrderQuery : IRequest<Guid?>;
 }

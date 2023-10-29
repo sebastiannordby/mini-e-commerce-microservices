@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Commands.SetAddress
+namespace OrderService.Domain.UseCases.UserBased.Commands.SetAddress
 {
     public class SetOrderAddressCommandHandler : IRequestHandler<SetOrderAddressCommand, bool>
     {
@@ -16,7 +16,7 @@ namespace OrderService.Domain.UseCases.Commands.SetAddress
         private readonly ICurrentUserService _currentUserService;
 
         public SetOrderAddressCommandHandler(
-            IOrderService orderService, 
+            IOrderService orderService,
             ICurrentUserService currentUserService)
         {
             _orderService = orderService;
