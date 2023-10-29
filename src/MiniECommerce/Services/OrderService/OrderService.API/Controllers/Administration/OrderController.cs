@@ -7,11 +7,11 @@ using OrderService.Library.Models;
 
 namespace OrderService.API.Controllers.Administration
 {
-    public class AdminOrderController : AdminOrderServiceController
+    public class OrderController : AdminOrderServiceController
     {
         private readonly IMediator _mediator;
 
-        public AdminOrderController(IMediator mediator)
+        public OrderController(IMediator mediator)
         {
             _mediator = mediator;
         }
