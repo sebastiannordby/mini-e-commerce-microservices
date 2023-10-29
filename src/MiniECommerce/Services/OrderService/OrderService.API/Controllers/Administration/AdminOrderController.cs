@@ -20,7 +20,7 @@ namespace OrderService.API.Controllers.Administration
         public async Task<IActionResult> List()
         {
             var res = await _mediator.Send(
-                new ListOrderViersQuery());
+                new ListOrderViewsQuery());
 
             return Ok(new QueryResponse<IEnumerable<OrderView>>(res));
         }

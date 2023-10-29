@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.UseCases.Administration.Queries.ListOrders
 {
-    public sealed class ListOrderViersQueryHandler : IRequestHandler<ListOrderViersQuery, IEnumerable<OrderView>?>
+    public sealed class ListOrderViewsQueryHandler : IRequestHandler<ListOrderViewsQuery, IEnumerable<OrderView>?>
     {
         private readonly IAdminOrderViewRepository _adminViewRepository;
 
-        public ListOrderViersQueryHandler(
+        public ListOrderViewsQueryHandler(
             IAdminOrderViewRepository adminViewRepository)
         {
             _adminViewRepository = adminViewRepository;
         }
 
-        public async Task<IEnumerable<OrderView>?> Handle(ListOrderViersQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<OrderView>?> Handle(ListOrderViewsQuery request, CancellationToken cancellationToken)
         {
             return await _adminViewRepository.List();
         }

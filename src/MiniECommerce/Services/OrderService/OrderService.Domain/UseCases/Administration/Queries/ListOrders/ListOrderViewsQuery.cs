@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.UseCases.Administration.Queries.ListOrders
 {
-    public sealed record ListOrderViersQuery(
+    public sealed record ListOrderViewsQuery(
         IEnumerable<OrderStatus>? Statuses = null
     ) : IRequest<IEnumerable<OrderView>>;
 }
