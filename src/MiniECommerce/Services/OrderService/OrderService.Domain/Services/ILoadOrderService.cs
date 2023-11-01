@@ -1,4 +1,5 @@
 ﻿using OrderService.Domain.Models;
+using OrderService.Library.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace OrderService.Domain.Services
         Task<Order> LoadAsync(
             Guid id,
             int number,
+            OrderStatus status,
             string buyersName,
             string buyersEmailAddress,
             string? addressLine,

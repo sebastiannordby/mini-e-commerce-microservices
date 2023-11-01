@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using OrderService.Domain.Models;
 using OrderService.Domain.Services;
+using OrderService.Library.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace OrderService.Domain.Services.Implementation
         public async Task<Order> LoadAsync(
             Guid id, 
             int number,
+            OrderStatus status,
             string buyersName,
             string buyersEmailAddress,
             string? addressLine,
@@ -26,6 +28,7 @@ namespace OrderService.Domain.Services.Implementation
             var order = new Order(
                 id: id,
                 number: number,
+                status: status,
                 buyersName: buyersName,
                 buyersEmailAddress: buyersEmailAddress,
                 addressLine: addressLine,

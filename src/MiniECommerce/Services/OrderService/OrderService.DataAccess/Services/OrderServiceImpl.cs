@@ -46,6 +46,7 @@ namespace OrderService.DataAccess.Services
             var order = await _loadOrderService.LoadAsync(
                 id: orderDao.Id,
                 number: orderDao.Number, 
+                status: orderDao.Status,
                 buyersName: orderDao.BuyersFullName,
                 buyersEmailAddress: orderDao.BuyersEmailAddress,
                 addressLine: orderDao.AddressLine,

@@ -42,6 +42,7 @@ namespace OrderService.Domain.Models
         internal Order(
             Guid id,
             int number,
+            OrderStatus status,
             string buyersName,
             string buyersEmailAddress,
             string? addressLine,
@@ -52,6 +53,7 @@ namespace OrderService.Domain.Models
         {
             Id = id;
             Number = number;
+            Status = status;
             BuyersName = buyersName;
             BuyersEmailAddress = buyersEmailAddress;
             AddressLine = addressLine;

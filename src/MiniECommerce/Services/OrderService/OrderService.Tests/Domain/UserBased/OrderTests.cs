@@ -11,6 +11,7 @@ using OrderService.Domain;
 using OrderService.Domain.Services;
 using OrderService.Domain.Repositories;
 using MediatR;
+using OrderService.Library.Enumerations;
 
 namespace OrderService.Tests.Domain.UserBased
 {
@@ -35,6 +36,7 @@ namespace OrderService.Tests.Domain.UserBased
                 await loadOrderService.LoadAsync(
                     id: Guid.Empty,
                     number: -1,
+                    status: OrderStatus.InFill,
                     buyersName: string.Empty,
                     buyersEmailAddress: string.Empty,
                     addressLine: null,
