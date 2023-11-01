@@ -106,6 +106,34 @@ namespace OrderService.Domain.Models
             return orderLine;
         }
 
+        internal void SetAddress(
+            string addressLine, 
+            string postalCode, 
+            string postalOffice, 
+            string country)
+        {
+            AddressLine = addressLine;
+            PostalOffice = postalOffice;
+            PostalCode = postalCode;
+            Country = country;
+        }
+
+        internal void Confirm()
+        {
+            if (Status != OrderStatus.WaitingForConfirmation)
+                throw new Exception("Cannot confirm an order thats not waiting for confirmation.");
+
+            Status = OrderStatus.Confirmed;
+        }
+
+        internal void SetWaitingForConfirmation()
+        {
+            if (Status != OrderStatus.InFill)
+                throw new Exception("Cannot set to waiting for confirmation, when status is not InFill.");
+
+            Status = OrderStatus.WaitingForConfirmation;
+        }
+
         public class OrderLine
         {
             public Guid Id { get; set; }

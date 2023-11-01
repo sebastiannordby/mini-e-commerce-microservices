@@ -17,8 +17,4 @@
     <ProjectReference Include="..\OrderService.Library\OrderService.Library.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Administration\Commands\" />
-  </ItemGroup>
-
 </Project>

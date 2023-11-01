@@ -8,6 +8,7 @@ namespace OrderService.Library.Commands
 {
     public sealed class SetOrderAddressCommandDto
     {
+        public Guid OrderId { get; set; }
         public string AddressLine { get; set; }
         public string PostalCode { get; set; }
         public string PostalOffice { get; set; }
@@ -19,11 +20,13 @@ namespace OrderService.Library.Commands
         }
 
         public SetOrderAddressCommandDto(
+            Guid orderId,
             string addressLine,
             string postalCode,
             string postalOffice,
             string country)
         {
+            OrderId = orderId;
             AddressLine = addressLine;
             PostalCode = postalCode;
             PostalOffice = postalOffice;

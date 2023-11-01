@@ -1,4 +1,5 @@
 ﻿@page "/order-management"
+@using OrderService.Library.Enumerations;
 @using OrderService.Library.Models;
 
 <MudText Typo="Typo.h5" Class="mb-2 mt-2">Order - management</MudText>
@@ -60,14 +61,20 @@ else
                             <MudMenuItem OnClick="() => ShowSetAddressDialog(context.Item)">
                                Set address
                             </MudMenuItem>
-                            <MudMenuItem OnClick="async() => await ConfirmOrder(context.Item)">
-                                Confirm
+                            <MudMenuItem 
+                                Disabled="context.Item.Status != OrderStatus.InFill"
+                                OnClick="async() => await SetToWaitingForConfirmation(context.Item)">
+                                Set to waiting for confirmation
+                            </MudMenuItem>
+                            <MudMenuItem 
+                                Disabled="context.Item.Status != OrderStatus.WaitingForConfirmation"
+                                OnClick="async() => await ConfirmOrder(context.Item)">
+                                Set to confirmed
                             </MudMenuItem>
                         </MudMenu>
                     </CellTemplate>
                 </PropertyColumn>
             </Columns>
-
             <PagerContent>
                 <MudDataGridPager 
                     T="OrderView" 
@@ -81,10 +88,13 @@ else
     Options="new(){ CloseButton = true, NoHeader = false }"
     @bind-IsVisible="_showSetOrderAddressDialog">
     <TitleContent>
-        <h5 class="mb-0">Order - @_setOrderAddressDialog.Number</h5>
+        @if (_setOrderAddressDialog is not null)
+        {
+            <h5 class="mb-0">Order - @_setOrderAddressDialog.Number</h5>
+        }
     </TitleContent>
     <DialogContent>
-        @if (_setOrderAddressDialog is not null)
+        @if (_setOrderAddressCommand is not null && _setOrderAddressDialog is not null)
         {
             <MudNumericField 
                 T="int" 
@@ -110,4 +120,7 @@ else
                 Label="Country" />
         } 
     </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="ExecuteSetAddress">Update</MudButton>
+    </DialogActions>
 </MudDialog>

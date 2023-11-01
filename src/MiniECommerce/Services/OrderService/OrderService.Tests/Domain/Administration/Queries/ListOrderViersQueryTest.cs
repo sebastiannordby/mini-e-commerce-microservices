@@ -18,7 +18,7 @@ namespace OrderService.Tests.Domain.Administration.Queries
         {
             var mediator = Services.GetRequiredService<IMediator>();
 
-            var res = await mediator.Send(new ListOrderViewsQuery(
+            var res = await mediator.Send(new AdmListOrderViewsQuery(
                 
             ));
 
@@ -42,7 +42,7 @@ namespace OrderService.Tests.Domain.Administration.Queries
             var order1Id = await orderService.Save(order1ToSave);
             var order2Id = await orderService.Save(order2ToSave);
 
-            var res = await mediator.Send(new ListOrderViewsQuery(
+            var res = await mediator.Send(new AdmListOrderViewsQuery(
 
             ));
 
