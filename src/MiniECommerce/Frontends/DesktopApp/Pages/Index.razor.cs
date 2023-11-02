@@ -14,35 +14,38 @@ using OrderService.Library.Commands;
 using System.Security.Claims;
 using Microsoft.JSInterop;
 using MudBlazor;
-using static MudBlazor.CategoryTypes;
 using OrderService.Library.Models;
+using static MudBlazor.CategoryTypes;
+using ComponentBase = Microsoft.AspNetCore.Components.ComponentBase;
 
 namespace DesktopApp.Pages
 {
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class Index : ComponentBase
     {
         private IEnumerable<ProductView> _products = Enumerable.Empty<ProductView>();
+        private IEnumerable<BasketItemView> _basketItems = Enumerable.Empty<BasketItemView>();
+
+        private IEnumerable<IGrouping<string, ProductView>> _productGrouping => 
+            _products.GroupBy(x => x.Category);
+        
         private decimal? _fromPricePerQuantity;
         private decimal? _toPricePerQuantity;
         private IEnumerable<string>? _categories;
         private string? _searchValue;
 
-        private List<BasketItemView> _basketItems = new();
         private OrderView _currentOrder;
         private bool _initialized;
 
         private string UserEmail =>
             HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
-
         protected override async Task OnInitializedAsync()
         {
-            if(!await TryFetchStartedOrder())
-            {
-                await FetchProducts();
-                await FetchBasket();
-            }
+            if (await TryFetchStartedOrder())
+                return;
 
+            await FetchProducts();
+            await FetchBasket();
             _initialized = true;
         }
 
@@ -52,67 +55,36 @@ namespace DesktopApp.Pages
             if (!orderId.HasValue)
                 return false;
 
-            var order = await OrderRepository.Get(orderId.Value);
-            if (order is null)
-                return false;
+            NavigationManager.NavigateTo("/order");
 
-            _currentOrder = order;
-
-            return order is not null;
-        }
-
-        private async Task FetchBasket()
-        {
-            _basketItems = await BasketRepository.GetBasket();
+            return true;
         }
 
         private async Task FetchProducts()
         {
             _products = await ProductRepository.List(
-                _fromPricePerQuantity, _toPricePerQuantity, _categories) ?? new List<ProductView>();
+                _fromPricePerQuantity, _toPricePerQuantity, _categories) ?? Enumerable.Empty<ProductView>();
+        }
+
+        private async Task FetchBasket()
+        {
+            _basketItems = await BasketRepository.GetBasket() ?? Enumerable.Empty<BasketItemView>();
         }
 
         private async Task AddToBasket(ProductView product)
         {
-            _basketItems = await BasketRepository
+            await BasketRepository
                 .AddToBasket(product.Id);
             Snackbar.Add($"{product.Name} added to basket.");
-        }
-
-        private async Task IncreaseQuantity(BasketItemView item)
-        {
-            _basketItems = await BasketRepository
-                .IncreaseQuantity(item.ProductId);
-            Snackbar.Add($"{item.ProductName} increased quantity.");
-        }
-
-        private async Task DecreaseQuantity(BasketItemView item)
-        {
-            _basketItems = await BasketRepository
-                .DecreaseQuantity(item.ProductId);
-            Snackbar.Add($"{item.ProductName} decreased quantity.");
-        }
-
-        private async Task StartOrder()
-        {
-            var fullName = await JSRuntime.InvokeAsync<string>("prompt", "Your full name");
-            if (string.IsNullOrWhiteSpace(fullName))
-                return;
-
-            var orderId = await OrderRepository.Start(new StartOrderCommandDto()
-            {
-                BuyersEmailAddress = UserEmail,
-                BuyersFullName = fullName 
-            });
-
-            Snackbar.Add("Order started.");
+            NavigationManager.NavigateTo("/basket");
         }
 
         [Inject] public required IJSRuntime JSRuntime { get; set; }
         [Inject] public required IHttpContextAccessor HttpContextAccessor { get; set; }
         [Inject] public required IOrderRepository OrderRepository { get; set; }
-        [Inject] public required IBasketRepository BasketRepository { get; set; }
         [Inject] public required IProductRepository ProductRepository { get; set; }
         [Inject] public required ISnackbar Snackbar { get; set; }
+        [Inject] public required IBasketRepository BasketRepository { get; set; }
+        [Inject] public required NavigationManager NavigationManager { get; set; }
     }
 }

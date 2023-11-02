@@ -3,56 +3,37 @@
 @inject IHttpContextAccessor _httpContextAccessor
 @inject HttpClient Http
 
-<div class="d-flex align-items-center gap-2 ml-auto">
+<div class="d-flex align-items-center gap-2">
     @if (!string.IsNullOrWhiteSpace(_email))
     {
-        <img src="@_avatar" />
         <b class="text-white">@_email</b>
-        <a class="ml-md-auto text-white"
-           href="/Identity/Logout"
-           target="_top">Logout</a>
+        <MudIconButton 
+            Href="/Identity/Logout" 
+            Style="color: white; fill : white;"
+            Icon="@Icons.Material.Filled.Logout" />
     }
-
-    <a class="ml-md-auto text-white"
-       href="/Identity/Login"
-       target="_top">Login</a>
 </div>
 
-
 @code {
-    private ClaimsPrincipal User;
+    private ClaimsPrincipal? _user;
     private string? _email;
     private string? _surname;
     private string? _avatar;
 
     protected override void OnInitialized()
     {
-        try
+        _user = _httpContextAccessor?.HttpContext?.User;
+
+        _email = _user?.FindFirst(ClaimTypes.Email)?.Value;
+        if (string.IsNullOrWhiteSpace(_email))
         {
-            // Set the user to determine if they are logged in
-            User = _httpContextAccessor.HttpContext.User;
-            // Try to get the GivenName
-
-            var email =
-                _httpContextAccessor.HttpContext.User
-                .FindFirst(ClaimTypes.Email);
-            _email = email?.Value;
-
-            // Try to get the Surname
-            var surname =
-                _httpContextAccessor.HttpContext.User
-                .FindFirst(ClaimTypes.Surname);
-            _surname = surname?.Value;
-
-            // Try to get Avatar
-            var avatar =
-                _httpContextAccessor.HttpContext.User
-                .FindFirst("urn:google:image");
-            _avatar = avatar?.Value;
+            NavigationManager.NavigateTo("/Identity/Login");
+            return;
         }
-        catch
-        {
-        
-        }
+
+        _surname = _user?.FindFirst(ClaimTypes.Surname)?.Value;
+        _avatar = _user?.FindFirst("urn:google:image")?.Value;
     }
+
+    [Inject] public required NavigationManager NavigationManager { get; set; }
 }

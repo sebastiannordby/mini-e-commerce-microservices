@@ -7,43 +7,7 @@
 
 @if(!_initialized)
 {
-    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
-}
-else if(_currentOrder is not null)
-{
-    <div class="d-flex flex-column h-100 w-100 p-2">
-        <MudText Typo="Typo.h5" Class="mb-2">
-            Fullfil your order to continue shopping
-        </MudText>
-
-        @{
-            var orderStatus = _currentOrder.Status;
-        }
-
-        <div class="d-flex gap-2">
-            <div>
-                <MudTimeline>
-                    <MudTimelineItem>
-                        <MudText>Order started</MudText>
-                    </MudTimelineItem>
-                    <MudTimelineItem>
-                        <MudText 
-                            Color="orderStatus == OrderStatus.InFill ? Color.Primary : Color.Default" 
-                            Align="Align.End">Fill in information</MudText>
-                    </MudTimelineItem>
-                    <MudTimelineItem>
-                        <MudText
-                            Color="orderStatus == OrderStatus.WaitingForConfirmation ? Color.Primary : Color.Default">
-                            Waiting for confirmation
-                        </MudText>
-                    </MudTimelineItem>
-                </MudTimeline>
-            </div>
-            <div>
-
-            </div>
-        </div>
-    </div>
+    <MudProgressCircular Class="center-spinner" Color="Color.Info" Indeterminate="true" />
 }
 else if(_products is not null)
 {
@@ -75,84 +39,51 @@ else if(_products is not null)
                     OnClick="FetchProducts" />
             </div>
 
-            <div class="overflow-auto d-flex flex-wrap gap-4 p-2 justify-content-center">
-                @foreach (var product in _products)
+            <div class="overflow-auto flex-grow-1 h-100 w-100 d-flex flex-column gap-8 p-2">
+                @foreach(var grouping in _productGrouping)
                 {
-                    var isInBasket = _basketItems?
-                        .Any(x => x.ProductId == product.Id) ?? false;
+                    <div class="d-inline-flex flex-column p-2">
+                        <MudText Typo="Typo.h5">@grouping.Key</MudText>
+                        <div class="d-flex flex-wrap gap-4 p-4 justify-content-center">
+                            @foreach (var product in grouping)
+                            {
+                                var isInBasket = _basketItems?
+                                    .Any(x => x.ProductId == product.Id) ?? false;
 
-                    <MudCard 
-                        Class="d-flex flex-column" Style="width: 300px; height: 200px;">
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <MudText Style="width: 100%; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" Typo="Typo.h6">
-                                    <MudHighlighter 
-                                        Text="@product.Name"
-                                        HighlightedText="@_searchValue"/>
-                                </MudText>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            <MudText>
-                                <MudHighlighter 
-                                    HighlightedText="@_searchValue"
-                                    Text=@($"Article#: {product.Number}") />
-                            </MudText>
-                                <MudHighlighter 
-                                    HighlightedText="@_searchValue"
-                                    Text=@($"Price: ${product.PricePerQuantity}") />
-                        </MudCardContent>
-                        <MudCardActions Class="mt-auto justify-content-end">
-                            <MudIconButton 
-                                OnClick="async() => await AddToBasket(product)"
-                                Disabled="isInBasket"
-                                Icon="@Icons.Material.Filled.Add" />
-                        </MudCardActions>
-                    </MudCard>
+                                <MudCard 
+                                    Elevation="0 "
+                                    Class="d-flex flex-column" Style="width: 300px; height: 200px;">
+                                    <MudCardHeader>
+                                        <CardHeaderContent>
+                                            <MudText Style="width: 100%; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" Typo="Typo.h6">
+                                                <MudHighlighter 
+                                                    Text="@product.Name"
+                                                    HighlightedText="@_searchValue"/>
+                                            </MudText>
+                                        </CardHeaderContent>
+                                    </MudCardHeader>
+                                    <MudCardContent>
+                                        <MudText>
+                                            <MudHighlighter 
+                                                HighlightedText="@_searchValue"
+                                                Text=@($"Article#: {product.Number}") />
+                                        </MudText>
+                                            <MudHighlighter 
+                                                HighlightedText="@_searchValue"
+                                                Text=@($"Price: ${product.PricePerQuantity}") />
+                                    </MudCardContent>
+                                    <MudCardActions Class="mt-auto justify-content-end">
+                                        <MudIconButton 
+                                            OnClick="async() => await AddToBasket(product)"
+                                            Disabled="isInBasket"
+                                            Icon="@Icons.Material.Filled.Add" />
+                                    </MudCardActions>
+                                </MudCard>
+                            }
+                        </div>
+                    </div>
                 }
             </div>
-        </div>
-        <div class="p-2 ml-auto shadow rounded d-flex flex-column" style="width: 400px;">
-            <MudList Style="overflow: auto;">
-                <MudListSubheader>
-                    <MudText Typo="Typo.h6">Basket</MudText>
-                </MudListSubheader>
-
-                @foreach(var item in _basketItems ?? new())
-                {
-                    <MudListItem>
-                        <MudCard Class="d-flex flex-column">
-                            <MudCardHeader>
-                                <CardHeaderContent>
-                                    <MudText Typo="Typo.h6">@item.ProductName</MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                <MudText>Price: $@item.PricePerQuantity</MudText>
-                                <MudText>Total: $@item.Total</MudText>
-                            </MudCardContent>
-                            <MudCardActions Class="mt-auto align-items-center">
-                                <MudText Class="mr-2">Quantity: @item.Quantity</MudText>
-                                <MudIconButton 
-                                    OnClick="async() => await IncreaseQuantity(item)"
-                                    Icon="@Icons.Material.Filled.Add" />
-                                <MudIconButton 
-                                    OnClick="async() => await IncreaseQuantity(item)"
-                                    Icon="@Icons.Material.Filled.Remove" />
-                            </MudCardActions>
-                        </MudCard>
-                    </MudListItem>
-                }
-            </MudList>
-
-            @if(_basketItems?.Any() == true)
-            {
-                <MudButton 
-                    Class="mt-auto"
-                    Variant="Variant.Filled" 
-                    Color="Color.Primary" 
-                    OnClick="StartOrder">Start order</MudButton>
-            }
         </div>
     </div>
 }

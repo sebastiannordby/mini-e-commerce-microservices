@@ -41,7 +41,7 @@ namespace OrderService.API.Controllers
         }
 
 
-        [HttpGet("set-address")]
+        [HttpPost("set-address")]
         public async Task<IActionResult> SetAddress(
             [FromBody] SetOrderAddressCommandDto command)
         {
@@ -55,7 +55,7 @@ namespace OrderService.API.Controllers
                     command.PostalOffice,
                     command.Country));
 
-            return Ok(new QueryResponse<bool>(result));
+            return Ok(new CommandResponse<bool>(result));
         }
 
         [HttpPost("start")]

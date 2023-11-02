@@ -1,0 +1,89 @@
+﻿@page "/order"
+@using OrderService.Library.Enumerations;
+@using System.ComponentModel.DataAnnotations;
+@using OrderService.Library.Models;
+
+@if(_currentOrder is null) 
+{
+    <MudProgressCircular Class="center-spinner" Color="Color.Info" Indeterminate="true" />
+}
+else
+{
+    <div class="d-flex flex-column h-100 w-100 gap-4 p-2 pt-4">
+        <MudText Typo="Typo.h5" Class="mb-2 text-center">
+            Fullfil your order to continue shopping
+        </MudText>
+
+        @{
+            var orderStatus = _currentOrder.Status;
+        }
+
+        <MudPaper Class="p-4" Elevation="3">
+            <MudTimeline>
+                <MudTimelineItem>
+                    <MudText>Order started</MudText>
+                </MudTimelineItem>
+                <MudTimelineItem>
+                    <MudText 
+                        Color="orderStatus == OrderStatus.InFill ? Color.Primary : Color.Default"
+                        Align="Align.End">Fill in information</MudText>
+                </MudTimelineItem>
+                <MudTimelineItem>
+                    <MudText 
+                        Color="orderStatus == OrderStatus.WaitingForConfirmation ? Color.Primary : Color.Default">
+                        Waiting for confirmation
+                    </MudText>
+                </MudTimelineItem>
+            </MudTimeline>
+        </MudPaper>
+
+        <MudPaper Class="p-4" Elevation="10">
+            @if(orderStatus == OrderStatus.InFill)
+            {
+                <MudText Typo="Typo.h5" Class="mb-2 text-center">
+                    To continue your shopping fill in the form
+                </MudText>
+
+                <MudForm 
+                    @ref="form" 
+                    @bind-IsValid="@_isFormDataValid" 
+                    @bind-Errors="@_formErrors">
+                    <MudTextField 
+                        T="string"
+                        Label="@nameof(OrderView.AddressLine)" 
+                        @bind-Text="_setAddressCommand.AddressLine"
+                        Required="true" 
+                        RequiredError="@($"{nameof(OrderView.AddressLine)} is required")" />
+                    <MudTextField 
+                        T="string"
+                        Label="@nameof(OrderView.Country)"
+                        @bind-Text="_setAddressCommand.Country"
+                        Required="true"
+                        RequiredError="@($"{nameof(OrderView.Country)} is required")" />
+                    <MudTextField 
+                        T="string"
+                        Label="@nameof(OrderView.PostalCode)"
+                        @bind-Text="_setAddressCommand.PostalCode"
+                        Required="true"
+                        RequiredError="@($"{nameof(OrderView.PostalCode)} is required")" />
+                    <MudTextField 
+                        T="string"
+                        Label="@nameof(OrderView.PostalOffice)"
+                        @bind-Text="_setAddressCommand.PostalOffice"
+                        Required="true"
+                        RequiredError="@($"{nameof(OrderView.PostalOffice)} is required")" />
+                </MudForm>
+                    
+                <MudButton 
+                    Variant="Variant.Filled" 
+                    Color="Color.Primary" 
+                    FullWidth="true"
+                    Class="mt-3"
+                    DisableElevation="true" 
+                    OnClick="@TryExecuteSetAddress">
+                    Proceed
+                </MudButton>
+            }
+        </MudPaper>
+    </div>
+}

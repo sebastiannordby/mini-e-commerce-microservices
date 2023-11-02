@@ -1,0 +1,54 @@
+﻿@page "/basket"
+
+@if (!_initialized)
+{
+    <MudProgressCircular Class="center-spinner" Color="Color.Info" Indeterminate="true" />
+}
+else
+{
+    <div class="d-flex flex-column gap-2 h-100 w-100 overflow-hidden p-2">
+        <MudText Typo="Typo.h6">Basket</MudText>
+
+
+        @if (_basketItems?.Any() == true)
+        {
+            <div class="d-inline-flex flex-column gap-2">
+                @foreach (var item in _basketItems ?? new())
+                {
+                    <MudCard Class="d-flex flex-column">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@item.ProductName</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText>Price per quantity: $@item.PricePerQuantity</MudText>
+                            <MudText>Total: $@item.Total</MudText>
+                        </MudCardContent>
+                        <MudCardActions Class="mt-auto align-items-center">
+                            <MudText Class="mr-2">Quantity: @item.Quantity</MudText>
+                            <MudIconButton
+                                OnClick="async() => await IncreaseQuantity(item)"
+                                Icon="@Icons.Material.Filled.Add" />
+                            <MudIconButton 
+                                OnClick="async() => await IncreaseQuantity(item)"
+                                Icon="@Icons.Material.Filled.Remove" />
+                        </MudCardActions>
+                    </MudCard>
+                }
+            </div>
+
+            <MudButton 
+                Class="mt-auto"
+                Variant="Variant.Filled"
+                Color="Color.Primary"
+                OnClick="StartOrder">
+                Start order
+            </MudButton>
+        }
+        else
+        {
+            <MudText Typo="Typo.caption">No items in the basket..</MudText>
+        }
+    </div>
+}

@@ -15,10 +15,22 @@
 <MudThemeProvider />
 <div class="page h-100 w-100 d-flex">
     <main class="flex-grow-1 d-flex flex-column h-100 overflow-hidden">
-        <div class="d-flex align-items-center px-4 py-2 shadow auth" style="background: var(--mud-palette-primary);">
+        <div class="d-flex align-items-center justify-content-between px-4 py-2 shadow auth" style="background: var(--mud-palette-primary);">
             <a href="/" style="cursor: pointer;">
-                <img src="logo.png" height="30" class="mr-auto"/>
+                <img src="logo.png" height="30"/>
             </a>
+
+            <div>
+                <MudIconButton 
+                    Style="color: white; fill: white;"
+                    Icon="@Icons.Material.Filled.SelfImprovement" 
+                    Href="/profile" />
+                <MudIconButton 
+                    Style="color: white; fill: white;"
+                    Icon="@Icons.Material.Filled.ShoppingCart" 
+                    Href="/basket" />
+            </div>
+
             <LoginControl />
         </div>
 

@@ -23,16 +23,16 @@ namespace OrderService.DataAccess.Extensions
                     )).ToList()
 
                 select new OrderView(
-                        order.Id,
-                        order.Number,
-                        order.Status,
-                        order.BuyersFullName,
-                        order.BuyersEmailAddress,
-                        order.AddressLine,
-                        order.PostalCode,
-                        order.PostalOffice,
-                        order.Country,
-                        orderLines)
+                    order.Id,
+                    order.Number,
+                    order.Status,
+                    order.BuyersFullName,
+                    order.BuyersEmailAddress,
+                    order.AddressLine,
+                    order.PostalCode,
+                    order.PostalOffice,
+                    order.Country,
+                    orderLines)
             );
 
             return viewQuery;
