@@ -2,6 +2,8 @@
 
 ## Arbeidskrav - PG3402 – Microservices – Sebastian Nordby
 
+[![.NET](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml/badge.svg)](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml)
+
 ### Overview
 
 The primary objective of this project is to develop an e-commerce website. In line with this goal, we've chosen a microservices-based architecture to ensure high performance and flexibility.
