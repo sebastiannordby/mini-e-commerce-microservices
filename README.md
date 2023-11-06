@@ -85,6 +85,11 @@ The basket service will be an in-memory service. This means that when the servic
 
 From a technical view the application will be made in a web framework called Blazor. Blazor has multiple rendering options, but I will go for server-side rendering. Over to specification, there will be two perspectives in the frontend. One will be the customer and the other will be the administration.
 
+### Metrics and data visualization
+
+To get a better overview of customers visiting different pages of the frontend i will implement some metrics. There metrics
+will be registered through Prometheus and be visualized through Grafana.
+
 The administration will be able to:
 
 - Create and change orders on the customer's behalf
