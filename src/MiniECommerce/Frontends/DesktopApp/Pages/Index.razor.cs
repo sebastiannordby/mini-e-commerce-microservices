@@ -17,17 +17,22 @@ using MudBlazor;
 using OrderService.Library.Models;
 using static MudBlazor.CategoryTypes;
 using ComponentBase = Microsoft.AspNetCore.Components.ComponentBase;
+using Prometheus;
 
 namespace DesktopApp.Pages
 {
-    public partial class Index : ComponentBase
+    public partial class Index : ComponentBase, IDisposable
     {
         private IEnumerable<ProductView> _products = Enumerable.Empty<ProductView>();
         private IEnumerable<BasketItemView> _basketItems = Enumerable.Empty<BasketItemView>();
 
         private IEnumerable<IGrouping<string, ProductView>> _productGrouping => 
             _products.GroupBy(x => x.Category);
-        
+
+        public static readonly Gauge UsersBrowsingProducts = Metrics.CreateGauge(
+            "users_in_catalog",
+            "Active users browsing products.");
+
         private decimal? _fromPricePerQuantity;
         private decimal? _toPricePerQuantity;
         private IEnumerable<string>? _categories;
@@ -47,6 +52,7 @@ namespace DesktopApp.Pages
             await FetchProducts();
             await FetchBasket();
             _initialized = true;
+            UsersBrowsingProducts.Inc(); 
         }
 
         private async Task<bool> TryFetchStartedOrder()
@@ -77,6 +83,11 @@ namespace DesktopApp.Pages
                 .AddToBasket(product.Id);
             Snackbar.Add($"{product.Name} added to basket.");
             NavigationManager.NavigateTo("/basket");
+        }
+
+        public void Dispose()
+        {
+            UsersBrowsingProducts.Dec();
         }
 
         [Inject] public required IJSRuntime JSRuntime { get; set; }

@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Polly;
 using System.Security.Claims;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -135,6 +136,7 @@ else
     app.UseHttpsRedirection();
 }
 
+app.UseMetricServer();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();

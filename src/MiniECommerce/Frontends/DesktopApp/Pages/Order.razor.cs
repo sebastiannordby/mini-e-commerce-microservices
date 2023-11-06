@@ -4,11 +4,12 @@ using MudBlazor;
 using OrderService.Library.Commands;
 using OrderService.Library.Enumerations;
 using OrderService.Library.Models;
+using Prometheus;
 using System.Text.RegularExpressions;
 
 namespace DesktopApp.Pages
 {
-    public partial class Order : ComponentBase
+    public partial class Order : ComponentBase, IDisposable
     {
         private OrderView? _currentOrder;
         private bool _isFormDataValid;
@@ -17,6 +18,10 @@ namespace DesktopApp.Pages
         private MudForm form;
 
         private SetOrderAddressCommandDto _setAddressCommand;
+
+        public static readonly Gauge UsersOrderingGauge = Metrics.CreateGauge(
+            "users_ordering",
+            "Users checking or placing an order.");
 
         protected override async Task OnInitializedAsync()
         {
@@ -35,6 +40,7 @@ namespace DesktopApp.Pages
             }
 
             await ConfigureCommandsRelativeToStatus(_currentOrder);
+            UsersOrderingGauge.Inc();
         }
 
         private Task ConfigureCommandsRelativeToStatus(OrderView order)
@@ -76,6 +82,11 @@ namespace DesktopApp.Pages
         {
             _currentOrder = _currentOrder is not null ? 
                 await OrderRepository.Get(_currentOrder.Id) : null;
+        }
+
+        public void Dispose()
+        {
+            UsersOrderingGauge.Dec();
         }
 
         [Inject] public required ISnackbar Snackbar { get; set; }

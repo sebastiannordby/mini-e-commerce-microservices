@@ -5,11 +5,12 @@ using MiniECommerce.Consumption.Repositories.BasketService;
 using MiniECommerce.Consumption.Repositories.OrderService;
 using MudBlazor;
 using OrderService.Library.Commands;
+using Prometheus;
 using System.Security.Claims;
 
 namespace DesktopApp.Pages
 {
-    public partial class Basket : ComponentBase
+    public partial class Basket : ComponentBase, IDisposable
     {
         private List<BasketItemView> _basketItems = new();
         private bool _initialized;
@@ -17,10 +18,15 @@ namespace DesktopApp.Pages
         private string UserEmail =>
             HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
+        public static readonly Gauge UsersInBasketGauge = Metrics.CreateGauge(
+            "users_in_basket",
+            "Counting users active in basket.");
+
         protected override async Task OnInitializedAsync()
         {
             await FetchBasket();
             _initialized = true;
+            UsersInBasketGauge.Inc();
         }
 
         private async Task FetchBasket()
@@ -56,6 +62,11 @@ namespace DesktopApp.Pages
 
             Snackbar.Add("Order started.");
             NavigationManager.NavigateTo("/order");
+        }
+
+        public void Dispose()
+        {
+            UsersInBasketGauge.Dec();
         }
 
         [Inject] public required NavigationManager NavigationManager { get; set; }
