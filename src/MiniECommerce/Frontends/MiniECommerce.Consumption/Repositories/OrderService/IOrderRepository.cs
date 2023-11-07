@@ -10,6 +10,7 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
 {
     public interface IOrderRepository
     {
+        Task<IEnumerable<OrderView>> List();
         Task<OrderView?> Get(Guid orderId);
         Task<Guid?> Start(StartOrderCommandDto command);
         Task<Guid?> GetStartedOrder();

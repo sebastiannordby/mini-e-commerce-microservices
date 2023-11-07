@@ -123,7 +123,10 @@ namespace OrderService.DataAccess.Services
             string postalOffice, 
             string country)
         {
-            await _dbContext.Orders
+            if (string.IsNullOrWhiteSpace(buyersEmailAddress))
+                return false;
+
+            var res = await _dbContext.Orders
                 .AsNoTracking()
                 .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
                 .Where(x => x.Status <= OrderStatus.Confirmed)
@@ -135,7 +138,7 @@ namespace OrderService.DataAccess.Services
 
             await _dbContext.SaveChangesAsync();
 
-            return true;
+            return res > 0;
         }
     }
 }

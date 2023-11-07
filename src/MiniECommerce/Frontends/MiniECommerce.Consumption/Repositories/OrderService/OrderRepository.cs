@@ -47,6 +47,19 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
             return res?.Data;
         }
 
+        public async Task<IEnumerable<OrderView>> List()
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://gateway/api/order-service/order")
+            };
+
+            var res = await Send<QueryResponse<IEnumerable<OrderView>>>(req);
+
+            return res?.Data ?? Enumerable.Empty<OrderView>();
+        }
+
         public async Task<bool> SetAddress(SetOrderAddressCommandDto command)
         {
             var req = new HttpRequestMessage()

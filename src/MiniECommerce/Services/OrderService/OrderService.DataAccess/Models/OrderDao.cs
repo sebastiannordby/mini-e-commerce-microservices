@@ -6,18 +6,18 @@ namespace OrderService.DataAccess.Models
 {
     internal class OrderDao
     {
-        public Guid Id { get; private set; }
-        public int Number { get; private set; }
-        public OrderStatus Status { get; private set; }
-        public string BuyersFullName { get; private set; }
-        public string BuyersEmailAddress { get; private set; }
-        public string? AddressLine { get; private set; }
-        public string? PostalCode { get; private set; }
-        public string? PostalOffice { get; private set; }
-        public string? Country { get; private set; }
+        public Guid Id { get; set; }
+        public int Number { get; set; }
+        public OrderStatus Status { get; set; }
+        public string BuyersFullName { get; set; }
+        public string BuyersEmailAddress { get; set; }
+        public string? AddressLine { get; set; }
+        public string? PostalCode { get; set; }
+        public string? PostalOffice { get; set; }
+        public string? Country { get; set; }
 
         // Constuctor for EF
-        protected OrderDao()
+        public OrderDao()
         {
 
         }

@@ -24,7 +24,8 @@ namespace OrderService.Tests
                 services.AddOrderServiceDomainLayer();
                 services.AddOrderServiceDataAccessLayer(efOptions =>
                 {
-                    efOptions.UseInMemoryDatabase(nameof(BaseOrderServiceTest), b => {
+                    efOptions.UseInMemoryDatabase(nameof(BaseOrderServiceTest), b =>
+                    {
                         b.EnableNullChecks(false);
                     });
                 });

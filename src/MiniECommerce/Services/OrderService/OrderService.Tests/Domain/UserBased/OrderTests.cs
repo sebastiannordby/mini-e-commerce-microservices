@@ -27,6 +27,16 @@ namespace OrderService.Tests.Domain.UserBased
         }
 
         [Test]
+        public async Task FindOrdersTest()
+        {
+            var orderViewRepository = Services.GetRequiredService<IOrderViewRepository>();
+            var orders = await orderViewRepository.List(string.Empty);
+
+            Assert.IsNotNull(orders);
+            Assert.IsEmpty(orders);
+        }
+
+        [Test]
         public void TestLoadInvalidOrderOrder()
         {
             var loadOrderService = Services.GetRequiredService<ILoadOrderService>();
@@ -73,6 +83,25 @@ namespace OrderService.Tests.Domain.UserBased
             Assert.IsNotNull(order);
             Assert.That((int) orderToSave.Status == (int) order.Status);
             Assert.That(orderToSave.Number == order.Number);
+        }
+
+        [Test]
+        public async Task TestFindOrders()
+        {
+            var initOrderService = Services.GetRequiredService<IInitializeOrderService>();
+            var orderService = Services.GetRequiredService<IOrderService>();
+            var orderViewRepository = Services.GetRequiredService<IOrderViewRepository>();
+
+            var order1ToSave = await initOrderService.Initialize(
+                nameof(TestFindOrder), nameof(TestFindOrder));
+            var order1Id = await orderService.Save(order1ToSave);
+
+            var orders = await orderViewRepository.List(
+                order1ToSave.BuyersEmailAddress);
+
+            Assert.IsNotNull(orders);
+            Assert.IsNotEmpty(orders);
+            Assert.True(orders.Count() == 1);
         }
 
         [Test]

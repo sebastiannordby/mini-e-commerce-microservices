@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using OrderService.DataAccess.Extensions;
 using OrderService.Domain.Repositories;
 using OrderService.Library.Models;
@@ -27,6 +28,16 @@ namespace OrderService.DataAccess.Repositories
                 .FirstOrDefaultAsync();
 
             return orderView;
+        }
+
+        public async Task<IEnumerable<OrderView>> List(string buyersEmail)
+        {
+            var orderViews = await _dbContext.Orders
+                .Where(x => x.BuyersEmailAddress == buyersEmail)
+                .AsViewQuery(_dbContext)
+                .ToListAsync();
+
+            return orderViews;
         }
     }
 }

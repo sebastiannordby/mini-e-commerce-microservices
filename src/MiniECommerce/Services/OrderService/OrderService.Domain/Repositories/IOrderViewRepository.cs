@@ -10,5 +10,6 @@ namespace OrderService.Domain.Repositories
     public interface IOrderViewRepository
     {
         Task<OrderView?> Find(Guid id);
+        Task<IEnumerable<OrderView>> List(string buyersEmail);
     }
 }

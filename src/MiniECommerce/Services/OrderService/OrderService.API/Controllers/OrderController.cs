@@ -10,6 +10,7 @@ using OrderService.Domain.UseCases.UserBased.Queries.FindStarted;
 using OrderService.Domain.UseCases.UserBased.Queries.FindView;
 using OrderService.Domain.UseCases.UserBased.Commands.Start;
 using OrderService.Domain.UseCases.UserBased.Commands.SetAddress;
+using OrderService.Domain.UseCases.UserBased.Queries.ListViews;
 
 namespace OrderService.API.Controllers
 {
@@ -20,6 +21,15 @@ namespace OrderService.API.Controllers
         public OrderController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var result = await _mediator.Send(
+                new ListOrderViewsQuery());
+
+            return Ok(new QueryResponse<IEnumerable<OrderView>>(result));
         }
 
         [HttpGet("{id}")]
