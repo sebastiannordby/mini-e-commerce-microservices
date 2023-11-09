@@ -7,6 +7,7 @@ using OrderService.DataAccess;
 using OrderService.Domain;
 using System.Diagnostics.Metrics;
 using MiniECommerce.Library.Services;
+using MiniECommerce.Library;
 
 namespace OrderService.API;
 
@@ -32,7 +33,7 @@ public class Program
 
         var app = builder.Build();
 
-        MigrateDatabase(app);
+        app.MigrateDatabase<OrderDbContext>();
 
         if (app.Environment.IsDevelopment())
         {
@@ -52,15 +53,5 @@ public class Program
         app.UseECommerceLibrary();
         app.MapControllers();
         app.Run();
-    }
-
-    private static void MigrateDatabase(WebApplication app)
-    {
-        using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-        {
-            var context = serviceScope.ServiceProvider.GetService<OrderDbContext>();
-            if (context is not null)
-                context.Database.Migrate();
-        }
     }
 }

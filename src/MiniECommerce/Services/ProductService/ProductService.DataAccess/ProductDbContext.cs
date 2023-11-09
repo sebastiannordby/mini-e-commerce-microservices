@@ -11,6 +11,7 @@ namespace ProductService.DataAccess
     public class ProductDbContext : DbContext
     {
         public DbSet<ProductDao> Products { get; set; }
+        public DbSet<ProductPurchaseStatsDao> ProductPurchaseStats { get; set; }
 
         public ProductDbContext(
             DbContextOptions options) : base(options)

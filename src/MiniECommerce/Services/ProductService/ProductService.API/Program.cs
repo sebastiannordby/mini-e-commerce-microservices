@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MiniECommerce.Authentication;
 using MiniECommerce.Library;
@@ -13,18 +14,21 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var sqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrWhiteSpace(sqlConnectionString))
+            throw new ArgumentException("ConnectionStrings:DefaultConnection must be provided.");
+
         builder.Services.AddControllers();
         builder.AddECommerceLibrary();
         builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductServiceDataAccessLayer(efOptions =>
         {
-            efOptions.UseInMemoryDatabase(nameof(ProductService), b => {
-                b.EnableNullChecks(false);
-            });
+            efOptions.UseSqlServer(sqlConnectionString);
         });
 
         var app = builder.Build();
 
+        app.MigrateDatabase<ProductDbContext>();
         app.UseDummyData();
 
         if (app.Environment.IsDevelopment())
