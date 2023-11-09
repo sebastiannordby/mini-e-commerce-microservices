@@ -44,7 +44,6 @@ namespace OrderService.Domain.UseCases.UserBased.Commands.Start
             var basketItems = await _basketRepository.GetList(_currentUserService.UserEmail);
             if (basketItems == null)
                 throw new Exception("Could not retrieve basket items.");
-
             if (!basketItems.Any())
                 throw new Exception("There is no items in the basket.");
 

@@ -83,6 +83,10 @@ else
                     OnClick="@TryExecuteSetAddress">
                     Proceed
                 </MudButton>
+            } 
+            else if(_currentOrder.Status == OrderStatus.WaitingForConfirmation)
+            {
+                <MudText Typo="Typo.h6" Class="text-center">Waiting for confirmation..</MudText>
             }
         </MudPaper>
     </div>

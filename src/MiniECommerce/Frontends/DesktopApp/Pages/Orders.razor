@@ -1,7 +1,72 @@
-﻿@if(_orders is null) 
+﻿@page "/orders"
+
+@if (!_initialized)
 {
     <MudProgressCircular Class="center-spinner" Color="Color.Info" Indeterminate="true" />
 }
-else {
-    <h1>Hello Orders</h1>
+else 
+{
+    <div class="d-flex flex-column gap-2">
+        <div>
+            <MudText Typo="Typo.h4">Active</MudText>
+
+            <div class="d-flex flex-column gap-2">
+                @if(_activeOrders?.Any() == true)
+                {
+                    foreach(var order in _activeOrders)
+                    {
+                        <MudCard>
+                            <MudCardHeader>
+                                <MudText Typo="Typo.h5">#@order.Number</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <p>
+                                    AddressLine: @order.AddressLine
+                                    Country: @order.Country
+                                    PostalCode: @order.PostalCode
+                                    PostalOffice: @order.PostalOffice
+                                </p>
+                            </MudCardContent>
+                        </MudCard>
+                    }
+                }
+                else
+                {
+                    <p>No active orders.</p>
+                }
+            </div>
+        </div>
+
+        <hr />
+
+        <div>
+            <MudText Typo="Typo.h4">Historic</MudText>
+
+            <div class="d-flex flex-column gap-2">
+                @if(_historicOrders?.Any() == true)
+                {
+                    foreach (var order in _historicOrders)
+                    {
+                        <MudCard>
+                            <MudCardHeader>
+                                <MudText Typo="Typo.h5">#@order.Number</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <p>
+                                    AddressLine: @order.AddressLine
+                                    Country: @order.Country
+                                    PostalCode: @order.PostalCode
+                                    PostalOffice: @order.PostalOffice
+                                </p>
+                            </MudCardContent>
+                        </MudCard>
+                    }
+                }
+                else
+                {
+                    <p>No historic orders</p>
+                }
+            </div>
+        </div>
+    </div>
 }

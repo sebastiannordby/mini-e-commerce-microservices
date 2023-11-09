@@ -14,24 +14,38 @@ namespace OrderService.Domain.UseCases.UserBased.Commands.SetAddress
     {
         private readonly IOrderService _orderService;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public SetOrderAddressCommandHandler(
             IOrderService orderService,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            IUnitOfWork unitOfWork)
         {
             _orderService = orderService;
             _currentUserService = currentUserService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> Handle(SetOrderAddressCommand request, CancellationToken cancellationToken)
         {
-            return await _orderService.SetAddress(
+            await _unitOfWork.BeginTransactionAsync();
+
+            var setAddressRes = await _orderService.SetAddress(
                 _currentUserService.UserEmail,
                 request.AddressLine,
                 request.PostalCode,
                 request.PostalOffice,
-                request.Country
-            );
+                request.Country);
+
+            var setWaitingForConfirmationRes = await _orderService.SetWaitingForConfirmation(
+                _currentUserService.UserEmail);
+
+            if (setAddressRes && setWaitingForConfirmationRes)
+                await _unitOfWork.CommitAsync();
+            else
+                await _unitOfWork.RollbackAsync();
+
+            return setAddressRes && setWaitingForConfirmationRes;
         }
     }
 }

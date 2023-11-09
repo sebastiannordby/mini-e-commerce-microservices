@@ -44,5 +44,22 @@ namespace OrderService.DataAccess.Models
             PostalOffice = order.PostalOffice;
             Country = order.Country;
         }
+
+        internal void SetAddress(
+            string addressLine, 
+            string postalCode, 
+            string postalOffice, 
+            string country)
+        {
+            AddressLine = addressLine;
+            PostalCode = postalCode;
+            PostalOffice = postalOffice;
+            Country = country;
+        }
+
+        internal void SetStatus(OrderStatus status)
+        {
+            Status = status;
+        }
     }
 }

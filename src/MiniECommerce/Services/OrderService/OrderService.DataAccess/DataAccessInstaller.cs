@@ -27,6 +27,7 @@ namespace OrderService.DataAccess
                     efContextBuilderDelegate)
                 .AddScoped<IOrderViewRepository, OrderViewRepository>()
                 .AddScoped<IOrderService, OrderServiceImpl>()
+                .AddScoped<IUnitOfWork, UnitOfWork>()
                 .AddScoped<IAdminOrderViewRepository, AdminOrderViewRepository>();
         }
     }

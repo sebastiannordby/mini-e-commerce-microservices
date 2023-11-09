@@ -10,7 +10,7 @@
 }
 else
 {
-    <div class="d-flex flex-column gap-2 h-100 w-100">
+    <div class="d-flex flex-column flex-grow-1 gap-2 h-100 w-100 overflow-hidden">
         <MudPaper Elevation="25">
             <MudToolBar>
                 <MudIconButton 
@@ -22,7 +22,6 @@ else
         <MudDataGrid 
             Items="_orders" 
             Filterable="true"
-            FixedHeader="true"
             Hover="true"
             Height="100%"
             Outlined="true"
@@ -55,6 +54,7 @@ else
                     Property="x => x.Country"
                     Title="Country" />
                 <PropertyColumn 
+                    Title="Actions"
                     Property="x => x">
                     <CellTemplate>
                         <MudMenu Label="Actions">

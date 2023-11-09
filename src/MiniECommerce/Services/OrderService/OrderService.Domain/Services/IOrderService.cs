@@ -14,6 +14,7 @@ namespace OrderService.Domain.Services
         Task<int> GetNewNumber();
         Task<bool> HasOrderInProgress(string buyersEmailAddress);
         Task<Guid?> GetStartedOrderId(string buyersEmailAddress);
+        Task<bool> SetWaitingForConfirmation(string buyersEmailAddress);
         Task<bool> SetAddress(
             string buyersEmailAddress,
             string addressLine, 

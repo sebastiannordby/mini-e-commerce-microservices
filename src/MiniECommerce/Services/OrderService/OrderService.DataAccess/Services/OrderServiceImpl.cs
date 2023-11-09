@@ -140,5 +140,22 @@ namespace OrderService.DataAccess.Services
 
             return res > 0;
         }
+
+        public async Task<bool> SetWaitingForConfirmation(string buyersEmailAddress)
+        {
+            if (string.IsNullOrWhiteSpace(buyersEmailAddress))
+                return false;
+
+            var res = await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(o => o.Status, OrderStatus.WaitingForConfirmation));
+
+            await _dbContext.SaveChangesAsync();
+
+            return res > 0;
+        }
     }
 }
