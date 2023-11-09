@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.DataAccess.Repositories
+namespace OrderService.DataAccess.Repositories.CustomerBased
 {
     internal sealed class OrderViewRepository : IOrderViewRepository
     {

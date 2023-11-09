@@ -2,7 +2,7 @@
 using MassTransit.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using MiniECommerce.Library.Events.OrderService;
-using OrderService.Domain.UseCases.UserBased.Commands.Start;
+using OrderService.Domain.UseCases.CustomerBased.Commands.Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;

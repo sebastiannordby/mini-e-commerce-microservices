@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using OrderService.DataAccess.Repositories;
 using OrderService.Domain.Repositories;
 using OrderService.DataAccess.Repositories.Administration;
+using OrderService.DataAccess.Repositories.CustomerBased;
 
 namespace OrderService.DataAccess
 {

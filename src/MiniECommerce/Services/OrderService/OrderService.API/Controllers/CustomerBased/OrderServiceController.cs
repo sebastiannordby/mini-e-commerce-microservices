@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OrderService.API.Controllers
+namespace OrderService.API.Controllers.CustomerBased
 {
     [ApiController]
     [Route("api/[controller]")]

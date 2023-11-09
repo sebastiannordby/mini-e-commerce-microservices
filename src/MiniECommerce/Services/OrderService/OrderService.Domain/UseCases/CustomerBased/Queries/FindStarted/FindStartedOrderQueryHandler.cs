@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.UserBased.Queries.FindStarted
+namespace OrderService.Domain.UseCases.CustomerBased.Queries.FindStarted
 {
     public sealed class FindStartedOrderQueryHandler : IRequestHandler<FindStartedOrderQuery, Guid?>
     {

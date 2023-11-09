@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.UserBased.Queries.ListViews
+namespace OrderService.Domain.UseCases.CustomerBased.Queries.ListViews
 {
     public sealed record ListOrderViewsQuery : IRequest<IEnumerable<OrderView>>;
 }

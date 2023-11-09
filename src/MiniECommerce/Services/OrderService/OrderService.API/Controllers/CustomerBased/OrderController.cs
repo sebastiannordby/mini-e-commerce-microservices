@@ -6,13 +6,13 @@ using MiniECommece.APIUtilities;
 using MiniECommerce.Authentication.Services;
 using MiniECommerce.Library.Responses;
 using OrderService.Library.Models;
-using OrderService.Domain.UseCases.UserBased.Queries.FindStarted;
-using OrderService.Domain.UseCases.UserBased.Queries.FindView;
-using OrderService.Domain.UseCases.UserBased.Commands.Start;
-using OrderService.Domain.UseCases.UserBased.Commands.SetAddress;
-using OrderService.Domain.UseCases.UserBased.Queries.ListViews;
+using OrderService.Domain.UseCases.CustomerBased.Queries.FindStarted;
+using OrderService.Domain.UseCases.CustomerBased.Queries.FindView;
+using OrderService.Domain.UseCases.CustomerBased.Commands.Start;
+using OrderService.Domain.UseCases.CustomerBased.Commands.SetAddress;
+using OrderService.Domain.UseCases.CustomerBased.Queries.ListViews;
 
-namespace OrderService.API.Controllers
+namespace OrderService.API.Controllers.CustomerBased
 {
     public class OrderController : OrderServiceController
     {

@@ -2,7 +2,7 @@
 using OrderService.Domain.Repositories;
 using OrderService.Library.Models;
 
-namespace OrderService.Domain.UseCases.UserBased.Queries.FindView
+namespace OrderService.Domain.UseCases.CustomerBased.Queries.FindView
 {
     public sealed class FindOrderViewByIdQueryHandler :
         IRequestHandler<FindOrderViewByIdQuery, OrderView?>
