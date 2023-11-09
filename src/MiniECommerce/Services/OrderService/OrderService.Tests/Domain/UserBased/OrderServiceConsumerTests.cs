@@ -20,9 +20,7 @@ namespace OrderService.Tests.Domain.UserBased
             var mediator = Services.GetRequiredService<MediatR.IMediator>();
 
             await harness.Start();
-            var orderId = await mediator.Send(new StartOrderCommand(
-                "Sebastian Norby"
-            ));
+            var orderId = await mediator.Send(new StartOrderCommand());
             await harness.Stop();
 
             Assert.IsTrue(await harness.Published.Any<OrderStartedEvent>());

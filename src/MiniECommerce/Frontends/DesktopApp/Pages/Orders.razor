@@ -6,11 +6,11 @@
 }
 else 
 {
-    <div class="d-flex flex-column gap-2">
+    <div class="d-flex flex-column gap-2 p-2 pt-4">
         <div>
-            <MudText Typo="Typo.h4">Active</MudText>
+            <MudText Typo="Typo.h5" Class="mb-2">Active orders</MudText>
 
-            <div class="d-flex flex-column gap-2">
+            <div class="d-flex flex-column gap-2 pl-2">
                 @if(_activeOrders?.Any() == true)
                 {
                     foreach(var order in _activeOrders)
@@ -20,6 +20,7 @@ else
                                 <MudText Typo="Typo.h5">#@order.Number</MudText>
                             </MudCardHeader>
                             <MudCardContent>
+                                <p>Status @order.Status</p>
                                 <p>
                                     AddressLine: @order.AddressLine
                                     Country: @order.Country
@@ -40,9 +41,9 @@ else
         <hr />
 
         <div>
-            <MudText Typo="Typo.h4">Historic</MudText>
+            <MudText Typo="Typo.h5" Class="mb-2">Historic orders</MudText>
 
-            <div class="d-flex flex-column gap-2">
+            <div class="d-flex flex-column gap-2 pl-2">
                 @if(_historicOrders?.Any() == true)
                 {
                     foreach (var order in _historicOrders)

@@ -48,6 +48,18 @@ else
                     @ref="form" 
                     @bind-IsValid="@_isFormDataValid" 
                     @bind-Errors="@_formErrors">
+
+                    <MudTextField 
+                        T="string"
+                        Disabled="true"
+                        Label="@nameof(OrderView.BuyersFullName)"
+                        Text="@_currentOrder.BuyersFullName" />
+                    <MudTextField 
+                        T="string"
+                        Disabled="true"
+                        Label="@nameof(OrderView.BuyersEmailAddress)" 
+                        Text="@_currentOrder.BuyersEmailAddress"/>
+
                     <MudTextField 
                         T="string"
                         Label="@nameof(OrderView.AddressLine)" 

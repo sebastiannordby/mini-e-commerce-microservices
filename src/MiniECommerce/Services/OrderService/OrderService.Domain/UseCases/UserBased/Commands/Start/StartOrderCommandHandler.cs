@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using MiniECommerce.Authentication.Services;
 using MiniECommerce.Library.Events.OrderService;
 using MiniECommerce.Library.Services.BasketService;
@@ -20,26 +21,32 @@ namespace OrderService.Domain.UseCases.UserBased.Commands.Start
         private readonly IOrderService _orderService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IBus _bus;
+        private readonly ILogger<StartOrderCommandHandler> _logger;
 
         public StartOrderCommandHandler(
             IInitializeOrderService initializeOrderService,
             IGatewayBasketRepository basketRepository,
             IOrderService orderService,
             ICurrentUserService currentUserService,
-            IBus bus)
+            IBus bus,
+            ILogger<StartOrderCommandHandler> logger)
         {
             _initializeOrderService = initializeOrderService;
             _basketRepository = basketRepository;
             _orderService = orderService;
             _currentUserService = currentUserService;
             _bus = bus;
+            _logger = logger;
         }
 
         public async Task<Guid> Handle(StartOrderCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("{0} has started an order", _currentUserService.UserFullName);
+
             var order = await _initializeOrderService.Initialize(
-                request.BuyersFullName,
+                _currentUserService.UserFullName,
                 _currentUserService.UserEmail);
+
 
             var basketItems = await _basketRepository.GetList(_currentUserService.UserEmail);
             if (basketItems == null)

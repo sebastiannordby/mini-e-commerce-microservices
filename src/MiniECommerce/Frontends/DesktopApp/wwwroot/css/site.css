@@ -78,3 +78,22 @@ a, .btn-link {
     top: 50%;
     left: 50%;
 }
+
+
+.product-section:nth-child(even) {
+    border-radius: 20px;
+    color: #fff;
+    padding: 2em !important;
+    background: radial-gradient(#594ae2, #261212);
+}
+
+.product-section:nth-child(odd) {
+    background: radial-gradient(#261212, #594ae2);
+    border-radius: 20px;
+    padding: 2em !important;
+    color: #fff;
+}
+
+.mud-input > input.mud-input-root.mud-input-root-filled, div.mud-input-slot.mud-input-root.mud-input-root-filled {
+    padding: 12px 12px 10px !important;
+}

@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.UseCases.UserBased.Commands.Start
 {
-    public sealed record StartOrderCommand(
-        string BuyersFullName
-    ) : IRequest<Guid>;
+    public sealed record StartOrderCommand : IRequest<Guid>;
 }

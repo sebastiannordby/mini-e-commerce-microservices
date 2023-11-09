@@ -50,7 +50,6 @@ namespace OrderService.API.Controllers
             return Ok(new QueryResponse<Guid?>(result));
         }
 
-
         [HttpPost("set-address")]
         public async Task<IActionResult> SetAddress(
             [FromBody] SetOrderAddressCommandDto command)
@@ -69,12 +68,10 @@ namespace OrderService.API.Controllers
         }
 
         [HttpPost("start")]
-        public async Task<IActionResult> StartOrder(
-            [FromBody] StartOrderCommandDto commandDto)
+        public async Task<IActionResult> StartOrder()
         {
-            var result = await _mediator.Send(new StartOrderCommand(
-                commandDto.BuyersFullName
-            ));
+            var result = await _mediator.Send(
+                new StartOrderCommand());
 
             return Ok(new CommandResponse<Guid>(result));
         }

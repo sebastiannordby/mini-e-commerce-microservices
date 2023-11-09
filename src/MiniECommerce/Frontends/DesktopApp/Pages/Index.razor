@@ -17,34 +17,40 @@ else if(_products is not null)
 
             <div class="d-flex align-items-center gap-2 p-2">
                 <MudTextField 
-                    Style="max-width:250px" 
-                    @bind-Value="@_searchValue" 
-                    OnKeyUp="FetchProducts"
-                    Immediate="true" 
-                    Label="Search" />
+                    T="string" 
+                    @bind-Value="_searchValue" 
+                    Placeholder="Search products..." 
+                    AdornmentIcon="@Icons.Material.Filled.Search" 
+                    AdornmentColor="Color.Primary" 
+                    Adornment="Adornment.End" 
+                    OnAdornmentClick="FetchProducts" 
+                    Variant="Variant.Filled" 
+                    FullWidth="true" />
                 <MudNumericField 
                     @bind-Value="_fromPricePerQuantity" 
-                    Label="From price" 
+                    Placeholder="From price" 
+                    FullWidth="false"
                     OnKeyUp="FetchProducts"
-                    Variant="Variant.Text" 
+                    Variant="Variant.Filled" 
                     Min="0"  />
                 <MudNumericField 
                     @bind-Value="_toPricePerQuantity" 
-                    Label="To price" 
+                    Placeholder="To price"
+                    FullWidth="false"
                     OnKeyUp="FetchProducts"
-                    Variant="Variant.Text" 
+                    Variant="Variant.Filled" 
                     Min="1"  />
                 <MudIconButton 
                     Icon="@Icons.Material.Outlined.Refresh"
                     OnClick="FetchProducts" />
             </div>
 
-            <div class="overflow-auto flex-grow-1 h-100 w-100 d-flex flex-column gap-8 p-2">
+            <div class="overflow-auto flex-grow-1 h-100 w-100 d-flex flex-column gap-8 p-2 pt-6">
                 @foreach(var grouping in _productGrouping)
                 {
-                    <div class="d-inline-flex flex-column p-2">
+                    <div class="product-section d-inline-flex flex-column p-2">
                         <MudText Typo="Typo.h5">@grouping.Key</MudText>
-                        <div class="d-flex flex-wrap gap-4 p-4 justify-content-center">
+                        <div class="d-flex gap-4 p-4 justify-content-center overflow-auto">
                             @foreach (var product in grouping)
                             {
                                 var isInBasket = _basketItems?
@@ -52,7 +58,8 @@ else if(_products is not null)
 
                                 <MudCard 
                                     Elevation="1"
-                                    Class="d-flex flex-column" Style="width: 300px; height: 200px;">
+                                    Class="d-flex flex-column" 
+                                    Style="min-width: 300px; width: 100%; max-width: 300px; height: 200px;">
                                     <MudCardHeader>
                                         <CardHeaderContent>
                                             <MudText Style="width: 100%; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" Typo="Typo.h6">

@@ -10,7 +10,7 @@ namespace MiniECommerce.Library.Services.OrderService
 {
     public interface IGatewayOrderRepository
     {
-        Task<Guid> StartOrder(StartOrderCommandDto command);
+        Task<Guid> StartOrder();
     }
 
     internal sealed class GatewayOrderRepository : IGatewayOrderRepository
@@ -22,7 +22,7 @@ namespace MiniECommerce.Library.Services.OrderService
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<Guid> StartOrder(StartOrderCommandDto command)
+        public async Task<Guid> StartOrder()
         {
             var req = new HttpRequestMessage()
             {

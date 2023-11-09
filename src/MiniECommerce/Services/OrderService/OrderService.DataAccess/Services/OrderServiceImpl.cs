@@ -72,7 +72,7 @@ namespace OrderService.DataAccess.Services
             var orderId = await _dbContext.Orders
                 .AsNoTracking()
                 .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
-                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .Where(x => x.Status < OrderStatus.WaitingForConfirmation)
                 .Select(x => (Guid?) x.Id)
                 .FirstOrDefaultAsync();
 
@@ -84,6 +84,7 @@ namespace OrderService.DataAccess.Services
             return await _dbContext.Orders
                 .AsNoTracking()
                 .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status < OrderStatus.WaitingForConfirmation)
                 .AnyAsync();
         }
 

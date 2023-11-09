@@ -50,15 +50,7 @@ namespace DesktopApp.Pages
 
         private async Task StartOrder()
         {
-            var fullName = await JSRuntime.InvokeAsync<string>("prompt", "Your full name");
-            if (string.IsNullOrWhiteSpace(fullName))
-                return;
-
-            var orderId = await OrderRepository.Start(new StartOrderCommandDto()
-            {
-                BuyersEmailAddress = UserEmail,
-                BuyersFullName = fullName
-            });
+            var orderId = await OrderRepository.Start();
 
             Snackbar.Add("Order started.");
             NavigationManager.NavigateTo("/order");
