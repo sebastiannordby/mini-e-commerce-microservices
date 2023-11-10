@@ -12,7 +12,13 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>OrderService.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
     <ProjectReference Include="..\OrderService.Library\OrderService.Library.csproj" />
   </ItemGroup>

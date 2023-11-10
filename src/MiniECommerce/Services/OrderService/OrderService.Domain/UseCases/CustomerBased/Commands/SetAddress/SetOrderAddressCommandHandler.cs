@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MediatR;
 using MiniECommerce.Authentication.Services;
+using MiniECommerce.Library.Events.OrderService;
 using OrderService.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,18 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetAddress
         private readonly IOrderService _orderService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBus _bus;
 
         public SetOrderAddressCommandHandler(
             IOrderService orderService,
             ICurrentUserService currentUserService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IBus bus)
         {
             _orderService = orderService;
             _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
+            _bus = bus;
         }
 
         public async Task<bool> Handle(SetOrderAddressCommand request, CancellationToken cancellationToken)
@@ -40,12 +44,19 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetAddress
             var setWaitingForConfirmationRes = await _orderService.SetWaitingForConfirmation(
                 _currentUserService.UserEmail);
 
-            if (setAddressRes && setWaitingForConfirmationRes)
-                await _unitOfWork.CommitAsync();
-            else
+            if(!setAddressRes || !setWaitingForConfirmationRes)
+            {
                 await _unitOfWork.RollbackAsync();
+                return false;
+            }
 
-            return setAddressRes && setWaitingForConfirmationRes;
+            await _unitOfWork.CommitAsync();
+
+            await _bus.Publish(new OrderSetToWaitingForConfirmationEvent(
+                _currentUserService.UserFullName
+            ));
+
+            return true;
         }
     }
 }

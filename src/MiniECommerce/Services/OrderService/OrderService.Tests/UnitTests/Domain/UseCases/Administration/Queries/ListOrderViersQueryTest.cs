@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Tests.Domain.Administration.Queries
+namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Queries
 {
     public class ListOrderViersQueryTest : BaseOrderServiceTest
     {
@@ -19,7 +19,7 @@ namespace OrderService.Tests.Domain.Administration.Queries
             var mediator = Services.GetRequiredService<IMediator>();
 
             var res = await mediator.Send(new AdmListOrderViewsQuery(
-                
+
             ));
 
             Assert.IsNotNull(res);

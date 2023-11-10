@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using MiniECommerce.Library.Services.ProductService;
 using MiniECommerce.Library.Services.BasketService;
 using OrderService.Tests.Repositories;
+using OrderService.Domain.Services;
+using OrderService.Tests.Services;
 
 namespace OrderService.Tests
 {
@@ -29,7 +31,14 @@ namespace OrderService.Tests
                         b.EnableNullChecks(false);
                     });
                 });
+                
                 services.RemoveAll<IGatewayBasketRepository>();
+                services.RemoveAll<IOrderService>();
+                services.RemoveAll<IUnitOfWork>();
+
+                services.AddScoped<IUnitOfWork, MockUnitOfWork>();
+                services.AddScoped<IOrderService, MockOrderService>();
+
                 services.AddScoped<IGatewayBasketRepository, GatewayMockBasketRepository>();
                 services.AddMassTransitTestHarness(x =>
                 {
@@ -41,7 +50,7 @@ namespace OrderService.Tests
         [TearDown]
         public void Cleanup()
         {
-            var dbContext = Services.GetService<OrderDbContext>();
+            var dbContext = Services.GetRequiredService<OrderDbContext>();
 
             dbContext.Database.EnsureDeleted();
         }

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Tests.Domain.Administration.Commands
+namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
 {
     public class AdmConfirmOrderCommandTests : BaseOrderServiceTest
     {
@@ -28,7 +28,7 @@ namespace OrderService.Tests.Domain.Administration.Commands
 
             var orderId = await orderService.Save(orderToSave);
 
-            Assert.ThrowsAsync<Exception>(async() =>
+            Assert.ThrowsAsync<Exception>(async () =>
             {
                 await mediator.Send(new AdmConfirmOrderCommand(orderId));
             });

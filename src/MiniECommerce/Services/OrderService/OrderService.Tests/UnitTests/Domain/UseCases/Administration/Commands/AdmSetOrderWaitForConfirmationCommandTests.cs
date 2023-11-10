@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Tests.Domain.Administration.Commands
+namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
 {
     public class AdmSetOrderWaitForConfirmationCommandTests : BaseOrderServiceTest
     {

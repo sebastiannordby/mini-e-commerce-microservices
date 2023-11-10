@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.Consumers
 {
-    public sealed class ProductAddedToBasketConsumer : IConsumer<ProductAddedToBasketEvent>
+    internal sealed class ProductAddedToBasketConsumer : IConsumer<ProductAddedToBasketEvent>
     {
         private readonly ILogger<ProductAddedToBasketConsumer> _logger;
 
-        public ProductAddedToBasketConsumer(ILogger<ProductAddedToBasketConsumer> logger)
+        internal ProductAddedToBasketConsumer(ILogger<ProductAddedToBasketConsumer> logger)
         {
             _logger = logger;
         }

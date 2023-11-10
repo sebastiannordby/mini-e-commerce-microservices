@@ -117,6 +117,8 @@ namespace MiniECommerce.Authentication
 
                 busConfigurator.UsingRabbitMq((context, configurator) =>
                 {
+                    configurator.Durable = true;
+
                     configurator.Host(new Uri(messageBrokerHost), c =>
                     {
                         c.Username(messageBrokerUsername);
