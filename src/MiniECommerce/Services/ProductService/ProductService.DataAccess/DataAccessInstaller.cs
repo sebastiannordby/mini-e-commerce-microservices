@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProductService.DataAccess.Repositories;
-using ProductService.DataAccess.Repositories.Implementation;
+using ProductService.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

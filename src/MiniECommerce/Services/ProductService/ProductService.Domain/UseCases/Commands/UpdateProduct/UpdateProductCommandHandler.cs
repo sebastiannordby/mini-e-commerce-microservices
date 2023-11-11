@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using ProductService.DataAccess.Repositories;
+using ProductService.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

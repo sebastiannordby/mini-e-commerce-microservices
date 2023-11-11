@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ProductService.DataAccess.Repositories;
+using ProductService.Domain.Repositories;
 using ProductService.Library.Models;
 using System;
 using System.Collections.Generic;

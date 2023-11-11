@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductService.DataAccess.Repositories
+namespace ProductService.Domain.Repositories
 {
     public interface IProductViewRepository
     {

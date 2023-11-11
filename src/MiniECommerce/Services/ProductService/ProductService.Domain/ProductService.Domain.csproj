@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -18,7 +18,6 @@
 
 	<ItemGroup>
       <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
-      <ProjectReference Include="..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
       <ProjectReference Include="..\ProductService.Library\ProductService.Library.csproj" />
     </ItemGroup>
 </Project>

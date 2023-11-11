@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ProductService.DataAccess.Repositories;
+using ProductService.Domain.Repositories;
 using ProductService.Domain.UseCases.Commands.CreateProduct;
 using ProductService.Domain.UseCases.Commands.UpdateProduct;
 using ProductService.Domain.UseCases.Queries.Find;

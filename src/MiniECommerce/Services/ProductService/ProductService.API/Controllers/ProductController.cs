@@ -7,22 +7,17 @@ using ProductService.Domain.UseCases.Commands.CreateProduct;
 using ProductService.Domain.UseCases.Commands.UpdateProduct;
 using ProductService.Domain.UseCases.Queries.Find;
 using MiniECommece.APIUtilities;
+using ProductService.Domain.Repositories;
 
 namespace ProductService.API.Controllers
 {
     public class ProductController : ProductServiceController
     {
-        private readonly IProductViewRepository _productViewRepository;
-        private readonly IProductRepository _productRepository;
         private readonly IMediator _mediator;
 
         public ProductController(
-            IProductViewRepository productViewRepository,
-            IProductRepository productRepository,
             IMediator mediator)
         {
-            _productViewRepository = productViewRepository;
-            _productRepository = productRepository;
             _mediator = mediator;
         }
 

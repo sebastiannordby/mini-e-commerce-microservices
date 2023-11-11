@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductService.DataAccess.Models;
+using ProductService.Domain.Repositories;
 using ProductService.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductService.DataAccess.Repositories.Implementation
+namespace ProductService.DataAccess.Repositories
 {
     internal sealed class ProductRepository : IProductRepository
     {
@@ -53,9 +54,9 @@ namespace ProductService.DataAccess.Repositories.Implementation
                 description: product.Description,
                 category: product.Category,
                 pricePerQuantity: product.PricePerQuantity,
-                imageUri: product.ImageUri); 
+                imageUri: product.ImageUri);
 
-            await _dbContext.Products.AddAsync( productDao );
+            await _dbContext.Products.AddAsync(productDao);
             await _dbContext.SaveChangesAsync();
 
             return productDao.Id;

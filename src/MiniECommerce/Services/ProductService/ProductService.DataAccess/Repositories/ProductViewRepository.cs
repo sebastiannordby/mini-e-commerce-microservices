@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProductService.Domain.Repositories;
 
-namespace ProductService.DataAccess.Repositories.Implementation
+namespace ProductService.DataAccess.Repositories
 {
     internal sealed class ProductViewRepository : IProductViewRepository
     {
@@ -34,9 +35,9 @@ namespace ProductService.DataAccess.Repositories.Implementation
         {
             var query = _dbContext.Products.AsNoTracking();
 
-            if(fromPricePerQuantity.HasValue)
-                query = query.Where(x => 
-                    x.PricePerQuantity >= fromPricePerQuantity.Value); 
+            if (fromPricePerQuantity.HasValue)
+                query = query.Where(x =>
+                    x.PricePerQuantity >= fromPricePerQuantity.Value);
 
             if (toPricePerQuantity.HasValue)
                 query = query.Where(x =>
