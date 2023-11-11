@@ -9,7 +9,14 @@
 	    <PackageReference Include="MediatR" Version="12.1.1" />
 	    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
-    <ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>ProductService.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
       <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
       <ProjectReference Include="..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
       <ProjectReference Include="..\ProductService.Library\ProductService.Library.csproj" />

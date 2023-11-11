@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProductService.Domain.Consumers
 {
-    internal sealed class OrderSetToWaitingForConfirmationConsumer : IConsumer<OrderSetToWaitingForConfirmationEvent>
+    public sealed class OrderSetToWaitingForConfirmationConsumer : IConsumer<OrderSetToWaitingForConfirmationEvent>
     {
         private readonly ILogger<OrderSetToWaitingForConfirmationConsumer> _logger;
 
@@ -23,7 +23,7 @@ namespace ProductService.Domain.Consumers
         {
             _logger.LogInformation("Consuming: {0}, Consumed by: {1}", 
                 nameof(OrderSetToWaitingForConfirmationEvent),
-                nameof(OrderSetToWaitingForConfirmationEvent));
+                nameof(OrderSetToWaitingForConfirmationConsumer));
 
             return Task.CompletedTask;
         }

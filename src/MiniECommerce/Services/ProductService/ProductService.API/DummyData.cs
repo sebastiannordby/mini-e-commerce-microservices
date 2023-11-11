@@ -13,26 +13,27 @@ namespace ProductService.API
         internal static void UseDummyData(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
-            var context = scope.ServiceProvider.GetService<ProductDbContext>();
-            if (context == null)
-                return;
+            var context = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
 
-            var random = new Random();
-
-            for (int i = 1; i <= 75; i++)
+            if(!context.Products.Any())
             {
-                context.Products.Add(new()
-                {
-                    Number = i,
-                    Name = GetRandomProductName(random),
-                    Category = GetRandomCategory(random),
-                    Description = GetRandomDescription(random),
-                    ImageUri = GetRandomImageUri(random),
-                    PricePerQuantity = 20 + random.Next(1, 2500)
-                });
-            }
+                var random = new Random();
 
-            context.SaveChanges();
+                for (int i = 1; i <= 75; i++)
+                {
+                    context.Products.Add(new()
+                    {
+                        Number = i,
+                        Name = GetRandomProductName(random),
+                        Category = GetRandomCategory(random),
+                        Description = GetRandomDescription(random),
+                        ImageUri = GetRandomImageUri(random),
+                        PricePerQuantity = 20 + random.Next(1, 2500)
+                    });
+                }
+
+                context.SaveChanges();
+            }
         }
 
         private static string GetRandomImageUri(Random random)

@@ -2,6 +2,7 @@ using MiniECommerce.Testing;
 using Microsoft.EntityFrameworkCore;
 using ProductService.DataAccess;
 using ProductService.Domain;
+using MassTransit;
 
 namespace ProductService.Tests
 {
@@ -20,6 +21,10 @@ namespace ProductService.Tests
                     efOptions.UseInMemoryDatabase(nameof(BaseProductServiceTest), b => {
                         b.EnableNullChecks(false);
                     });
+                });
+                services.AddMassTransitTestHarness(x =>
+                {
+                    x.AddConsumers(typeof(ProductService.Domain.Consumers.OrderSetToWaitingForConfirmationConsumer).Assembly);
                 });
             });
         }

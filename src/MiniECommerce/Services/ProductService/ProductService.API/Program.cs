@@ -19,7 +19,8 @@ public class Program
             throw new ArgumentException("ConnectionStrings:DefaultConnection must be provided.");
 
         builder.Services.AddControllers();
-        builder.AddECommerceLibrary();
+        builder.AddECommerceLibrary(
+            consumerAssembly: typeof(ProductService.Domain.DomainInstaller).Assembly);
         builder.Services.AddProductServiceDomainLayer();
         builder.Services.AddProductServiceDataAccessLayer(efOptions =>
         {

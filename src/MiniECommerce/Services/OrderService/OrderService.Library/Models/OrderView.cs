@@ -20,6 +20,11 @@ namespace OrderService.Library.Models
         public string? Country { get; private set; }
         public IEnumerable<OrderLine> Lines { get; set; }
 
+        public OrderView()
+        {
+
+        }
+
         public OrderView(
             Guid id, 
             int number,
