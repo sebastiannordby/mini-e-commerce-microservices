@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -9,6 +9,11 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>ProductService.Tests</_Parameter1>
+		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\ProductService.Domain\ProductService.Domain.csproj" />

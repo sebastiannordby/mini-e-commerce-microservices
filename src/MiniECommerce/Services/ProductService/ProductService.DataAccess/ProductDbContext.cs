@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ProductService.DataAccess
 {
-    public class ProductDbContext : DbContext
+    internal class ProductDbContext : DbContext
     {
-        public DbSet<ProductDao> Products { get; set; }
-        public DbSet<ProductPurchaseStatsDao> ProductPurchaseStats { get; set; }
+        internal DbSet<ProductDao> Products { get; set; }
+        internal DbSet<ProductPurchaseStatsDao> ProductPurchaseStats { get; set; }
 
         public ProductDbContext(
             DbContextOptions options) : base(options)
