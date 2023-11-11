@@ -13,7 +13,7 @@ namespace OrderService.Domain.Consumers
     {
         private readonly ILogger<ProductAddedToBasketConsumer> _logger;
 
-        internal ProductAddedToBasketConsumer(ILogger<ProductAddedToBasketConsumer> logger)
+        public ProductAddedToBasketConsumer(ILogger<ProductAddedToBasketConsumer> logger)
         {
             _logger = logger;
         }

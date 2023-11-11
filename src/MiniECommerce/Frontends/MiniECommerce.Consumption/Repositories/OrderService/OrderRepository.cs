@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentResults;
+using Microsoft.AspNetCore.Http;
 using MiniECommerce.Consumption.Responses;
 using OrderService.Library.Commands;
 using OrderService.Library.Models;
@@ -60,7 +61,7 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
             return res?.Data ?? Enumerable.Empty<OrderView>();
         }
 
-        public async Task<bool> SetAddress(SetOrderAddressCommandDto command)
+        public async Task<Result> SetAddress(SetOrderAddressCommandDto command)
         {
             var req = new HttpRequestMessage()
             {
@@ -70,9 +71,9 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
                     JsonSerializer.Serialize(command), Encoding.UTF8, "application/json")
             };
 
-            var res = await Send<CommandResponse<bool>>(req);
+            var res = await Send<CommandResponse<Result>>(req);
 
-            return res?.Data ?? false;
+            return res?.Data ?? Result.Fail("Error in HttpRequest");
         }
 
         public async Task<Guid?> Start()

@@ -26,7 +26,7 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
             var orderToSave = await initOrderService.Initialize(
                 nameof(TestCanOnlyConfirmUnderCertainCrit), nameof(TestCanOnlyConfirmUnderCertainCrit));
 
-            var orderId = await orderService.Save(orderToSave);
+            var orderId = await orderService.SaveAsync(orderToSave);
 
             Assert.ThrowsAsync<Exception>(async () =>
             {
@@ -45,7 +45,7 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
             var orderToSave = await initOrderService.Initialize(
                 nameof(TestCanConfirmOrder), nameof(TestCanConfirmOrder));
 
-            var orderId = await orderService.Save(orderToSave);
+            var orderId = await orderService.SaveAsync(orderToSave);
 
             var waitingForConfirmationRes = await mediator.Send(
                 new AdmSetOrderWaitForConfirmationCommand(orderId));

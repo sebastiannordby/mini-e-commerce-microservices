@@ -39,8 +39,8 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Queries
             var order2ToSave = await initOrderService.Initialize(
                 nameof(QueryShouldContainRecords), nameof(QueryShouldContainRecords));
 
-            var order1Id = await orderService.Save(order1ToSave);
-            var order2Id = await orderService.Save(order2ToSave);
+            var order1Id = await orderService.SaveAsync(order1ToSave);
+            var order2Id = await orderService.SaveAsync(order2ToSave);
 
             var res = await mediator.Send(new AdmListOrderViewsQuery(
 

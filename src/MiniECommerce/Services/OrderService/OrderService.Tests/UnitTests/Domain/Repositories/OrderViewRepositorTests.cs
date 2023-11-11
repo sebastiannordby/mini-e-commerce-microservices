@@ -42,7 +42,7 @@ namespace OrderService.Tests.UnitTests.Domain.Repositories
             var orderToSave = await initOrderService.Initialize(
                 currentUserService.UserFullName, currentUserService.UserEmail);
 
-            var orderId = await orderService.Save(orderToSave);
+            var orderId = await orderService.SaveAsync(orderToSave);
             var orderView = await orderViewRepository.Find(orderId);
 
             Assert.IsNotNull(orderView);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using OrderService.Library.Commands;
 using OrderService.Library.Models;
+using FluentResults;
 
 namespace MiniECommerce.Consumption.Repositories.OrderService
 {
@@ -14,6 +15,6 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
         Task<OrderView?> Get(Guid orderId);
         Task<Guid?> Start();
         Task<Guid?> GetStartedOrder();
-        Task<bool> SetAddress(SetOrderAddressCommandDto command);
+        Task<Result> SetAddress(SetOrderAddressCommandDto command);
     }
 }

@@ -24,7 +24,7 @@ namespace OrderService.Domain.UseCases.CustomerBased.Queries.FindStarted
 
         public async Task<Guid?> Handle(FindStartedOrderQuery request, CancellationToken cancellationToken)
         {
-            return await _orderService.GetStartedOrderId(_currentUserService.UserEmail);
+            return await _orderService.GetStartedOrderIdAsync(_currentUserService.UserEmail);
         }
     }
 }

@@ -22,12 +22,12 @@ namespace OrderService.Domain.Services.Implementation
             string buyersFullName,
             string buyersEmailAddress)
         {
-            var hasOrderInProgress = await _orderService.HasOrderInProgress(buyersEmailAddress);
+            var hasOrderInProgress = await _orderService.HasOrderInProgressAsync(buyersEmailAddress);
             if (hasOrderInProgress)
                 throw new AlreadyHasOrderInProgressException(
                     "Cannot create an order when you already have one in progress.");
 
-            var newNumber = await _orderService.GetNewNumber();
+            var newNumber = await _orderService.GetNewNumberAsync();
 
             return new Order(newNumber, buyersFullName, buyersEmailAddress);
         }

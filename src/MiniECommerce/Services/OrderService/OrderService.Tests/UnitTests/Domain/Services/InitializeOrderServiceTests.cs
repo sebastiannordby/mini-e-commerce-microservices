@@ -21,7 +21,7 @@ namespace OrderService.Tests.UnitTests.Domain.Services
             var orderToSave = await initOrderService.Initialize(
                 nameof(TestFindOrder), nameof(TestFindOrder));
 
-            var newOrderId = await orderService.Save(orderToSave);
+            var newOrderId = await orderService.SaveAsync(orderToSave);
             var order = await orderService.FindAsync(newOrderId);
 
             Assert.IsNotNull(order);
@@ -39,14 +39,14 @@ namespace OrderService.Tests.UnitTests.Domain.Services
 
             var order1ToSave = await initOrderService.Initialize(
                 currentUserService.UserFullName, currentUserService.UserEmail);
-            var order1Id = await orderService.Save(order1ToSave);
+            var order1Id = await orderService.SaveAsync(order1ToSave);
 
-            await orderService.SetWaitingForConfirmation(
+            await orderService.SetWaitingForConfirmationAsync(
                 currentUserService.UserEmail);
 
             var order2ToSave = await initOrderService.Initialize(
                 currentUserService.UserFullName, currentUserService.UserEmail);
-            var order2Id = await orderService.Save(order1ToSave);
+            var order2Id = await orderService.SaveAsync(order1ToSave);
 
             var orders = await orderViewRepository.List(
                 currentUserService.UserEmail);

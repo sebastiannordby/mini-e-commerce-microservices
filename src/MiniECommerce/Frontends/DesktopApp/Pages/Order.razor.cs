@@ -66,11 +66,13 @@ namespace DesktopApp.Pages
             if (!form.IsValid)
                 return;
 
-            var addressSetSuccessfully = await OrderRepository
+            var setAddressResult = await OrderRepository
                 .SetAddress(_setAddressCommand);
-            if(!addressSetSuccessfully)
+            if(!setAddressResult.IsSuccess)
             {
-                Snackbar.Add("Could not update information.");
+                await DialogService.ShowMessageBox(
+                    "Could not set address", 
+                    String.Join(Environment.NewLine, setAddressResult.Errors));
                 return;
             }
 
@@ -89,6 +91,7 @@ namespace DesktopApp.Pages
             UsersOrderingGauge.Dec();
         }
 
+        [Inject] public required IDialogService DialogService { get; set; }
         [Inject] public required ISnackbar Snackbar { get; set; }
         [Inject] public required NavigationManager NavigationManager { get; set; }
         [Inject] public required IOrderRepository OrderRepository { get; set; }

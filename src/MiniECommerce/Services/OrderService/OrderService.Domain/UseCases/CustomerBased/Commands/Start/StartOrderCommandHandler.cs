@@ -57,7 +57,7 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.Start
             var orderLines = basketItems
                 .Select(basketItem => order.Create(basketItem));
 
-            var orderId = await _orderService.Save(order);
+            var orderId = await _orderService.SaveAsync(order);
 
             await _bus.Publish(new OrderStartedEvent(
                 orderId,

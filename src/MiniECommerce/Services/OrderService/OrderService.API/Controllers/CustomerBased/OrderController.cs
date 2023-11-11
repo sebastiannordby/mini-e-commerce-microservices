@@ -11,6 +11,7 @@ using OrderService.Domain.UseCases.CustomerBased.Queries.FindView;
 using OrderService.Domain.UseCases.CustomerBased.Commands.Start;
 using OrderService.Domain.UseCases.CustomerBased.Commands.SetAddress;
 using OrderService.Domain.UseCases.CustomerBased.Queries.ListViews;
+using FluentResults;
 
 namespace OrderService.API.Controllers.CustomerBased
 {
@@ -64,7 +65,7 @@ namespace OrderService.API.Controllers.CustomerBased
                     command.PostalOffice,
                     command.Country));
 
-            return Ok(new CommandResponse<bool>(result));
+            return Ok(new CommandResponse<Result>(result));
         }
 
         [HttpPost("start")]

@@ -29,7 +29,7 @@ namespace OrderService.Domain.UseCases.Administration.Commands.SetAddress
                 request.PostalOffice,
                 request.Country);
 
-            await _orderService.Save(order);
+            await _orderService.SaveAsync(order);
 
             return true;
         }

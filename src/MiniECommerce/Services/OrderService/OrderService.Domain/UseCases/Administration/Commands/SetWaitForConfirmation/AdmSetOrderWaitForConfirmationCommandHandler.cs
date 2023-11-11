@@ -24,7 +24,7 @@ namespace OrderService.Domain.UseCases.Administration.Commands.SetWaitForConfirm
                 return false;
 
             order.SetWaitingForConfirmation();
-            await _orderService.Save(order);
+            await _orderService.SaveAsync(order);
 
             return true;
         }

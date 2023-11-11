@@ -25,7 +25,7 @@ namespace OrderService.Domain.UseCases.Administration.Commands.Confirm
                 return false;
 
             order.Confirm();
-            await _orderService.Save(order);
+            await _orderService.SaveAsync(order);
 
             return true;
         }

@@ -32,34 +32,34 @@ namespace OrderService.Tests.Services
             return _orderService.FindAsync(id);
         }
 
-        public Task<int> GetNewNumber()
+        public Task<int> GetNewNumberAsync()
         {
-            return _orderService.GetNewNumber();
+            return _orderService.GetNewNumberAsync();
         }
 
-        public Task<Guid?> GetStartedOrderId(string buyersEmailAddress)
+        public Task<Guid?> GetStartedOrderIdAsync(string buyersEmailAddress)
         {
-            return _orderService.GetStartedOrderId(buyersEmailAddress);
+            return _orderService.GetStartedOrderIdAsync(buyersEmailAddress);
         }
 
-        public Task<bool> HasOrderInProgress(string buyersEmailAddress)
+        public Task<bool> HasOrderInProgressAsync(string buyersEmailAddress)
         {
-            return _orderService.HasOrderInProgress(buyersEmailAddress);
+            return _orderService.HasOrderInProgressAsync(buyersEmailAddress);
         }
 
-        public Task<Guid> Save(Order order)
+        public Task<Guid> SaveAsync(Order order)
         {
-            return _orderService.Save(order);
+            return _orderService.SaveAsync(order);
         }
 
-        public async Task<bool> SetAddress(
+        public async Task<bool> SetAddressAsync(
             string buyersEmailAddress, 
             string addressLine, 
             string postalCode, 
             string postalOffice, 
             string country)
         {
-            var startedOrderId = await GetStartedOrderId(buyersEmailAddress);
+            var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);
             var order = startedOrderId.HasValue ? _dbContext.Orders
                 .FirstOrDefault(x => x.Id == startedOrderId) : null;
             if (order is null)
@@ -77,9 +77,9 @@ namespace OrderService.Tests.Services
             return true;
         }
 
-        public async Task<bool> SetWaitingForConfirmation(string buyersEmailAddress)
+        public async Task<bool> SetWaitingForConfirmationAsync(string buyersEmailAddress)
         {
-            var startedOrderId = await GetStartedOrderId(buyersEmailAddress);
+            var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);
             var order = startedOrderId.HasValue ? _dbContext.Orders
                 .FirstOrDefault(x => x.Id == startedOrderId) : null;
             if (order is null)

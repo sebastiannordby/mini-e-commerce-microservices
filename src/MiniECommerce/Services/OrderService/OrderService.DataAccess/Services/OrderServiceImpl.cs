@@ -58,7 +58,7 @@ namespace OrderService.DataAccess.Services
             return order;
         }
 
-        public async Task<int> GetNewNumber()
+        public async Task<int> GetNewNumberAsync()
         {
             var takenNumbers = _dbContext.Orders
                 .Select(x => x.Number);
@@ -67,7 +67,7 @@ namespace OrderService.DataAccess.Services
                 await takenNumbers.MaxAsync() + 1 : 1;  
         }
 
-        public async Task<Guid?> GetStartedOrderId(string buyersEmailAddress)
+        public async Task<Guid?> GetStartedOrderIdAsync(string buyersEmailAddress)
         {
             var orderId = await _dbContext.Orders
                 .AsNoTracking()
@@ -79,7 +79,7 @@ namespace OrderService.DataAccess.Services
             return orderId;
         }
 
-        public async Task<bool> HasOrderInProgress(string buyersEmailAddress)
+        public async Task<bool> HasOrderInProgressAsync(string buyersEmailAddress)
         {
             return await _dbContext.Orders
                 .AsNoTracking()
@@ -88,7 +88,7 @@ namespace OrderService.DataAccess.Services
                 .AnyAsync();
         }
 
-        public async Task<Guid> Save(Order order)
+        public async Task<Guid> SaveAsync(Order order)
         {
             var orderDao = await _dbContext.Orders
                 .FirstOrDefaultAsync(x => x.Id == order.Id);
@@ -117,7 +117,7 @@ namespace OrderService.DataAccess.Services
             return Guid.Empty;
         }
 
-        public async Task<bool> SetAddress(
+        public async Task<bool> SetAddressAsync(
             string buyersEmailAddress,
             string addressLine, 
             string postalCode, 
@@ -142,7 +142,7 @@ namespace OrderService.DataAccess.Services
             return res > 0;
         }
 
-        public async Task<bool> SetWaitingForConfirmation(string buyersEmailAddress)
+        public async Task<bool> SetWaitingForConfirmationAsync(string buyersEmailAddress)
         {
             if (string.IsNullOrWhiteSpace(buyersEmailAddress))
                 return false;
