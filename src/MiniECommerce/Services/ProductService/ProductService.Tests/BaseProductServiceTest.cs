@@ -4,6 +4,9 @@ using ProductService.DataAccess;
 using ProductService.Domain;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using ProductService.Domain.Repositories;
+using ProductService.Tests.Mock.Repositories;
 
 namespace ProductService.Tests
 {
@@ -23,6 +26,10 @@ namespace ProductService.Tests
                         b.EnableNullChecks(false);
                     });
                 });
+
+                services.RemoveAll<IProductPurchaseStatsRepository>();
+                services.AddScoped<IProductPurchaseStatsRepository, MockProductPurchaseStatsRepository>();
+
                 services.AddMassTransitTestHarness(x =>
                 {
                     x.AddConsumers(typeof(ProductService.Domain.Consumers.OrderSetToWaitingForConfirmationConsumer).Assembly);

@@ -24,6 +24,7 @@ namespace ProductService.DataAccess
                     efContextBuilderDelegate)
                 .AddScoped<IProductViewRepository, ProductViewRepository>()
                 .AddScoped<IProductRepository, ProductRepository>()
+                .AddScoped<IProductPurchaseStatsRepository, ProductPurchaseStatsRepository>()
                 .AddScoped<ProductDbContext>();
         }
     }

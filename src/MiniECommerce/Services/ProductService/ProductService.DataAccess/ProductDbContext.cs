@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProductService.DataAccess
 {
-    internal class ProductDbContext : DbContext
+    internal sealed class ProductDbContext : DbContext
     {
         internal DbSet<ProductDao> Products { get; set; }
         internal DbSet<ProductPurchaseStatsDao> ProductPurchaseStats { get; set; }
