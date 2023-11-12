@@ -4,6 +4,9 @@
 
 [![.NET](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml/badge.svg)](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml)
 
+![image](https://github.com/sebastiannordby/mini-e-commerce-microservices/assets/24465003/17e5c7bd-56a7-43a1-9cec-5c8cf8e640db)
+
+
 ### Overview
 
 The primary objective of this project is to develop an e-commerce website. In line with this goal, we've chosen a microservices-based architecture to ensure high performance and flexibility.
