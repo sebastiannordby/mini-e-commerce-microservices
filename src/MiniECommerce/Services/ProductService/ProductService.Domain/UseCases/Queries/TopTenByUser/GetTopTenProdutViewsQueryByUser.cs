@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductService.Domain.UseCases.Queries.TopTen
+namespace ProductService.Domain.UseCases.Queries.TopTenByUser
 {
-    public record GetTopTenProdutViewsQuery : IRequest<IEnumerable<ProductView>>;
+    public record GetTopTenProdutViewsQueryByUser : IRequest<IEnumerable<ProductView>>;
 }

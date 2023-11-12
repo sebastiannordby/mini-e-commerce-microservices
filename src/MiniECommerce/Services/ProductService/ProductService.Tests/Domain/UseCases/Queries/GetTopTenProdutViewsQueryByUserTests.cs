@@ -1,51 +1,28 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using MiniECommerce.Authentication.Services;
 using ProductService.Domain.Repositories;
+using ProductService.Domain.UseCases.Queries.TopTenByUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductService.Tests.Domain.Repositories
+namespace ProductService.Tests.Domain.UseCases.Queries
 {
-    public class ProductStatsRepositoryTests : BaseProductServiceTest
+    public sealed class GetTopTenProdutViewsQueryByUserTests : BaseProductServiceTest
     {
         [Test]
-        public async Task TestInsertStats()
+        public async Task TestQuery()
         {
             var statsRepository = Services.GetRequiredService<IProductPurchaseStatsRepository>();
             var productRepository = Services.GetRequiredService<IProductRepository>();
             var currentUserService = Services.GetRequiredService<ICurrentUserService>();
+            var mediator = Services.GetRequiredService<IMediator>();
 
-            var productId = await productRepository.Create(new() { 
-                Name = "",
-                Category = nameof(TestInsertStats),
-                Description = nameof(TestInsertStats),
-                ImageUri = "https://dummydata.com/img_hello.png",
-                Number = 1,
-                PricePerQuantity = 22
-            });
-
-            Assert.DoesNotThrowAsync(async () =>
-            {
-                await statsRepository.InsertOrUpdateAsync(
-                    currentUserService.UserEmail,
-                    productId,
-                    quantity: 1
-                );
-            });
-        }
-
-        [Test]
-        public async Task TestSelectTopTenProductsByUser()
-        {
-            var statsRepository = Services.GetRequiredService<IProductPurchaseStatsRepository>();
-            var productRepository = Services.GetRequiredService<IProductRepository>();
-            var currentUserService = Services.GetRequiredService<ICurrentUserService>();
-
-            var topProductName = $"{nameof(TestInsertStats)}_1";
-            var secondTopProductName = $"{nameof(TestInsertStats)}_2";
+            var topProductName = $"{nameof(TestQuery)}_1";
+            var secondTopProductName = $"{nameof(TestQuery)}_2";
 
             var topProductId = await productRepository.Create(new()
             {
@@ -77,12 +54,11 @@ namespace ProductService.Tests.Domain.Repositories
                  topProductId,
                  quantity: 2);
 
-            var products = await statsRepository
-                .GetTopTenProductsByUser(currentUserService.UserEmail);
+            var products = await mediator.Send(new GetTopTenProdutViewsQueryByUser());
 
-            var productViewIndexZero = products.Count() >= 1 ? 
+            var productViewIndexZero = products.Count() >= 1 ?
                 products.ElementAt(0) : null;
-            var productViewIndexOne = products.Count() >= 2 ? 
+            var productViewIndexOne = products.Count() >= 2 ?
                 products.ElementAt(1) : null;
 
             Assert.IsNotNull(products);
@@ -95,14 +71,15 @@ namespace ProductService.Tests.Domain.Repositories
         }
 
         [Test]
-        public async Task TestSelectTopTenProducts()
+        public async Task TestReturnsProductWhenUserHasNotBought()
         {
             var statsRepository = Services.GetRequiredService<IProductPurchaseStatsRepository>();
             var productRepository = Services.GetRequiredService<IProductRepository>();
             var currentUserService = Services.GetRequiredService<ICurrentUserService>();
+            var mediator = Services.GetRequiredService<IMediator>();
 
-            var topProductName = $"{nameof(TestInsertStats)}_1";
-            var secondTopProductName = $"{nameof(TestInsertStats)}_2";
+            var topProductName = $"{nameof(TestQuery)}_1";
+            var secondTopProductName = $"{nameof(TestQuery)}_2";
 
             var topProductId = await productRepository.Create(new()
             {
@@ -125,26 +102,17 @@ namespace ProductService.Tests.Domain.Repositories
             });
 
             await statsRepository.InsertOrUpdateAsync(
-                 currentUserService.UserEmail + "1",
-                 topProductId,
-                 quantity: 122);
+                 "not@signed.on",
+                 secondTopProductId,
+                 quantity: 1);
 
             await statsRepository.InsertOrUpdateAsync(
-                 currentUserService.UserEmail + "2",
+                 "not@signed.on",
                  topProductId,
                  quantity: 2);
 
-            await statsRepository.InsertOrUpdateAsync(
-                 currentUserService.UserEmail + "1",
-                 secondTopProductId,
-                 quantity: 12);
+            var products = await mediator.Send(new GetTopTenProdutViewsQueryByUser());
 
-            await statsRepository.InsertOrUpdateAsync(
-                 currentUserService.UserEmail + "2",
-                 secondTopProductId,
-                 quantity: 10);
-
-            var products = await statsRepository.GetTopTenProducts();
             var productViewIndexZero = products.Count() >= 1 ?
                 products.ElementAt(0) : null;
             var productViewIndexOne = products.Count() >= 2 ?

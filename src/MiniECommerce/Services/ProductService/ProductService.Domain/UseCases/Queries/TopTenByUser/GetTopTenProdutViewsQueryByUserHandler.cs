@@ -8,15 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductService.Domain.UseCases.Queries.TopTen
+namespace ProductService.Domain.UseCases.Queries.TopTenByUser
 {
-    public sealed class GetTopTenProdutViewsQueryHandler :
-        IRequestHandler<GetTopTenProdutViewsQuery, IEnumerable<ProductView>>
+    public sealed class GetTopTenProdutViewsQueryByUserHandler :
+        IRequestHandler<GetTopTenProdutViewsQueryByUser, IEnumerable<ProductView>>
     {
         private readonly IProductPurchaseStatsRepository _purchaseStatsRepository;
         private readonly ICurrentUserService _currentUserService;
 
-        public GetTopTenProdutViewsQueryHandler(
+        public GetTopTenProdutViewsQueryByUserHandler(
             IProductPurchaseStatsRepository purchaseStatsRepository, 
             ICurrentUserService currentUserService)
         {
@@ -24,10 +24,13 @@ namespace ProductService.Domain.UseCases.Queries.TopTen
             _currentUserService = currentUserService;
         }
 
-        public async Task<IEnumerable<ProductView>> Handle(GetTopTenProdutViewsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductView>> Handle(GetTopTenProdutViewsQueryByUser request, CancellationToken cancellationToken)
         {
             var personalStats = await _purchaseStatsRepository.GetTopTenProductsByUser(
                 _currentUserService.UserEmail);
+
+            if (!personalStats.Any())
+                return await _purchaseStatsRepository.GetTopTenProducts();
 
             return personalStats;
         }
