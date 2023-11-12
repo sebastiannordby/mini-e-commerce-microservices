@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductService.DataAccess.Models;
 using ProductService.Domain.Repositories;
+using ProductService.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,55 @@ namespace ProductService.DataAccess.Repositories
         public ProductPurchaseStatsRepository(ProductDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<IEnumerable<ProductView>> GetTopTenProducts()
+        {
+            var topProductsQuery = (
+                from stats in _dbContext.ProductPurchaseStats
+                    .AsNoTracking()
+                    .GroupBy(x => x.ProductId)
+                    .Select(grouping => new
+                    {
+                        ProductId = grouping.Key,
+                        SumQuantityBought = grouping.Sum(p => p.TotalQuantityBought)
+                    })
+                join product in _dbContext.Products
+                    on stats.ProductId equals product.Id
+                orderby stats.SumQuantityBought descending
+                select product
+            );
+
+            var topTenProductsQuery = topProductsQuery
+                .Take(10)
+                .Select(x => ProductViewRepository.ConvertToView(x));
+
+            return await Task.FromResult(topTenProductsQuery);
+        }
+
+        public async Task<IEnumerable<ProductView>> GetTopTenProductsByUser(string userEmail)
+        {
+            var topProductsQuery = (
+                from stats in _dbContext.ProductPurchaseStats
+                    .AsNoTracking()
+                    .Where(x => x.BuyersEmailAddress == userEmail)
+                    .GroupBy(x => x.ProductId)
+                    .Select(grouping => new
+                    {
+                        ProductId = grouping.Key,
+                        SumQuantityBought = grouping.Sum(p => p.TotalQuantityBought)
+                    })
+                join product in _dbContext.Products
+                    on stats.ProductId equals product.Id
+                orderby stats.SumQuantityBought descending
+                select product
+            );
+
+            var topTenProductsQuery = topProductsQuery
+                .Take(10)
+                .Select(x => ProductViewRepository.ConvertToView(x));
+
+            return await Task.FromResult(topTenProductsQuery);
         }
 
         public async Task InsertOrUpdateAsync(

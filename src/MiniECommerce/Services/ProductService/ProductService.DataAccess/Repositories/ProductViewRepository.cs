@@ -52,7 +52,7 @@ namespace ProductService.DataAccess.Repositories
                 .ToListAsync();
         }
 
-        private static ProductView ConvertToView(ProductDao dao)
+        public static ProductView ConvertToView(ProductDao dao)
         {
             return new ProductView(
                 id: dao.Id,
