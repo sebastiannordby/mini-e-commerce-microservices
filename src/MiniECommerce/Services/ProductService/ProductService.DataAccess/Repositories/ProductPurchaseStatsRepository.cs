@@ -18,7 +18,7 @@ namespace ProductService.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task InsertOrUpdate(
+        public async Task InsertOrUpdateAsync(
             string buyersEmailAddress, Guid productId, int quantity)
         {
             var productExists = await _dbContext.Products

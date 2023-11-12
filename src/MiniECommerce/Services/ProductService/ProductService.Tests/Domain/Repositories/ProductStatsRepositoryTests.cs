@@ -29,7 +29,7 @@ namespace ProductService.Tests.Domain.Repositories
 
             Assert.DoesNotThrowAsync(async () =>
             {
-                await statsRepository.InsertOrUpdate(
+                await statsRepository.InsertOrUpdateAsync(
                     currentUserService.UserEmail,
                     productId,
                     quantity: 1

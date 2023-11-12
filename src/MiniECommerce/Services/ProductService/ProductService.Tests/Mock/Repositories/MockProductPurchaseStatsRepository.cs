@@ -20,7 +20,8 @@ namespace ProductService.Tests.Mock.Repositories
             _dbContext = new(dbContextOptions);
         }
 
-        public async Task InsertOrUpdate(string buyersEmailAddress, Guid productId, int quantity)
+        public async Task InsertOrUpdateAsync(
+            string buyersEmailAddress, Guid productId, int quantity)
         {
             var productExists = await _dbContext.Products
                 .AnyAsync(x => x.Id == productId);

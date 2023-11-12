@@ -9,7 +9,7 @@ namespace ProductService.Domain.Repositories
 {
     public interface IProductPurchaseStatsRepository
     {
-        Task InsertOrUpdate(
+        Task InsertOrUpdateAsync(
             string buyersEmailAddress,
             Guid productId,
             int quantity);

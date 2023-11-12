@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace MiniECommerce.Library.Events.OrderService
 {
     public record OrderSetToWaitingForConfirmationEvent(
-        OrderView order
+        OrderView Order
     );
 }

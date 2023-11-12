@@ -13,11 +13,11 @@ namespace OrderService.Library.Models
         public int Number { get; set; }
         public OrderStatus Status { get; set; }
         public string BuyersFullName { get; private set; }
-        public string BuyersEmailAddress { get; private set; }
-        public string? AddressLine { get; private set; }
-        public string? PostalCode { get; private set; }
-        public string? PostalOffice { get; private set; }
-        public string? Country { get; private set; }
+        public string BuyersEmailAddress { get; set; }
+        public string? AddressLine { get; set; }
+        public string? PostalCode { get; set; }
+        public string? PostalOffice { get; set; }
+        public string? Country { get; set; }
         public IEnumerable<OrderLine> Lines { get; set; }
 
         public OrderView()
