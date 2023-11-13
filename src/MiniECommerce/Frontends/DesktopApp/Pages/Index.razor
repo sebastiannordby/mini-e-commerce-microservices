@@ -46,6 +46,54 @@ else if(_products is not null)
             </div>
 
             <div class="overflow-auto flex-grow-1 h-100 w-100 d-flex flex-column gap-8 p-2 pt-6">
+                @if(string.IsNullOrWhiteSpace(_searchValue))
+                {
+                    @if(_topTenProducts is not null)
+                    {
+                        <div class="product-section d-inline-flex flex-column p-2">
+                            <MudText Typo="Typo.h5">Top Products For You</MudText>
+                            <div class="d-flex gap-4 p-4 justify-content-center overflow-auto">
+                                @foreach (var product in _topTenProducts)
+                                {
+                                    var isInBasket = _basketItems?
+                                        .Any(x => x.ProductId == product.Id) ?? false;
+
+                                    <MudCard 
+                                        Elevation="1"
+                                        Class="d-flex flex-column" 
+                                        Style="min-width: 300px; width: 100%; max-width: 300px; height: 200px;">
+                                        <MudCardHeader>
+                                            <CardHeaderContent>
+                                                <MudText Style="width: 100%; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" Typo="Typo.h6">
+                                                    <MudHighlighter 
+                                                        Text="@product.Name"
+                                                        HighlightedText="@_searchValue"/>
+                                                </MudText>
+                                            </CardHeaderContent>
+                                        </MudCardHeader>
+                                        <MudCardContent>
+                                            <MudText>
+                                                <MudHighlighter 
+                                                    HighlightedText="@_searchValue"
+                                                    Text=@($"Article#: {product.Number}") />
+                                            </MudText>
+                                                <MudHighlighter 
+                                                    HighlightedText="@_searchValue"
+                                                    Text=@($"Price: ${product.PricePerQuantity}") />
+                                        </MudCardContent>
+                                        <MudCardActions Class="mt-auto justify-content-end">
+                                            <MudIconButton 
+                                                OnClick="async() => await AddToBasket(product)"
+                                                Disabled="isInBasket"
+                                                Icon="@Icons.Material.Filled.Add" />
+                                        </MudCardActions>
+                                    </MudCard>
+                                }
+                            </div>
+                        </div> 
+                    }
+                }
+
                 @foreach(var grouping in _productGrouping)
                 {
                     <div class="product-section d-inline-flex flex-column p-2">

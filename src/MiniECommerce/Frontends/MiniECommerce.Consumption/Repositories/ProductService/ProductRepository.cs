@@ -68,6 +68,17 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             return await Send<IEnumerable<ProductView>>(req);
         }
 
+        public async Task<IEnumerable<ProductView>> TopTen()
+        {
+            var req = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(
+                    $"http://gateway/api/product-service/productview/top-ten")
+            };
+
+            return await Send<IEnumerable<ProductView>>(req) ?? Enumerable.Empty<ProductView>();
+        }
+
         public async Task Update(ProductDto product)
         {
             var req = new HttpRequestMessage()

@@ -29,6 +29,8 @@ namespace DesktopApp.Pages
         private IEnumerable<IGrouping<string, ProductView>> _productGrouping => 
             _products.GroupBy(x => x.Category);
 
+        private IEnumerable<ProductView> _topTenProducts;
+
         public static readonly Gauge UsersBrowsingProducts = Metrics.CreateGauge(
             "users_in_catalog",
             "Active users browsing products.");
@@ -49,6 +51,7 @@ namespace DesktopApp.Pages
             if (await TryFetchStartedOrder())
                 return;
 
+            await FetchTopTenProducts();
             await FetchProducts();
             await FetchBasket();
             _initialized = true;
@@ -64,6 +67,11 @@ namespace DesktopApp.Pages
             NavigationManager.NavigateTo("/order");
 
             return true;
+        }
+
+        private async Task FetchTopTenProducts()
+        {
+            _topTenProducts = await ProductRepository.TopTen();
         }
 
         private async Task FetchProducts()

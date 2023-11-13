@@ -6,6 +6,7 @@ using MiniECommece.APIUtilities;
 using ProductService.Domain.UseCases.Queries.Find;
 using MiniECommerce.Library;
 using System.Security.Claims;
+using ProductService.Domain.UseCases.Queries.TopTenByUser;
 
 namespace ProductService.API.Controllers
 {
@@ -39,5 +40,10 @@ namespace ProductService.API.Controllers
         [HttpGet("id/{productId}")]
         public async Task<ProductView?> ListViews([FromRoute] Guid productId)
             => await _mediator.Send(new FindProductViewByIdQuery(productId));
+
+        [HttpGet("top-ten")]
+        public async Task<IEnumerable<ProductView>> TopTen()
+            => await _mediator.Send(new GetTopTenProdutViewsQueryByUser());
+
     }
 }

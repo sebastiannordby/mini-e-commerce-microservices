@@ -13,6 +13,7 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
             decimal? fromPricePerQuantity = null,
             decimal? toPricePerQuantity = null,
             IEnumerable<string>? categories = null);
+        Task<IEnumerable<ProductView>> TopTen();
 
         Task<Guid> Add(ProductDto product);
         Task Update(ProductDto product);
