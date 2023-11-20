@@ -11,9 +11,22 @@ services:
       context: .
       dockerfile: Services/UserService/UserService.API/Dockerfile
     depends_on:
-        - rabbitmq
+        - rabbitmq  
+        - user_service_db 
     networks:
         - backend
+
+  user_service_db:
+    container_name: user_service_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+        - 50115:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=myStong_Password123# 
+    networks:
+        - backend
+
 
   basket_service:
     container_name: basket_service
