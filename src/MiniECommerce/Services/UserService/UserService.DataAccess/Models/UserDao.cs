@@ -15,6 +15,35 @@
         public string InvoicePostalOffice { get; set; }
         public string InvoiceAddressCountry { get; set; }
 
+        protected UserDao()
+        {
+
+        }
+
+        public UserDao(
+            string email,
+            string fullName,
+            string deliveryAddress,
+            string deliveryAddressPostalCode,
+            string deliveryAddressPostalOffice,
+            string deliveryAddressCountry,
+            string invoiceAddress,
+            string invoicePostalCode,
+            string invoicePostalOffice,
+            string invoiceAddressCountry)
+        {
+            Email = email;
+            FullName = fullName;
+            DeliveryAddress = deliveryAddress;
+            DeliveryAddressPostalCode = deliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = deliveryAddressPostalOffice;
+            DeliveryAddressCountry = deliveryAddressCountry;
+            InvoiceAddress = invoiceAddress;
+            InvoicePostalCode = invoicePostalCode;
+            InvoicePostalOffice = invoicePostalOffice;
+            InvoiceAddressCountry = invoiceAddressCountry;
+        }
+
         internal void Update(
             string deliveryAddress,
             string deliveryAddressPostalCode,

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.DataAccess.Models;
 using UserService.DataAccess.Repositories;
 using UserService.Library;
 
@@ -58,6 +59,22 @@ namespace UserService.DataAccess.Implementation
                     infoView.InvoiceAddressCountry);
 
                 _dbContext.Users.Update(existingUser);
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                await _dbContext.Users.AddAsync(new UserDao(
+                    email: infoView.Email,
+                    fullName: infoView.FullName,
+                    deliveryAddress: infoView.DeliveryAddress,
+                    deliveryAddressPostalCode: infoView.DeliveryAddressPostalCode,
+                    deliveryAddressPostalOffice: infoView.DeliveryAddressPostalOffice,
+                    deliveryAddressCountry: infoView.DeliveryAddressCountry,
+                    invoiceAddress: infoView.InvoiceAddress,
+                    invoicePostalCode: infoView.InvoicePostalCode,
+                    invoicePostalOffice: infoView.InvoicePostalOffice,
+                    invoiceAddressCountry: infoView.InvoiceAddressCountry
+                ));
                 await _dbContext.SaveChangesAsync();
             }
         }
