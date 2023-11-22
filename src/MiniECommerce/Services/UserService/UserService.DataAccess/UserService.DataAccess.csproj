@@ -17,4 +17,8 @@
 			<_Parameter1>UserService.Tests</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\UserService.Library\UserService.Library.csproj" />
+	</ItemGroup>
 </Project>

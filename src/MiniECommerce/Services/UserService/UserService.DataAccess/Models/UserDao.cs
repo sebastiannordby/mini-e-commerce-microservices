@@ -14,5 +14,25 @@
         public string InvoicePostalCode { get; set; }
         public string InvoicePostalOffice { get; set; }
         public string InvoiceAddressCountry { get; set; }
+
+        internal void Update(
+            string deliveryAddress,
+            string deliveryAddressPostalCode,
+            string deliveryAddressPostalOffice,
+            string deliveryAddressCountry,
+            string invoiceAddress,
+            string invoicePostalCode,
+            string invoicePostalOffice,
+            string invoiceAddressCountry)
+        {
+            DeliveryAddress = deliveryAddress;
+            DeliveryAddressPostalCode = deliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = deliveryAddressPostalOffice;
+            DeliveryAddressCountry = deliveryAddressCountry;
+            InvoiceAddress = invoiceAddress;
+            InvoicePostalCode = invoicePostalCode;
+            InvoicePostalOffice = invoicePostalOffice;
+            InvoiceAddressCountry = invoiceAddressCountry;
+        }
     }
 }
