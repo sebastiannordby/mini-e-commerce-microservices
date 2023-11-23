@@ -1,1 +1,58 @@
 ﻿@page "/profile"
+@using UserService.Library
+
+
+@if(_userInfo is not null)
+{
+    <div class="flex flex-col gap-2">
+        <MudTextField 
+            T="string" 
+            @bind-Text="_userInfo.FullName" 
+            Disabled="true"
+            Label="@nameof(UserInfoView.FullName)" />
+        <MudTextField 
+            T="string" 
+            @bind-Text="_userInfo.Email" 
+            Disabled="true"
+            Label="@nameof(UserInfoView.Email)" />
+
+        <div class="flex gap-2">
+            <div class="flex flex-col gap-2">
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_userInfo.DeliveryAddress" 
+                    Label="@nameof(UserInfoView.DeliveryAddress)" />
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_userInfo.DeliveryAddressPostalCode" 
+                    Label="@nameof(UserInfoView.DeliveryAddressPostalCode)" />
+                <MudTextField T="string" 
+                    @bind-Text="_userInfo.DeliveryAddressPostalOffice" 
+                    Label="@nameof(UserInfoView.DeliveryAddressPostalOffice)" />
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_userInfo.DeliveryAddressCountry" 
+                    Label="@nameof(UserInfoView.DeliveryAddressCountry)" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_userInfo.InvoiceAddress" 
+                    Label="@nameof(UserInfoView.InvoiceAddress)" />
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_userInfo.InvoiceAddressPostalCode" 
+                    Label="@nameof(UserInfoView.InvoiceAddressPostalCode)" />
+                <MudTextField T="string" 
+                    @bind-Text="_userInfo.InvoiceAddressPostalOffice" 
+                    Label="@nameof(UserInfoView.InvoiceAddressPostalOffice)" />
+                <MudTextField 
+                    T="string" 
+                    @bind-Text="_userInfo.InvoiceAddressCountry" 
+                    Label="@nameof(UserInfoView.InvoiceAddressCountry)" />
+            </div>
+        </div>
+
+        <MudButton OnClick="Save">Save</MudButton>
+    </div>
+}

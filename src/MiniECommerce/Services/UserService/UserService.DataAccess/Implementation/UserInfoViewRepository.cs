@@ -33,7 +33,7 @@ namespace UserService.DataAccess.Implementation
                     DeliveryAddressPostalOffice = x.DeliveryAddressPostalOffice,
                     DeliveryAddressCountry = x.DeliveryAddressCountry,
                     InvoiceAddress = x.InvoiceAddress,
-                    InvoicePostalCode = x.InvoicePostalCode,
+                    InvoiceAddressPostalCode = x.InvoicePostalCode,
                     InvoicePostalOffice = x.InvoicePostalOffice,
                     InvoiceAddressCountry = x.InvoiceAddressCountry
                 }).FirstOrDefaultAsync();
@@ -54,7 +54,7 @@ namespace UserService.DataAccess.Implementation
                     infoView.DeliveryAddressPostalOffice,
                     infoView.DeliveryAddressCountry,
                     infoView.InvoiceAddress,
-                    infoView.InvoicePostalCode,
+                    infoView.InvoiceAddressPostalCode,
                     infoView.InvoicePostalOffice,
                     infoView.InvoiceAddressCountry);
 
@@ -71,7 +71,7 @@ namespace UserService.DataAccess.Implementation
                     deliveryAddressPostalOffice: infoView.DeliveryAddressPostalOffice,
                     deliveryAddressCountry: infoView.DeliveryAddressCountry,
                     invoiceAddress: infoView.InvoiceAddress,
-                    invoicePostalCode: infoView.InvoicePostalCode,
+                    invoicePostalCode: infoView.InvoiceAddressPostalCode,
                     invoicePostalOffice: infoView.InvoicePostalOffice,
                     invoiceAddressCountry: infoView.InvoiceAddressCountry
                 ));
