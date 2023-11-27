@@ -59,7 +59,7 @@ namespace MiniECommerce.Consumption.Repositories.OrderService.Administration
             return res?.Data ?? new List<OrderView>();
         }
 
-        public async Task<bool> SetAddress(SetOrderAddressCommandDto command)
+        public async Task<bool> SetDeliveryAddress(SetOrderDeliveryAddressCommandDto command)
         {
             var req = new HttpRequestMessage()
             {

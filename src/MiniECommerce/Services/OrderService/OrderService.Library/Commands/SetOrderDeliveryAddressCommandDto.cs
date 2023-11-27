@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderService.Library.Commands
 {
-    public sealed class SetOrderAddressCommandDto
+    public sealed class SetOrderDeliveryAddressCommandDto
     {
         public Guid OrderId { get; set; }
         public string AddressLine { get; set; }
@@ -14,12 +14,12 @@ namespace OrderService.Library.Commands
         public string PostalOffice { get; set; }
         public string Country { get; set; }
 
-        public SetOrderAddressCommandDto()
+        public SetOrderDeliveryAddressCommandDto()
         {
 
         }
 
-        public SetOrderAddressCommandDto(
+        public SetOrderDeliveryAddressCommandDto(
             Guid orderId,
             string addressLine,
             string postalCode,

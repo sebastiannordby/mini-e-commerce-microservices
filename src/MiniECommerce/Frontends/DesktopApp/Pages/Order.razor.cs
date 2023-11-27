@@ -17,7 +17,7 @@ namespace DesktopApp.Pages
         private MudTextField<string> pwField1;
         private MudForm form;
 
-        private SetOrderAddressCommandDto _setAddressCommand;
+        private SetOrderDeliveryAddressCommandDto _setDeliveryAddressCommand;
 
         public static readonly Gauge UsersOrderingGauge = Metrics.CreateGauge(
             "users_ordering",
@@ -45,9 +45,9 @@ namespace DesktopApp.Pages
 
         private Task ConfigureCommandsRelativeToStatus(OrderView order)
         {
-            if(order.Status == OrderStatus.InFill)
+            if(order.Status == OrderStatus.WaitingForDeliveryAddress)
             {
-                _setAddressCommand = new SetOrderAddressCommandDto()
+                _setDeliveryAddressCommand = new SetOrderDeliveryAddressCommandDto()
                 {
                     OrderId = order.Id,
                     AddressLine = string.Empty,
@@ -67,7 +67,7 @@ namespace DesktopApp.Pages
                 return;
 
             var setAddressResult = await OrderRepository
-                .SetAddress(_setAddressCommand);
+                .SetDeliveryAddress(_setDeliveryAddressCommand);
             if(!setAddressResult.IsSuccess)
             {
                 await DialogService.ShowMessageBox(

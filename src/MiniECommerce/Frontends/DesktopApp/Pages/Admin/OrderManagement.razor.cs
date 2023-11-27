@@ -14,7 +14,7 @@ namespace DesktopApp.Pages.Admin
 
         private bool _showSetOrderAddressDialog;
         private OrderView? _setOrderAddressDialog;
-        private SetOrderAddressCommandDto? _setOrderAddressCommand;
+        private SetOrderDeliveryAddressCommandDto? _setOrderAddressCommand;
 
         protected override async Task OnInitializedAsync()
         {
@@ -45,7 +45,7 @@ namespace DesktopApp.Pages.Admin
                 _setOrderAddressDialog is null)
                 return;
 
-            var result = await OrderRepository.SetAddress(_setOrderAddressCommand);
+            var result = await OrderRepository.SetDeliveryAddress(_setOrderAddressCommand);
             if (!result)
             {
                 Snackbar.Add($"Order({_setOrderAddressDialog.Number}) could not update address.");
@@ -80,9 +80,9 @@ namespace DesktopApp.Pages.Admin
 
         private async Task SetToWaitingForConfirmation(OrderView order)
         {
-            if(order.Status != OrderStatus.InFill)
+            if(order.Status > OrderStatus.WaitingForConfirmation)
             {
-                Snackbar.Add($"Order({order.Number}) must be InFill before waiting for confirmation.");
+                Snackbar.Add($"Order({order.Number}) must have status less than waiting for configuration.");
                 return;
             }
 

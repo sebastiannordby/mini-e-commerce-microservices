@@ -29,11 +29,11 @@ namespace OrderService.API.Controllers.Administration
             return Ok(new QueryResponse<IEnumerable<OrderView>>(res));
         }
 
-        [HttpPost("set-address")]
-        public async Task<IActionResult> SetAddress(
-            [FromBody] SetOrderAddressCommandDto command)
+        [HttpPost("set-delivery-address")]
+        public async Task<IActionResult> SetDeliveryAddress(
+            [FromBody] SetOrderDeliveryAddressCommandDto command)
         {
-            var res = await _mediator.Send(new AdmSetOrderAddressCommand(
+            var res = await _mediator.Send(new AdmSetOrderDeliveryAddressCommand(
                 command.OrderId,
                 command.AddressLine,
                 command.PostalCode,

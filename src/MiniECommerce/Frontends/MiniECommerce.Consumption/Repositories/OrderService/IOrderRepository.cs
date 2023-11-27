@@ -15,6 +15,7 @@ namespace MiniECommerce.Consumption.Repositories.OrderService
         Task<OrderView?> Get(Guid orderId);
         Task<Guid?> Start();
         Task<Guid?> GetStartedOrder();
-        Task<Result> SetAddress(SetOrderAddressCommandDto command);
+        Task<Result> SetDeliveryAddress(SetOrderDeliveryAddressCommandDto command);
+        Task<Result> SetInvoiceAddress(SetOrderInvoiceAddressCommandDto command);
     }
 }

@@ -24,10 +24,14 @@ namespace OrderService.Domain.Services
             OrderStatus status,
             string buyersName,
             string buyersEmailAddress,
-            string? addressLine,
-            string? postalCode,
-            string? postalOffice,
-            string? country,
+            string? deliveryAddress,
+            string? deliveryAddressPostalCode,
+            string? deliveryAddressPostalOffice,
+            string? deliveryAddressCountry,
+            string? invoiceAddress,
+            string? invoiceAddressPostalCode,
+            string? invoiceAddressPostalOffice,
+            string? invoiceAddressCountry,
             IEnumerable<OrderLine> orderLines);
 
     }

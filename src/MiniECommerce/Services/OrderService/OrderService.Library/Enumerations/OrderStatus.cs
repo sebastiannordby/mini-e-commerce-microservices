@@ -8,9 +8,10 @@ namespace OrderService.Library.Enumerations
 {
     public enum OrderStatus
     {
-        InFill = 0,
-        WaitingForConfirmation = 1,
-        Confirmed = 2,
-        Delivered = 3
+        WaitingForDeliveryAddress = 0,
+        WaitingForInvoiceAddress = 1,
+        WaitingForConfirmation = 100,
+        Confirmed = 200,
+        Delivered = 300
     }
 }

@@ -30,29 +30,42 @@ else
             Groupable="true">
             <Columns>
                 <PropertyColumn 
-                    Property="x => x.Number" 
-                    Title="Nr" />
+                    Property="x => x.Number"
+                    Title="@nameof(OrderView.Number)" />
                 <PropertyColumn 
-                    Property="x => x.Status" 
-                    Title="Status" />
+                    Property="x => x.Status"
+                    Title="@nameof(OrderView.Status)" />
                 <PropertyColumn 
-                    Property="x => x.BuyersFullName" 
-                    Title="BuyersFullName" />
+                    Property="x => x.BuyersFullName"
+                    Title="@nameof(OrderView.BuyersFullName)" />
                 <PropertyColumn 
                     Property="x => x.BuyersEmailAddress"
-                    Title="BuyersEmailAddress" />
+                    Title="@nameof(OrderView.BuyersEmailAddress)" />
                 <PropertyColumn 
-                    Property="x => x.AddressLine" 
-                    Title="AddressLine" />
+                    Property="x => x.DeliveryAddressLine" 
+                    Title="@nameof(OrderView.DeliveryAddressLine)" />
                 <PropertyColumn 
-                    Property="x => x.PostalCode" 
-                    Title="PostalCode" />
+                    Property="x => x.DeliveryAddressPostalCode" 
+                    Title="@nameof(OrderView.DeliveryAddressPostalCode)" />
                 <PropertyColumn 
-                    Property="x => x.PostalOffice" 
-                    Title="PostalOffice" />
+                    Property="x => x.DeliveryAddressPostalOffice" 
+                    Title="@nameof(OrderView.DeliveryAddressPostalOffice)" />
                 <PropertyColumn 
-                    Property="x => x.Country"
-                    Title="Country" />
+                    Property="x => x.DeliveryAddressCountry"
+                    Title="@nameof(OrderView.DeliveryAddressCountry)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressLine" 
+                    Title="@nameof(OrderView.InvoiceAddressLine)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressPostalCode" 
+                    Title="@nameof(OrderView.InvoiceAddressPostalCode)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressPostalOffice" 
+                    Title="@nameof(OrderView.InvoiceAddressPostalOffice)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressCountry"
+                    Title="@nameof(OrderView.InvoiceAddressCountry)" />
+
                 <PropertyColumn 
                     Title="Actions"
                     Property="x => x">
@@ -62,12 +75,12 @@ else
                                Set address
                             </MudMenuItem>
                             <MudMenuItem 
-                                Disabled="context.Item.Status != OrderStatus.InFill"
+                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
                                 OnClick="async() => await SetToWaitingForConfirmation(context.Item)">
                                 Set to waiting for confirmation
                             </MudMenuItem>
                             <MudMenuItem 
-                                Disabled="context.Item.Status != OrderStatus.WaitingForConfirmation"
+                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
                                 OnClick="async() => await ConfirmOrder(context.Item)">
                                 Set to confirmed
                             </MudMenuItem>

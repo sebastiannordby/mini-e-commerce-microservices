@@ -23,13 +23,17 @@ namespace OrderService.Tests.UnitTests.Domain.Services
                 await loadOrderService.LoadAsync(
                     id: Guid.Empty,
                     number: -1,
-                    status: OrderStatus.InFill,
+                    status: OrderStatus.WaitingForDeliveryAddress,
                     buyersName: string.Empty,
                     buyersEmailAddress: string.Empty,
-                    addressLine: null,
-                    postalCode: null,
-                    postalOffice: null,
-                    country: null,
+                    deliveryAddress: null,
+                    deliveryAddressPostalCode: null,
+                    deliveryAddressPostalOffice: null,
+                    deliveryAddressCountry: null,
+                    invoiceAddress: null,
+                    invoiceAddressPostalCode: null,
+                    invoiceAddressPostalOffice: null,
+                    invoiceAddressCountry: null,
                     orderLines: new List<Order.OrderLine>()
                 );
             });

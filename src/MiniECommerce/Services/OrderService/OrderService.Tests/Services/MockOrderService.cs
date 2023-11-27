@@ -52,7 +52,7 @@ namespace OrderService.Tests.Services
             return _orderService.SaveAsync(order);
         }
 
-        public async Task<bool> SetAddressAsync(
+        public async Task<bool> SetDeliveryAddressAsync(
             string buyersEmailAddress, 
             string addressLine, 
             string postalCode, 
@@ -65,7 +65,27 @@ namespace OrderService.Tests.Services
             if (order is null)
                 return false;
 
-            order.SetAddress(
+            order.SetDeliveryAddress(
+                addressLine,
+                postalCode,
+                postalOffice,
+                country);
+
+            _dbContext.Orders.Update(order);
+            _dbContext.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> SetInvoiceAddressAsync(string buyersEmailAddress, string addressLine, string postalCode, string postalOffice, string country)
+        {
+            var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);
+            var order = startedOrderId.HasValue ? _dbContext.Orders
+                .FirstOrDefault(x => x.Id == startedOrderId) : null;
+            if (order is null)
+                return false;
+
+            order.SetInvoiceAddress(
                 addressLine,
                 postalCode,
                 postalOffice,
