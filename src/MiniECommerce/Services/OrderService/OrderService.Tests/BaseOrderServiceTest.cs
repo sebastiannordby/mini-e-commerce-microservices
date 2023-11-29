@@ -11,6 +11,7 @@ using MiniECommerce.Library.Services.BasketService;
 using OrderService.Tests.Repositories;
 using OrderService.Domain.Services;
 using OrderService.Tests.Services;
+using MiniECommerce.Library.Services.UserService;
 
 namespace OrderService.Tests
 {
@@ -33,6 +34,8 @@ namespace OrderService.Tests
                 });
                 
                 services.RemoveAll<IGatewayBasketRepository>();
+                services.RemoveAll<IGatewayUserRepository>();
+
                 services.RemoveAll<IOrderService>();
                 services.RemoveAll<IUnitOfWork>();
 
@@ -40,6 +43,9 @@ namespace OrderService.Tests
                 services.AddScoped<IOrderService, MockOrderService>();
 
                 services.AddScoped<IGatewayBasketRepository, GatewayMockBasketRepository>();
+                services.AddScoped<IGatewayUserRepository, GatewayMockUserRepository>();
+
+
                 services.AddMassTransitTestHarness(x =>
                 {
                     x.AddConsumers(typeof(OrderService.Domain.Consumers.ProductAddedToBasketConsumer).Assembly);

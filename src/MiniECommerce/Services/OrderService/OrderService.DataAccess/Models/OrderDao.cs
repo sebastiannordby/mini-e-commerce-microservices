@@ -11,10 +11,15 @@ namespace OrderService.DataAccess.Models
         public OrderStatus Status { get; set; }
         public string BuyersFullName { get; set; }
         public string BuyersEmailAddress { get; set; }
-        public string? AddressLine { get; set; }
-        public string? PostalCode { get; set; }
-        public string? PostalOffice { get; set; }
-        public string? Country { get; set; }
+        public string? DeliveryAddressLine { get; set; }
+        public string? DeliveryAddressPostalCode { get; set; }
+        public string? DeliveryAddressPostalOffice { get; set; }
+        public string? DeliveryAddressCountry { get; set; }
+
+        public string? InvoiceAddressLine { get; set; }
+        public string? InvoiceAddressPostalCode { get; set; }
+        public string? InvoiceAddressPostalOffice { get; set; }
+        public string? InvoiceAddressCountry { get; set; }
 
         // Constuctor for EF
         public OrderDao()
@@ -29,32 +34,56 @@ namespace OrderService.DataAccess.Models
             Status = order.Status;
             BuyersFullName = order.BuyersName;
             BuyersEmailAddress = order.BuyersEmailAddress;
-            AddressLine = order.AddressLine;
-            PostalCode = order.PostalCode;
-            PostalOffice = order.PostalOffice;
-            Country = order.Country;
+
+            DeliveryAddressLine = order.DeliveryAddressLine;
+            DeliveryAddressPostalCode = order.DeliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = order.DeliveryAddressPostalOffice;
+            DeliveryAddressCountry = order.DeliveryAddressCountry;
+
+            InvoiceAddressLine = order.InvoiceAddressLine;
+            InvoiceAddressPostalCode = order.InvoiceAddressPostalCode;
+            InvoiceAddressPostalOffice = order.InvoiceAddressPostalOffice;
+            InvoiceAddressCountry = order.InvoiceAddressCountry;
         }
 
         internal void Update(Order order)
         {
             BuyersFullName = order.BuyersName;
             Status = order.Status;
-            AddressLine = order.AddressLine;
-            PostalCode = order.PostalCode;
-            PostalOffice = order.PostalOffice;
-            Country = order.Country;
+
+            DeliveryAddressLine = order.DeliveryAddressLine;
+            DeliveryAddressPostalCode = order.DeliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = order.DeliveryAddressPostalOffice;
+            DeliveryAddressCountry = order.DeliveryAddressCountry;
+
+            InvoiceAddressLine = order.InvoiceAddressLine;
+            InvoiceAddressPostalCode = order.InvoiceAddressPostalCode;
+            InvoiceAddressPostalOffice = order.InvoiceAddressPostalOffice;
+            InvoiceAddressCountry = order.InvoiceAddressCountry;
         }
 
-        internal void SetAddress(
+        internal void SetDeliveryAddress(
             string addressLine, 
             string postalCode, 
             string postalOffice, 
             string country)
         {
-            AddressLine = addressLine;
-            PostalCode = postalCode;
-            PostalOffice = postalOffice;
-            Country = country;
+            DeliveryAddressLine = addressLine;
+            DeliveryAddressPostalCode = postalCode;
+            DeliveryAddressPostalOffice = postalOffice;
+            DeliveryAddressCountry = country;
+        }
+
+        internal void SetInvoiceAddress(
+            string addressLine,
+            string postalCode,
+            string postalOffice,
+            string country)
+        {
+            InvoiceAddressLine = addressLine;
+            InvoiceAddressPostalCode = postalCode;
+            InvoiceAddressPostalOffice = postalOffice;
+            InvoiceAddressCountry = country;
         }
 
         internal void SetStatus(OrderStatus status)

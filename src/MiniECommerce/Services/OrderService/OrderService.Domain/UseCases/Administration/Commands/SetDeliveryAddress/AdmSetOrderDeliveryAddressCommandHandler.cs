@@ -6,24 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Administration.Commands.SetAddress
+namespace OrderService.Domain.UseCases.Administration.Commands.SetDeliveryAddress
 {
-    public sealed class AdmSetOrderAddressCommandHandler : IRequestHandler<AdmSetOrderAddressCommand, bool>
+    public sealed class AdmSetOrderDeliveryAddressCommandHandler : IRequestHandler<AdmSetOrderDeliveryAddressCommand, bool>
     {
         private readonly IOrderService _orderService;
 
-        public AdmSetOrderAddressCommandHandler(IOrderService orderService)
+        public AdmSetOrderDeliveryAddressCommandHandler(IOrderService orderService)
         {
             _orderService = orderService;
         }
 
-        public async Task<bool> Handle(AdmSetOrderAddressCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdmSetOrderDeliveryAddressCommand request, CancellationToken cancellationToken)
         {
             var order = await _orderService.FindAsync(request.OrderId);
             if (order == null)
                 return false;
 
-            order.SetAddress(
+            order.SetDeliveryAddress(
                 request.AddressLine,
                 request.PostalCode,
                 request.PostalOffice,

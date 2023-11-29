@@ -19,10 +19,14 @@ namespace OrderService.Domain.Services.Implementation
             OrderStatus status,
             string buyersName,
             string buyersEmailAddress,
-            string? addressLine,
-            string? postalCode,
-            string? postalOffice,
-            string? country,
+            string? deliveryAddress,
+            string? deliveryAddressPostalCode,
+            string? deliveryAddressPostalOffice,
+            string? deliveryAddressCountry,
+            string? invoiceAddress,
+            string? invoiceAddressPostalCode,
+            string? invoiceAddressPostalOffice,
+            string? invoiceAddressCountry,
             IEnumerable<OrderLine> orderLines)
         {
             var order = new Order(
@@ -31,10 +35,14 @@ namespace OrderService.Domain.Services.Implementation
                 status: status,
                 buyersName: buyersName,
                 buyersEmailAddress: buyersEmailAddress,
-                addressLine: addressLine,
-                postalCode: postalCode,
-                postalOffice: postalOffice,
-                country: country,
+                deliveryAddress: deliveryAddress,
+                deliveryAddressPostalCode: deliveryAddressPostalCode,
+                deliveryAddressPostalOffice: deliveryAddressPostalOffice,
+                deliveryAddressCountry: deliveryAddressCountry,
+                invoiceAddress: invoiceAddress,
+                invoiceAddressPostalCode: invoiceAddressPostalCode,
+                invoiceAddressPostalOffice: invoiceAddressPostalOffice,
+                invoiceAddressCountry: invoiceAddressCountry,
                 orderLines: orderLines);
 
             var validationResult = order.Validate();

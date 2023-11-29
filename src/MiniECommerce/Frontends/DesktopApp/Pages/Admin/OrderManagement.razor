@@ -30,44 +30,60 @@ else
             Groupable="true">
             <Columns>
                 <PropertyColumn 
-                    Property="x => x.Number" 
-                    Title="Nr" />
+                    Property="x => x.Number"
+                    Title="@nameof(OrderView.Number)" />
                 <PropertyColumn 
-                    Property="x => x.Status" 
-                    Title="Status" />
+                    Property="x => x.Status"
+                    Title="@nameof(OrderView.Status)" />
                 <PropertyColumn 
-                    Property="x => x.BuyersFullName" 
-                    Title="BuyersFullName" />
+                    Property="x => x.BuyersFullName"
+                    Title="@nameof(OrderView.BuyersFullName)" />
                 <PropertyColumn 
                     Property="x => x.BuyersEmailAddress"
-                    Title="BuyersEmailAddress" />
+                    Title="@nameof(OrderView.BuyersEmailAddress)" />
                 <PropertyColumn 
-                    Property="x => x.AddressLine" 
-                    Title="AddressLine" />
+                    Property="x => x.DeliveryAddressLine" 
+                    Title="@nameof(OrderView.DeliveryAddressLine)" />
                 <PropertyColumn 
-                    Property="x => x.PostalCode" 
-                    Title="PostalCode" />
+                    Property="x => x.DeliveryAddressPostalCode" 
+                    Title="@nameof(OrderView.DeliveryAddressPostalCode)" />
                 <PropertyColumn 
-                    Property="x => x.PostalOffice" 
-                    Title="PostalOffice" />
+                    Property="x => x.DeliveryAddressPostalOffice" 
+                    Title="@nameof(OrderView.DeliveryAddressPostalOffice)" />
                 <PropertyColumn 
-                    Property="x => x.Country"
-                    Title="Country" />
+                    Property="x => x.DeliveryAddressCountry"
+                    Title="@nameof(OrderView.DeliveryAddressCountry)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressLine" 
+                    Title="@nameof(OrderView.InvoiceAddressLine)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressPostalCode" 
+                    Title="@nameof(OrderView.InvoiceAddressPostalCode)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressPostalOffice" 
+                    Title="@nameof(OrderView.InvoiceAddressPostalOffice)" />
+                <PropertyColumn 
+                    Property="x => x.InvoiceAddressCountry"
+                    Title="@nameof(OrderView.InvoiceAddressCountry)" />
+
                 <PropertyColumn 
                     Title="Actions"
                     Property="x => x">
                     <CellTemplate>
                         <MudMenu Label="Actions">
-                            <MudMenuItem OnClick="() => ShowSetAddressDialog(context.Item)">
-                               Set address
+                            <MudMenuItem OnClick="() => ShowSetDeliveryAddressDialog(context.Item)">
+                               Set delivery address
+                            </MudMenuItem>
+                            <MudMenuItem OnClick="() => ShowSetInvoiceAddressDialog(context.Item)">
+                               Set invoice address
                             </MudMenuItem>
                             <MudMenuItem 
-                                Disabled="context.Item.Status != OrderStatus.InFill"
+                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
                                 OnClick="async() => await SetToWaitingForConfirmation(context.Item)">
                                 Set to waiting for confirmation
                             </MudMenuItem>
                             <MudMenuItem 
-                                Disabled="context.Item.Status != OrderStatus.WaitingForConfirmation"
+                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
                                 OnClick="async() => await ConfirmOrder(context.Item)">
                                 Set to confirmed
                             </MudMenuItem>
@@ -86,41 +102,82 @@ else
 
 <MudDialog
     Options="new(){ CloseButton = true, NoHeader = false }"
-    @bind-IsVisible="_showSetOrderAddressDialog">
+    @bind-IsVisible="_showSetDeliveryAddressDialog">
     <TitleContent>
-        @if (_setOrderAddressDialog is not null)
+        @if (_setDeliveryAddressForOrder is not null)
         {
-            <h5 class="mb-0">Order - @_setOrderAddressDialog.Number</h5>
+            <h5 class="mb-0">Order - @_setDeliveryAddressForOrder.Number</h5>
         }
     </TitleContent>
     <DialogContent>
-        @if (_setOrderAddressCommand is not null && _setOrderAddressDialog is not null)
+        @if (_setDeliveryAddressCommand is not null && _setDeliveryAddressForOrder is not null)
         {
             <MudNumericField 
                 T="int" 
                 Disabled="true"
-                @bind-Value="_setOrderAddressDialog.Number" 
+                @bind-Value="_setDeliveryAddressForOrder.Number" 
                 Label="Number" />
             <MudTextField 
                 T="string" 
                 Disabled="true"
-                @bind-Text="_setOrderAddressCommand.AddressLine"
+                @bind-Text="_setDeliveryAddressCommand.AddressLine"
                 Label="AddressLine" />
             <MudTextField 
                 T="string"
-                @bind-Text="_setOrderAddressCommand.PostalCode"
+                @bind-Text="_setDeliveryAddressCommand.PostalCode"
                 Label="PostalCode" />
             <MudTextField 
                 T="string"
-                @bind-Text="_setOrderAddressCommand.PostalOffice"
+                @bind-Text="_setDeliveryAddressCommand.PostalOffice"
                 Label="PostalOffice" />
             <MudTextField 
                 T="string"
-                @bind-Text="_setOrderAddressCommand.Country"
+                @bind-Text="_setDeliveryAddressCommand.Country"
                 Label="Country" />
         } 
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="ExecuteSetAddress">Update</MudButton>
+        <MudButton OnClick="ExecuteSetDeliveryAddress">Update</MudButton>
+    </DialogActions>
+</MudDialog>
+
+s<MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
+    @bind-IsVisible="_showSetInvoiceAddressDialog">
+    <TitleContent>
+        @if (_setInvoiceAddressForOrder is not null)
+        {
+            <h5 class="mb-0">Order - @_setInvoiceAddressForOrder.Number</h5>
+        }
+    </TitleContent>
+    <DialogContent>
+        @if (_setInvoiceAddressCommand is not null && _setInvoiceAddressForOrder is not null)
+        {
+            <MudNumericField 
+                T="int" 
+                Disabled="true"
+                @bind-Value="_setInvoiceAddressForOrder.Number" 
+                Label="Number" />
+            <MudTextField 
+                T="string" 
+                Disabled="true"
+                @bind-Text="_setInvoiceAddressCommand.AddressLine"
+                Label="AddressLine" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setInvoiceAddressCommand.PostalCode"
+                Label="PostalCode" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setInvoiceAddressCommand.PostalOffice"
+                Label="PostalOffice" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setInvoiceAddressCommand.Country"
+                Label="Country" />
+        } 
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="ExecuteSetInvoiceAddress">Update</MudButton>
     </DialogActions>
 </MudDialog>

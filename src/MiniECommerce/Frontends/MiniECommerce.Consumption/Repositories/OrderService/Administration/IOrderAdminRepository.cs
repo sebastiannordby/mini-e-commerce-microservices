@@ -11,7 +11,8 @@ namespace MiniECommerce.Consumption.Repositories.OrderService.Administration
     public interface IOrderAdminRepository
     {
         Task<IEnumerable<OrderView>> List();
-        Task<bool> SetAddress(SetOrderAddressCommandDto command);
+        Task<bool> SetDeliveryAddress(SetOrderDeliveryAddressCommandDto command);
+        Task<bool> SetInvoiceAddress(SetOrderInvoiceAddressCommandDto command);
         Task<bool> Confirm(Guid orderId);
         Task<bool> SetWaitingForConfirmation(Guid orderId);
     }

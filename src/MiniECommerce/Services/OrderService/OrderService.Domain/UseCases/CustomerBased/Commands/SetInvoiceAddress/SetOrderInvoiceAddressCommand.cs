@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetAddress
+namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetInvoiceAddress
 {
-    public sealed record SetOrderAddressCommand(
+    public sealed record SetOrderInvoiceAddressCommand(
         string AddressLine,
         string PostalCode,
         string PostalOffice,

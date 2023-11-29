@@ -3,7 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MiniECommerce.Library.Responses;
 using OrderService.Domain.UseCases.Administration.Commands.Confirm;
-using OrderService.Domain.UseCases.Administration.Commands.SetAddress;
+using OrderService.Domain.UseCases.Administration.Commands.SetDeliveryAddress;
+using OrderService.Domain.UseCases.Administration.Commands.SetInvoiceAddress;
 using OrderService.Domain.UseCases.Administration.Commands.SetWaitForConfirmation;
 using OrderService.Domain.UseCases.Administration.Queries.ListOrders;
 using OrderService.Library.Commands;
@@ -29,11 +30,26 @@ namespace OrderService.API.Controllers.Administration
             return Ok(new QueryResponse<IEnumerable<OrderView>>(res));
         }
 
-        [HttpPost("set-address")]
-        public async Task<IActionResult> SetAddress(
-            [FromBody] SetOrderAddressCommandDto command)
+        [HttpPost("set-delivery-address")]
+        public async Task<IActionResult> SetDeliveryAddress(
+            [FromBody] SetOrderDeliveryAddressCommandDto command)
         {
-            var res = await _mediator.Send(new AdmSetOrderAddressCommand(
+            var res = await _mediator.Send(new AdmSetOrderDeliveryAddressCommand(
+                command.OrderId,
+                command.AddressLine,
+                command.PostalCode,
+                command.PostalOffice,
+                command.Country
+            ));
+
+            return Ok(new CommandResponse<bool>(res));
+        }
+
+        [HttpPost("set-invoice-address")]
+        public async Task<IActionResult> SetDeliveryAddress(
+            [FromBody] SetOrderInvoiceAddressCommandDto command)
+        {
+            var res = await _mediator.Send(new AdmSetOrderInvoiceAddressCommand(
                 command.OrderId,
                 command.AddressLine,
                 command.PostalCode,

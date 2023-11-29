@@ -21,6 +21,7 @@ using Serilog;
 using MiniECommerce.Library.Services.OrderService;
 using MassTransit;
 using System.Reflection;
+using MiniECommerce.Library.Services.UserService;
 
 namespace MiniECommerce.Authentication
 {
@@ -52,6 +53,7 @@ namespace MiniECommerce.Authentication
             builder.Services.AddScoped<IGatewayProductRepository, GatewayProductRepository>();
             builder.Services.AddScoped<IGatewayBasketRepository, GatewayBasketRepository>();
             builder.Services.AddScoped<IGatewayOrderRepository, GatewayOrderRepository>();
+            builder.Services.AddScoped<IGatewayUserRepository, GatewayUserRepository>();
         }
 
         public static void AddCorrelationId(

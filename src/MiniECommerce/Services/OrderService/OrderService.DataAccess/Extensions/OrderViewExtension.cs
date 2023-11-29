@@ -28,10 +28,14 @@ namespace OrderService.DataAccess.Extensions
                     order.Status,
                     order.BuyersFullName,
                     order.BuyersEmailAddress,
-                    order.AddressLine,
-                    order.PostalCode,
-                    order.PostalOffice,
-                    order.Country,
+                    order.DeliveryAddressLine,
+                    order.DeliveryAddressPostalCode,
+                    order.DeliveryAddressPostalOffice,
+                    order.DeliveryAddressCountry,
+                    order.InvoiceAddressLine,
+                    order.InvoiceAddressPostalCode,
+                    order.InvoiceAddressPostalOffice,
+                    order.InvoiceAddressCountry,
                     orderLines)
             );
 

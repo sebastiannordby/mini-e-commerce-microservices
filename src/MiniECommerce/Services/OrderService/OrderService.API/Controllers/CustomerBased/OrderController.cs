@@ -9,9 +9,10 @@ using OrderService.Library.Models;
 using OrderService.Domain.UseCases.CustomerBased.Queries.FindStarted;
 using OrderService.Domain.UseCases.CustomerBased.Queries.FindView;
 using OrderService.Domain.UseCases.CustomerBased.Commands.Start;
-using OrderService.Domain.UseCases.CustomerBased.Commands.SetAddress;
+using OrderService.Domain.UseCases.CustomerBased.Commands.SetDeliveryAddress;
 using OrderService.Domain.UseCases.CustomerBased.Queries.ListViews;
 using FluentResults;
+using OrderService.Domain.UseCases.CustomerBased.Commands.SetInvoiceAddress;
 
 namespace OrderService.API.Controllers.CustomerBased
 {
@@ -51,15 +52,32 @@ namespace OrderService.API.Controllers.CustomerBased
             return Ok(new QueryResponse<Guid?>(result));
         }
 
-        [HttpPost("set-address")]
-        public async Task<IActionResult> SetAddress(
-            [FromBody] SetOrderAddressCommandDto command)
+        [HttpPost("set-delivery-address")]
+        public async Task<IActionResult> SetDeliveryAddress(
+            [FromBody] SetOrderDeliveryAddressCommandDto command)
         {
             if (command is null)
                 return BadRequest();
 
             var result = await _mediator.Send(
-                new SetOrderAddressCommand(
+                new SetOrderDeliveryAddressCommand(
+                    command.AddressLine,
+                    command.PostalCode,
+                    command.PostalOffice,
+                    command.Country));
+
+            return Ok(new CommandResponse<Result>(result));
+        }
+
+        [HttpPost("set-delivery-address")]
+        public async Task<IActionResult> SetInvoiceAddress(
+            [FromBody] SetOrderInvoiceAddressCommandDto command)
+        {
+            if (command is null)
+                return BadRequest();
+
+            var result = await _mediator.Send(
+                new SetOrderInvoiceAddressCommand(
                     command.AddressLine,
                     command.PostalCode,
                     command.PostalOffice,

@@ -17,26 +17,47 @@ namespace OrderService.Domain.Models
         public OrderStatus Status { get; private set; }
         public string BuyersName { get; private set; }
         public string BuyersEmailAddress { get; private set; }
-        public string? AddressLine { get; private set; }
-        public string? PostalCode { get; private set; }
-        public string? PostalOffice { get; private set; }
-        public string? Country { get; private set; }
+
+        public string? DeliveryAddressLine { get; private set; }
+        public string? DeliveryAddressPostalCode { get; private set; }
+        public string? DeliveryAddressPostalOffice { get; private set; }
+        public string? DeliveryAddressCountry { get; private set; }
+
+        public string? InvoiceAddressLine { get; private set; }
+        public string? InvoiceAddressPostalCode { get; private set; }
+        public string? InvoiceAddressPostalOffice { get; private set; }
+        public string? InvoiceAddressCountry { get; private set; }
 
         private List<OrderLine> _orderLines = new List<OrderLine>();
 
         private IReadOnlyCollection<OrderLine> OrderLines => 
             _orderLines.AsReadOnly();
 
-
         internal Order(
             int newNumber,
             string buyersName,
-            string buyersEmailAddress)
+            string buyersEmailAddress,
+            string? deliveryAddress,
+            string? deliveryAddressPostalCode,
+            string? deliveryAddressPostalOffice,
+            string? deliveryAddressCountry,
+            string? invoiceAddress,
+            string? invoiceAddressPostalCode,
+            string? invoiceAddressPostalOffice,
+            string? invoiceAddressCountry)
         {
             Number = newNumber;
             BuyersName = buyersName;
             BuyersEmailAddress = buyersEmailAddress;
-            Status = OrderStatus.InFill;
+            Status = OrderStatus.WaitingForDeliveryAddress;
+            DeliveryAddressLine = deliveryAddress;
+            DeliveryAddressPostalCode = deliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = deliveryAddressPostalOffice;
+            DeliveryAddressCountry = deliveryAddressCountry;
+            InvoiceAddressLine = invoiceAddress;
+            InvoiceAddressPostalCode = invoiceAddressPostalCode;
+            InvoiceAddressPostalOffice = invoiceAddressPostalOffice;
+            InvoiceAddressCountry = invoiceAddressCountry;
         }
 
         internal Order(
@@ -45,10 +66,14 @@ namespace OrderService.Domain.Models
             OrderStatus status,
             string buyersName,
             string buyersEmailAddress,
-            string? addressLine,
-            string? postalCode,
-            string? postalOffice,
-            string? country,
+            string? deliveryAddress,
+            string? deliveryAddressPostalCode,
+            string? deliveryAddressPostalOffice,
+            string? deliveryAddressCountry,
+            string? invoiceAddress,
+            string? invoiceAddressPostalCode,
+            string? invoiceAddressPostalOffice,
+            string? invoiceAddressCountry,
             IEnumerable<OrderLine> orderLines)
         {
             Id = id;
@@ -56,10 +81,14 @@ namespace OrderService.Domain.Models
             Status = status;
             BuyersName = buyersName;
             BuyersEmailAddress = buyersEmailAddress;
-            AddressLine = addressLine;
-            PostalCode = postalCode;
-            PostalOffice = postalOffice;
-            Country = country;
+            DeliveryAddressLine = deliveryAddress;
+            DeliveryAddressPostalCode = deliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = deliveryAddressPostalOffice;
+            DeliveryAddressCountry = deliveryAddressCountry;
+            InvoiceAddressLine = invoiceAddress;
+            InvoiceAddressPostalCode = invoiceAddressPostalCode;
+            InvoiceAddressPostalOffice = invoiceAddressPostalOffice;
+            InvoiceAddressCountry = invoiceAddressCountry;
             _orderLines = orderLines?.ToList() ?? new();
         }
 
@@ -108,16 +137,28 @@ namespace OrderService.Domain.Models
             return orderLine;
         }
 
-        internal void SetAddress(
+        internal void SetDeliveryAddress(
             string addressLine, 
             string postalCode, 
             string postalOffice, 
             string country)
         {
-            AddressLine = addressLine;
-            PostalOffice = postalOffice;
-            PostalCode = postalCode;
-            Country = country;
+            DeliveryAddressLine = addressLine;
+            DeliveryAddressPostalOffice = postalOffice;
+            DeliveryAddressPostalCode = postalCode;
+            DeliveryAddressCountry = country;
+        }
+
+        internal void SetInvoiceAddress(
+            string addressLine,
+            string postalCode,
+            string postalOffice,
+            string country)
+        {
+            InvoiceAddressLine = addressLine;
+            InvoiceAddressPostalOffice = postalOffice;
+            InvoiceAddressPostalCode = postalCode;
+            InvoiceAddressCountry = country;
         }
 
         internal void Confirm()
@@ -130,7 +171,7 @@ namespace OrderService.Domain.Models
 
         internal void SetWaitingForConfirmation()
         {
-            if (Status != OrderStatus.InFill)
+            if (Status >= OrderStatus.WaitingForConfirmation)
                 throw new Exception("Cannot set to waiting for confirmation, when status is not InFill.");
 
             Status = OrderStatus.WaitingForConfirmation;

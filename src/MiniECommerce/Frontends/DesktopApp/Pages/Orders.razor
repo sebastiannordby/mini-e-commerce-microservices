@@ -1,4 +1,5 @@
 ﻿@page "/orders"
+@using OrderService.Library.Models
 
 @if (!_initialized)
 {
@@ -22,10 +23,10 @@ else
                             <MudCardContent>
                                 <p>Status @order.Status</p>
                                 <p>
-                                    AddressLine: @order.AddressLine
-                                    Country: @order.Country
-                                    PostalCode: @order.PostalCode
-                                    PostalOffice: @order.PostalOffice
+                                    <span>@nameof(OrderView.DeliveryAddressLine): </span> @order.DeliveryAddressLine
+                                    <span>@nameof(OrderView.DeliveryAddressCountry): </span> @order.DeliveryAddressCountry
+                                    <span>@nameof(OrderView.DeliveryAddressPostalCode): </span> @order.DeliveryAddressPostalCode
+                                    <span>@nameof(OrderView.DeliveryAddressPostalOffice): </span> @order.DeliveryAddressPostalOffice
                                 </p>
                             </MudCardContent>
                         </MudCard>
@@ -54,10 +55,14 @@ else
                             </MudCardHeader>
                             <MudCardContent>
                                 <p>
-                                    AddressLine: @order.AddressLine
-                                    Country: @order.Country
-                                    PostalCode: @order.PostalCode
-                                    PostalOffice: @order.PostalOffice
+                                    <span>@nameof(OrderView.DeliveryAddressLine) : @order.DeliveryAddressLine</span>
+                                    <span>@nameof(OrderView.DeliveryAddressCountry) : @order.DeliveryAddressCountry</span>
+                                    <span>@nameof(OrderView.DeliveryAddressPostalCode) : @order.DeliveryAddressPostalCode</span>
+                                    <span>@nameof(OrderView.DeliveryAddressPostalOffice) : @order.DeliveryAddressPostalOffice</span>
+                                    <span>@nameof(OrderView.InvoiceAddressLine) : @order.InvoiceAddressLine</span>
+                                    <span>@nameof(OrderView.InvoiceAddressCountry) : @order.InvoiceAddressCountry</span>
+                                    <span>@nameof(OrderView.InvoiceAddressPostalCode) : @order.InvoiceAddressPostalCode</span>
+                                    <span>@nameof(OrderView.InvoiceAddressPostalOffice) : @order.InvoiceAddressPostalOffice</span>
                                 </p>
                             </MudCardContent>
                         </MudCard>

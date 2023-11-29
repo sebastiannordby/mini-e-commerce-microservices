@@ -12,5 +12,17 @@ namespace OrderService.Domain.Services
         Task<Order> Initialize(
             string buyersFullName,
             string buyersEmailAddress);
+
+        Task<Order> Initialize(
+            string buyersFullName,
+            string buyersEmailAddress,
+            string? deliveryAddress,
+            string? deliveryAddressPostalCode,
+            string? deliveryAddressPostalOffice,
+            string? deliveryAddressCountry,
+            string? invoiceAddress,
+            string? invoiceAddressPostalCode,
+            string? invoiceAddressPostalOffice,
+            string? invoiceAddressCountry);
     }
 }

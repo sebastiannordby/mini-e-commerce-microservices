@@ -14,10 +14,16 @@ namespace OrderService.Library.Models
         public OrderStatus Status { get; set; }
         public string BuyersFullName { get; private set; }
         public string BuyersEmailAddress { get; set; }
-        public string? AddressLine { get; set; }
-        public string? PostalCode { get; set; }
-        public string? PostalOffice { get; set; }
-        public string? Country { get; set; }
+        public string? DeliveryAddressLine { get; set; }
+        public string? DeliveryAddressPostalCode { get; set; }
+        public string? DeliveryAddressPostalOffice { get; set; }
+        public string? DeliveryAddressCountry { get; set; }
+
+        public string? InvoiceAddressLine { get; set; }
+        public string? InvoiceAddressPostalCode { get; set; }
+        public string? InvoiceAddressPostalOffice { get; set; }
+        public string? InvoiceAddressCountry { get; set; }
+
         public IEnumerable<OrderLine> Lines { get; set; }
 
         public OrderView()
@@ -31,10 +37,14 @@ namespace OrderService.Library.Models
             OrderStatus status,
             string buyersFullName,
             string buyersEmailAddress,
-            string? addressLine,
-            string? postalCode,
-            string? postalOffice,
-            string? country,
+            string? deliveryAddress,
+            string? deliveryAddressPostalCode,
+            string? deliveryAddressPostalOffice,
+            string? deliveryAddressCountry,
+            string? invoiceAddress,
+            string? invoiceAddressPostalCode,
+            string? invoiceAddressPostalOffice,
+            string? invoiceAddressCountry,
             IEnumerable<OrderLine> lines)
         {
             Id = id;
@@ -42,10 +52,14 @@ namespace OrderService.Library.Models
             Status = status;
             BuyersFullName = buyersFullName;
             BuyersEmailAddress = buyersEmailAddress;
-            AddressLine = addressLine;
-            PostalCode = postalCode;
-            PostalOffice = postalOffice;
-            Country = country;
+            DeliveryAddressLine = deliveryAddress;
+            DeliveryAddressPostalCode = deliveryAddressPostalCode;
+            DeliveryAddressPostalOffice = DeliveryAddressPostalOffice;
+            DeliveryAddressCountry = deliveryAddressCountry;
+            InvoiceAddressLine = invoiceAddress;
+            InvoiceAddressPostalCode = invoiceAddressPostalCode;
+            InvoiceAddressPostalOffice = invoiceAddressPostalOffice;
+            InvoiceAddressCountry = invoiceAddressCountry;
             Lines = lines;
         }
 

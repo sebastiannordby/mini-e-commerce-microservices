@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MiniECommerce.Authentication.Services;
 using MiniECommerce.Library.Events.OrderService;
 using MiniECommerce.Library.Services.BasketService;
+using MiniECommerce.Library.Services.UserService;
 using OrderService.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.Start
     {
         private readonly IInitializeOrderService _initializeOrderService;
         private readonly IGatewayBasketRepository _basketRepository;
+        private readonly IGatewayUserRepository _userRepository;
         private readonly IOrderService _orderService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IBus _bus;
@@ -26,6 +28,7 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.Start
         public StartOrderCommandHandler(
             IInitializeOrderService initializeOrderService,
             IGatewayBasketRepository basketRepository,
+            IGatewayUserRepository userRepository,
             IOrderService orderService,
             ICurrentUserService currentUserService,
             IBus bus,
@@ -33,6 +36,7 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.Start
         {
             _initializeOrderService = initializeOrderService;
             _basketRepository = basketRepository;
+            _userRepository = userRepository;
             _orderService = orderService;
             _currentUserService = currentUserService;
             _bus = bus;
@@ -43,10 +47,20 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.Start
         {
             _logger.LogInformation("{0} has started an order", _currentUserService.UserFullName);
 
-            var order = await _initializeOrderService.Initialize(
-                _currentUserService.UserFullName,
+            var userInfo = await _userRepository.Find(
                 _currentUserService.UserEmail);
 
+            var order = await _initializeOrderService.Initialize(
+                _currentUserService.UserFullName,
+                _currentUserService.UserEmail,
+                userInfo?.DeliveryAddress,
+                userInfo?.DeliveryAddressPostalCode,
+                userInfo?.DeliveryAddressPostalOffice,
+                userInfo?.DeliveryAddressCountry,
+                userInfo?.InvoiceAddress,
+                userInfo?.InvoiceAddressPostalCode,
+                userInfo?.InvoiceAddressPostalOffice,
+                userInfo?.InvoiceAddressCountry);
 
             var basketItems = await _basketRepository.GetList(_currentUserService.UserEmail);
             if (basketItems == null)

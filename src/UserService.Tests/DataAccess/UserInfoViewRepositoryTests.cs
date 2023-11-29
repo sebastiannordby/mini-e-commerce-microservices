@@ -43,7 +43,7 @@ namespace UserService.Tests.DataAccess
                 DeliveryAddressCountry = "DeliveryAddressCountry",
                 InvoiceAddress = "InvoiceAddress",
                 InvoiceAddressPostalCode = "InvoicePostalCode",
-                InvoicePostalOffice = "InvoicePostalOffice",
+                InvoiceAddressPostalOffice = "InvoicePostalOffice",
                 InvoiceAddressCountry = "InvoiceAddressCountry"
             };
 

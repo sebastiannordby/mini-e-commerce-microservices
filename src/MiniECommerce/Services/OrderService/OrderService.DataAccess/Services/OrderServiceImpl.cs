@@ -49,10 +49,14 @@ namespace OrderService.DataAccess.Services
                 status: orderDao.Status,
                 buyersName: orderDao.BuyersFullName,
                 buyersEmailAddress: orderDao.BuyersEmailAddress,
-                addressLine: orderDao.AddressLine,
-                postalCode: orderDao.PostalCode,
-                postalOffice: orderDao.PostalOffice,
-                country: orderDao.Country,
+                deliveryAddress: orderDao.DeliveryAddressLine,
+                deliveryAddressPostalCode: orderDao.DeliveryAddressPostalCode,
+                deliveryAddressPostalOffice: orderDao.DeliveryAddressPostalOffice,
+                deliveryAddressCountry: orderDao.DeliveryAddressCountry,
+                invoiceAddress: orderDao.InvoiceAddressLine,
+                invoiceAddressPostalCode: orderDao.InvoiceAddressPostalCode,
+                invoiceAddressPostalOffice: orderDao.InvoiceAddressPostalOffice,
+                invoiceAddressCountry: orderDao.InvoiceAddressCountry,
                 orderLines: orderLines);
 
             return order;
@@ -117,7 +121,7 @@ namespace OrderService.DataAccess.Services
             return Guid.Empty;
         }
 
-        public async Task<bool> SetAddressAsync(
+        public async Task<bool> SetDeliveryAddressAsync(
             string buyersEmailAddress,
             string addressLine, 
             string postalCode, 
@@ -132,10 +136,36 @@ namespace OrderService.DataAccess.Services
                 .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
                 .Where(x => x.Status <= OrderStatus.Confirmed)
                 .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(o => o.AddressLine, addressLine)
-                    .SetProperty(o => o.PostalCode, postalCode)
-                    .SetProperty(o => o.PostalOffice, postalOffice)
-                    .SetProperty(o => o.Country, country));
+                    .SetProperty(o => o.DeliveryAddressLine, addressLine)
+                    .SetProperty(o => o.DeliveryAddressPostalCode, postalCode)
+                    .SetProperty(o => o.DeliveryAddressPostalOffice, postalOffice)
+                    .SetProperty(o => o.DeliveryAddressCountry, country));
+
+            await _dbContext.SaveChangesAsync();
+
+            return res > 0;
+        }
+
+
+        public async Task<bool> SetInvoiceAddressAsync(
+            string buyersEmailAddress,
+            string addressLine,
+            string postalCode,
+            string postalOffice,
+            string country)
+        {
+            if (string.IsNullOrWhiteSpace(buyersEmailAddress))
+                return false;
+
+            var res = await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(o => o.InvoiceAddressLine, addressLine)
+                    .SetProperty(o => o.InvoiceAddressPostalCode, postalCode)
+                    .SetProperty(o => o.InvoiceAddressPostalOffice, postalOffice)
+                    .SetProperty(o => o.InvoiceAddressCountry, country));
 
             await _dbContext.SaveChangesAsync();
 

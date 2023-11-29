@@ -1,17 +1,17 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Administration.Commands.SetAddress
+namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetDeliveryAddress
 {
-    public sealed record AdmSetOrderAddressCommand(
-        Guid OrderId,
+    public sealed record SetOrderDeliveryAddressCommand(
         string AddressLine,
         string PostalCode,
         string PostalOffice,
         string Country
-    ) : IRequest<bool>;
+    ) : IRequest<Result>;
 }

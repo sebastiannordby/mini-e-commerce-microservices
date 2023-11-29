@@ -37,6 +37,18 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/api/user-service/{endpoint}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/{endpoint}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user_service",
+          "Port": 80
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/api/purchase/{endpoint}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/{endpoint}",

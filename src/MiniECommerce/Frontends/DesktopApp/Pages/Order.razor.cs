@@ -17,7 +17,8 @@ namespace DesktopApp.Pages
         private MudTextField<string> pwField1;
         private MudForm form;
 
-        private SetOrderAddressCommandDto _setAddressCommand;
+        private SetOrderDeliveryAddressCommandDto _setDeliveryAddressCommand;
+        private SetOrderInvoiceAddressCommandDto _setInvoiceAddressCommand;
 
         public static readonly Gauge UsersOrderingGauge = Metrics.CreateGauge(
             "users_ordering",
@@ -45,9 +46,20 @@ namespace DesktopApp.Pages
 
         private Task ConfigureCommandsRelativeToStatus(OrderView order)
         {
-            if(order.Status == OrderStatus.InFill)
+            if(order.Status == OrderStatus.WaitingForDeliveryAddress)
             {
-                _setAddressCommand = new SetOrderAddressCommandDto()
+                _setDeliveryAddressCommand = new SetOrderDeliveryAddressCommandDto()
+                {
+                    OrderId = order.Id,
+                    AddressLine = string.Empty,
+                    Country = string.Empty,
+                    PostalCode = string.Empty,
+                    PostalOffice = string.Empty
+                };
+            }
+            else if(order.Status == OrderStatus.WaitingForInvoiceAddress)
+            {
+                _setInvoiceAddressCommand = new SetOrderInvoiceAddressCommandDto()
                 {
                     OrderId = order.Id,
                     AddressLine = string.Empty,
@@ -60,18 +72,38 @@ namespace DesktopApp.Pages
             return Task.CompletedTask;
         }
 
-        private async Task TryExecuteSetAddress()
+        private async Task TryExecuteSetDeliveryAddress()
         {
             await form.Validate();
             if (!form.IsValid)
                 return;
 
             var setAddressResult = await OrderRepository
-                .SetAddress(_setAddressCommand);
+                .SetDeliveryAddress(_setDeliveryAddressCommand);
             if(!setAddressResult.IsSuccess)
             {
                 await DialogService.ShowMessageBox(
                     "Could not set address", 
+                    String.Join(Environment.NewLine, setAddressResult.Errors));
+                return;
+            }
+
+            Snackbar.Add("Order successfully filled. Wait for confirmation..");
+            await RefetchOrder();
+        }
+
+        private async Task TryExecuteSetInvoiceAddress()
+        {
+            await form.Validate();
+            if (!form.IsValid)
+                return;
+
+            var setAddressResult = await OrderRepository
+                .SetInvoiceAddress(_setInvoiceAddressCommand);
+            if (!setAddressResult.IsSuccess)
+            {
+                await DialogService.ShowMessageBox(
+                    "Could not set address",
                     String.Join(Environment.NewLine, setAddressResult.Errors));
                 return;
             }

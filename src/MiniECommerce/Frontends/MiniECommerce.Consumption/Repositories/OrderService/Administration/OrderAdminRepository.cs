@@ -59,12 +59,27 @@ namespace MiniECommerce.Consumption.Repositories.OrderService.Administration
             return res?.Data ?? new List<OrderView>();
         }
 
-        public async Task<bool> SetAddress(SetOrderAddressCommandDto command)
+        public async Task<bool> SetDeliveryAddress(SetOrderDeliveryAddressCommandDto command)
         {
             var req = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("http://gateway/api/order-service/admin/order/set-address"),
+                RequestUri = new Uri("http://gateway/api/order-service/admin/order/set-delivery-address"),
+                Content = new StringContent(
+                    JsonSerializer.Serialize(command), Encoding.UTF8, "application/json")
+            };
+
+            var res = await Send<CommandResponse<bool>>(req);
+
+            return res?.Data ?? false;
+        }
+
+        public async Task<bool> SetInvoiceAddress(SetOrderInvoiceAddressCommandDto command)
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://gateway/api/order-service/admin/order/set-invoice-address"),
                 Content = new StringContent(
                     JsonSerializer.Serialize(command), Encoding.UTF8, "application/json")
             };
