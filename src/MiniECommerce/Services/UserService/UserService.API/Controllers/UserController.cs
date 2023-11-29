@@ -26,7 +26,7 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult?> Get()
+        public async Task<IActionResult> Get()
         {
             var result = await _repository.Get(
                 _currentUserService.UserEmail);

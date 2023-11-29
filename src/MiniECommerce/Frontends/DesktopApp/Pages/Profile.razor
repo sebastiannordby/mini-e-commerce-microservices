@@ -16,8 +16,8 @@
             Disabled="true"
             Label="@nameof(UserInfoView.Email)" />
 
-        <div class="flex gap-2">
-            <div class="flex flex-col gap-2">
+        <div class="d-flex gap-2">
+            <div class="d-flex flex-column gap-2">
                 <MudTextField 
                     T="string" 
                     @bind-Text="_userInfo.DeliveryAddress" 
@@ -34,7 +34,7 @@
                     @bind-Text="_userInfo.DeliveryAddressCountry" 
                     Label="@nameof(UserInfoView.DeliveryAddressCountry)" />
             </div>
-            <div class="flex flex-col gap-2">
+            <div class="d-flex flex-column gap-2">
                 <MudTextField 
                     T="string" 
                     @bind-Text="_userInfo.InvoiceAddress" 
