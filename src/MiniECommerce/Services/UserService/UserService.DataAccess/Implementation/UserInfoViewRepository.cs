@@ -38,10 +38,7 @@ namespace UserService.DataAccess.Implementation
                     InvoiceAddressCountry = x.InvoiceAddressCountry
                 }).FirstOrDefaultAsync();
 
-            return result ?? new UserInfoView() 
-            { 
-                Email = userEmail
-            };
+            return result;
         }
 
         public async Task Save(UserInfoView infoView)

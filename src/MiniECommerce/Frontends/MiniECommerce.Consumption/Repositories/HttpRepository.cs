@@ -35,10 +35,10 @@ namespace MiniECommerce.Consumption.Repositories
 
             Log.Information("Response: \r\n{0}\r\n---END RESPONSE\r\n", jsonResponse);
 
-            return JsonSerializer.Deserialize<T>(jsonResponse, new JsonSerializerOptions()
+            return !string.IsNullOrWhiteSpace(jsonResponse) ? JsonSerializer.Deserialize<T>(jsonResponse, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            }) : default(T);
         }
 
         public async Task<HttpResponseMessage> Send(HttpRequestMessage httpRequest)

@@ -5,7 +5,7 @@ using UserService.DataAccess.Repositories;
 namespace UserService.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
@@ -19,7 +19,7 @@ namespace UserService.API.Controllers
             _repository = repository;
         }
 
-        [HttpGet("/email/{email}")]
+        [HttpGet("email/{email}")]
         public async Task<IActionResult?> Get(
             [FromRoute] string email)
         {

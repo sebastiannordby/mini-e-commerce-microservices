@@ -112,13 +112,11 @@ namespace OrderService.DataAccess.Services
 
                 return orderDao.Id;
             }
-            else
-            {
-                orderDao.Update(order);
-                await _dbContext.SaveChangesAsync();
-            }
 
-            return Guid.Empty;
+            orderDao.Update(order);
+            await _dbContext.SaveChangesAsync();
+
+            return orderDao.Id;
         }
 
         public async Task<bool> SetDeliveryAddressAsync(

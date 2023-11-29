@@ -11,6 +11,7 @@ namespace OrderService.DataAccess.Models
         public OrderStatus Status { get; set; }
         public string BuyersFullName { get; set; }
         public string BuyersEmailAddress { get; set; }
+
         public string? DeliveryAddressLine { get; set; }
         public string? DeliveryAddressPostalCode { get; set; }
         public string? DeliveryAddressPostalOffice { get; set; }

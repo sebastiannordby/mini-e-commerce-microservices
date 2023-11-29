@@ -10,13 +10,19 @@ namespace DesktopApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _userInfo = await UserRepository.Get() ?? new();
+            _userInfo = await UserRepository.Get() ?? new() 
+            { 
+                
+            };
         }
 
         private async Task Save()
         {
-            if(_userInfo is not null)
-                await UserRepository.Save(_userInfo);
+            if (_userInfo is null)
+                return;
+
+            await UserRepository.Save(_userInfo);
+            _userInfo = await UserRepository.Get();
         }
 
         [Inject] private IUserRepository UserRepository { get; set; }

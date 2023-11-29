@@ -69,7 +69,7 @@ namespace OrderService.API.Controllers.CustomerBased
             return Ok(new CommandResponse<Result>(result));
         }
 
-        [HttpPost("set-delivery-address")]
+        [HttpPost("set-invoice-address")]
         public async Task<IActionResult> SetInvoiceAddress(
             [FromBody] SetOrderInvoiceAddressCommandDto command)
         {

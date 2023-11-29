@@ -111,6 +111,20 @@ builder.Services.AddAuthentication(options =>
     options.SaveToken = true;
 });
 
+builder.Services.Configure<CookieAuthenticationOptions>(
+    CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
+    options.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = context =>
+        {
+            // Redirect to your login page when authentication is required
+            context.Response.Redirect("/Identity/Login");
+            return Task.CompletedTask;
+        }
+    };
+});
+
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddHttpClient();
@@ -154,6 +168,8 @@ app.UseEndpoints(endpoints =>
     endpoints.MapRazorPages();
     endpoints.MapFallbackToPage("/_Host").RequireAuthorization();
 });
+
+
 app.Run();
 
 
