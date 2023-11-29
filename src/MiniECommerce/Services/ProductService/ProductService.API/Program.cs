@@ -6,6 +6,7 @@ using MiniECommerce.Authentication;
 using MiniECommerce.Library;
 using ProductService.DataAccess;
 using ProductService.Domain;
+using Prometheus;
 
 namespace ProductService.API;
 
@@ -40,6 +41,7 @@ public class Program
                 .AllowAnyOrigin());
         }
 
+        app.UseMetricServer();
         app.UseRouting();
         app.UseECommerceLibrary();
         app.MapControllers();

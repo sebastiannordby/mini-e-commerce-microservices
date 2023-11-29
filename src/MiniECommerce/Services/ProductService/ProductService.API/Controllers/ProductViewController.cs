@@ -7,12 +7,19 @@ using ProductService.Domain.UseCases.Queries.Find;
 using MiniECommerce.Library;
 using System.Security.Claims;
 using ProductService.Domain.UseCases.Queries.TopTenByUser;
+using Prometheus;
+using System.Diagnostics.Metrics;
+using System.Diagnostics;
 
 namespace ProductService.API.Controllers
 {
     public class ProductViewController : ProductServiceController
     {
         private readonly IMediator _mediator;
+        public static readonly Histogram _fetchProductHistogram = Metrics.CreateHistogram(
+            "fetching_products",
+            "Time it takes to list products.");
+
 
         public ProductViewController(
             IMediator mediator)
@@ -26,15 +33,24 @@ namespace ProductService.API.Controllers
             [FromQuery] decimal? toPricePerQuantity = null,
             [FromQuery] IEnumerable<string>? categories = null)
         {
-            var res = await _mediator.Send(
-                new ListProductViewsQuery(
-                    fromPricePerQuantity,
-                    toPricePerQuantity,
-                    categories
-                )
-            );
+            var stopwatch = Stopwatch.StartNew();
 
-            return res;
+            try
+            {
+                var res = await _mediator.Send(
+                    new ListProductViewsQuery(
+                        fromPricePerQuantity,
+                        toPricePerQuantity,
+                        categories));
+
+                return res;
+            }
+            finally
+            {
+                stopwatch.Stop();
+                _fetchProductHistogram.Observe(
+                    stopwatch.Elapsed.TotalSeconds);
+            }
         }
 
         [HttpGet("id/{productId}")]

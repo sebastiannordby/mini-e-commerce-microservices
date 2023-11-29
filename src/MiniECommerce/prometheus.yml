@@ -1,7 +1,7 @@
 global:
-  scrape_interval: 5s  # By default, scrape targets every 15 seconds.
+  scrape_interval: 15s  
 
 scrape_configs:
   - job_name: 'blazor'
     static_configs:
-      - targets: ['host.docker.internal:50010'] # Replace with your Blazor app's address
+      - targets: ['host.docker.internal:50010', 'host.docker.internal:50011']
