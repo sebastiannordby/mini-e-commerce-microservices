@@ -15,6 +15,13 @@ services:
         - user_service_db 
     networks:
         - backend
+    environment:
+      - "ConnectionStrings__DefaultConnection=Server=user_service_db; Database=userservice; User=sa; Password=myStong_Password123#;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=True;"
+      - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
+      - "Authentication__Google__ClientSecret=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" 
+      - "MessageBroker__Host=amqp://rabbitmq:5672" 
+      - "MessageBroker__Username=guest" 
+      - "MessageBroker__Password=guest" 
 
   user_service_db:
     container_name: user_service_db
@@ -49,12 +56,18 @@ services:
       dockerfile: Services/OrderService/OrderService.API/Dockerfile
     ports:
         - 50013:80
-        #- 50003:443
     depends_on: 
         - order_service_db
         - rabbitmq 
     networks:
         - backend
+    environment:
+      - "ConnectionStrings__DefaultConnection=Server=order_service_db; Database=ERPDb; User=sa; Password=myStong_Password123#;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=True;"
+      - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
+      - "Authentication__Google__ClientSecret=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" 
+      - "MessageBroker__Host=amqp://rabbitmq:5672" 
+      - "MessageBroker__Username=guest" 
+      - "MessageBroker__Password=guest" 
 
   order_service_db:
     container_name: order_service_db
@@ -75,7 +88,6 @@ services:
       dockerfile: Services/PurchaseService/PurchaseService.API/Dockerfile
     ports:
         - 50012:80
-        #- 50002:443
     depends_on:
         - rabbitmq
     networks:
@@ -89,12 +101,19 @@ services:
       dockerfile: Services/ProductService/ProductService.API/Dockerfile
     ports:
         - 50011:80
-        #- 50001:443
     depends_on:
         - product_service_db
         - rabbitmq
     networks:
         - backend
+        - monitoring
+    environment:
+      - "ConnectionStrings__DefaultConnection=Server=product_service_db; Database=productservice; User=sa; Password=myStong_Password123#;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=True;"
+      - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
+      - "Authentication__Google__ClientSecret=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" 
+      - "MessageBroker__Host=amqp://rabbitmq:5672" 
+      - "MessageBroker__Username=guest" 
+      - "MessageBroker__Password=guest" 
 
   product_service_db:
     container_name: product_service_db
@@ -115,7 +134,6 @@ services:
       dockerfile: Frontends/DesktopApp/Dockerfile
     ports:
         - 50010:80
-        #- 50000:443
     networks:
         - backend
     depends_on:

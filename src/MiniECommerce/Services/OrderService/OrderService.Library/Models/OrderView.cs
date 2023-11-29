@@ -54,7 +54,7 @@ namespace OrderService.Library.Models
             BuyersEmailAddress = buyersEmailAddress;
             DeliveryAddressLine = deliveryAddress;
             DeliveryAddressPostalCode = deliveryAddressPostalCode;
-            DeliveryAddressPostalOffice = DeliveryAddressPostalOffice;
+            DeliveryAddressPostalOffice = deliveryAddressPostalOffice;
             DeliveryAddressCountry = deliveryAddressCountry;
             InvoiceAddressLine = invoiceAddress;
             InvoiceAddressPostalCode = invoiceAddressPostalCode;

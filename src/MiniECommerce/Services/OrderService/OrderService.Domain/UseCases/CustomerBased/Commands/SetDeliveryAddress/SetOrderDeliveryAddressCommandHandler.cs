@@ -45,22 +45,6 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetDeliveryAddress
                 return Result.Fail("Could not find a started order.");
             }
 
-            var setAddressRes = await _orderService.SetDeliveryAddressAsync(
-                _currentUserService.UserEmail,
-                request.AddressLine,
-                request.PostalCode,
-                request.PostalOffice,
-                request.Country);
-
-            var setWaitingForConfirmationRes = await _orderService.SetWaitingForConfirmationAsync(
-                _currentUserService.UserEmail);
-
-            if(!setAddressRes)
-            {
-                await _unitOfWork.RollbackAsync();
-                return Result.Fail("Could not set the address for your order.");
-            }
-
             await _unitOfWork.CommitAsync();
 
             return Result.Ok();

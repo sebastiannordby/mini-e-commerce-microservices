@@ -51,10 +51,10 @@ namespace DesktopApp.Pages
                 _setDeliveryAddressCommand = new SetOrderDeliveryAddressCommandDto()
                 {
                     OrderId = order.Id,
-                    AddressLine = string.Empty,
-                    Country = string.Empty,
-                    PostalCode = string.Empty,
-                    PostalOffice = string.Empty
+                    AddressLine = order.DeliveryAddressLine ?? string.Empty,
+                    Country = order.DeliveryAddressCountry ?? string.Empty,
+                    PostalCode = order.DeliveryAddressPostalCode ?? string.Empty,
+                    PostalOffice = order.DeliveryAddressPostalOffice ?? string.Empty
                 };
             }
             else if(order.Status == OrderStatus.WaitingForInvoiceAddress)
@@ -62,10 +62,10 @@ namespace DesktopApp.Pages
                 _setInvoiceAddressCommand = new SetOrderInvoiceAddressCommandDto()
                 {
                     OrderId = order.Id,
-                    AddressLine = string.Empty,
-                    Country = string.Empty,
-                    PostalCode = string.Empty,
-                    PostalOffice = string.Empty
+                    AddressLine = order.InvoiceAddressLine ?? string.Empty,
+                    Country = order.InvoiceAddressCountry ?? string.Empty,
+                    PostalCode = order.InvoiceAddressPostalCode ?? string.Empty,
+                    PostalOffice = order.InvoiceAddressPostalOffice ?? string.Empty
                 };
             }
 

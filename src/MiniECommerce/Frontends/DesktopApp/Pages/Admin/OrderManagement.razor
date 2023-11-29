@@ -32,6 +32,31 @@ else
                 <PropertyColumn 
                     Property="x => x.Number"
                     Title="@nameof(OrderView.Number)" />
+
+                <PropertyColumn 
+                    Title="Actions"
+                    Property="x => x">
+                    <CellTemplate>
+                        <MudMenu Label="Actions">
+                            <MudMenuItem OnClick="() => ShowSetDeliveryAddressDialog(context.Item)">
+                               Set delivery address
+                            </MudMenuItem>
+                            <MudMenuItem OnClick="() => ShowSetInvoiceAddressDialog(context.Item)">
+                               Set invoice address
+                            </MudMenuItem>
+                            <MudMenuItem 
+                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
+                                OnClick="async() => await SetToWaitingForConfirmation(context.Item)">
+                                Set to waiting for confirmation
+                            </MudMenuItem>
+                            <MudMenuItem 
+                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
+                                OnClick="async() => await ConfirmOrder(context.Item)">
+                                Set to confirmed
+                            </MudMenuItem>
+                        </MudMenu>
+                    </CellTemplate>
+                </PropertyColumn>
                 <PropertyColumn 
                     Property="x => x.Status"
                     Title="@nameof(OrderView.Status)" />
@@ -66,30 +91,6 @@ else
                     Property="x => x.InvoiceAddressCountry"
                     Title="@nameof(OrderView.InvoiceAddressCountry)" />
 
-                <PropertyColumn 
-                    Title="Actions"
-                    Property="x => x">
-                    <CellTemplate>
-                        <MudMenu Label="Actions">
-                            <MudMenuItem OnClick="() => ShowSetDeliveryAddressDialog(context.Item)">
-                               Set delivery address
-                            </MudMenuItem>
-                            <MudMenuItem OnClick="() => ShowSetInvoiceAddressDialog(context.Item)">
-                               Set invoice address
-                            </MudMenuItem>
-                            <MudMenuItem 
-                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
-                                OnClick="async() => await SetToWaitingForConfirmation(context.Item)">
-                                Set to waiting for confirmation
-                            </MudMenuItem>
-                            <MudMenuItem 
-                                Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
-                                OnClick="async() => await ConfirmOrder(context.Item)">
-                                Set to confirmed
-                            </MudMenuItem>
-                        </MudMenu>
-                    </CellTemplate>
-                </PropertyColumn>
             </Columns>
             <PagerContent>
                 <MudDataGridPager 

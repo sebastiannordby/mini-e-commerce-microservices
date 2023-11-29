@@ -19,7 +19,9 @@ namespace MiniECommerce.Library
             {
                 var context = serviceScope.ServiceProvider.GetService<TDbContext>();
                 if (context is not null)
+                {
                     context.Database.Migrate();
+                }
             }
         }
     }
