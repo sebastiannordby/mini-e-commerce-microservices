@@ -160,6 +160,19 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
+app.Use(async delegate (HttpContext context, Func<Task> next)
+{
+    if (!context.Request.Path.StartsWithSegments("/Identity") && !context.Session.Keys.Any())
+    {
+        foreach (string key in context.Request.Cookies.Keys)
+            context.Response.Cookies.Delete(key);
+
+        context.Response.Redirect("/Identity/Login");
+    }
+
+    await next();
+});
+
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
@@ -173,16 +186,3 @@ app.UseEndpoints(endpoints =>
 app.Run();
 
 
-//app.Use(async delegate (HttpContext context, Func<Task> next)
-//{
-//    if (context.User.Identity!.IsAuthenticated && 
-//        !context.Request.Path.Value.Contains("signin-google"))
-//    {
-//        foreach (string key in context.Request.Cookies.Keys)
-//            context.Response.Cookies.Delete(key);
-
-//        context.Response.Redirect("/");
-//    }
-
-//    await next();
-//});
