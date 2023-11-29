@@ -59,10 +59,14 @@ namespace ProductService.Tests.Domain.Consumers
                 status: OrderStatus.Confirmed,
                 buyersFullName: currentUserService.UserFullName,
                 buyersEmailAddress: currentUserService.UserEmail,
-                addressLine: null,
-                postalCode: null,
-                postalOffice: null,
-                country: null,
+                deliveryAddress: null,
+                deliveryAddressPostalCode: null,
+                deliveryAddressPostalOffice: null,
+                deliveryAddressCountry: null,
+                invoiceAddress: null,
+                invoiceAddressPostalCode: null,
+                invoiceAddressPostalOffice: null,
+                invoiceAddressCountry: null,
                 lines: new List<OrderView.OrderLine>()
                 {
                     new OrderView.OrderLine(
