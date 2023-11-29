@@ -12,9 +12,13 @@ namespace DesktopApp.Pages.Admin
     {
         private IEnumerable<OrderView>? _orders;
 
-        private bool _showSetOrderAddressDialog;
-        private OrderView? _setOrderAddressDialog;
-        private SetOrderDeliveryAddressCommandDto? _setOrderAddressCommand;
+        private bool _showSetDeliveryAddressDialog;
+        private OrderView? _setDeliveryAddressForOrder;
+        private SetOrderDeliveryAddressCommandDto? _setDeliveryAddressCommand;
+
+        private bool _showSetInvoiceAddressDialog;
+        private OrderView? _setInvoiceAddressForOrder;
+        private SetOrderInvoiceAddressCommandDto? _setInvoiceAddressCommand;
 
         protected override async Task OnInitializedAsync()
         {
@@ -26,36 +30,69 @@ namespace DesktopApp.Pages.Admin
             _orders = await OrderRepository.List();
         }
 
-        private void ShowSetAddressDialog(OrderView order)
+        private void ShowSetDeliveryAddressDialog(OrderView order)
         {
-            _setOrderAddressCommand = new(
+            _setDeliveryAddressCommand = new(
                 order.Id,
-                order.AddressLine ?? string.Empty,
-                order.PostalCode ?? string.Empty,
-                order.PostalOffice ?? string.Empty,
-                order.Country ?? string.Empty
+                addressLine: order.DeliveryAddressLine ?? string.Empty,
+                postalCode: order.DeliveryAddressPostalCode ?? string.Empty,
+                postalOffice: order.DeliveryAddressPostalOffice ?? string.Empty,
+                country: order.DeliveryAddressCountry ?? string.Empty
             );
-            _setOrderAddressDialog = order;
-            _showSetOrderAddressDialog = true;
+            _setDeliveryAddressForOrder = order;
+            _showSetDeliveryAddressDialog = true;
         }
 
-        private async Task ExecuteSetAddress()
+        private void ShowSetInvoiceAddressDialog(OrderView order)
         {
-            if (_setOrderAddressCommand is null || 
-                _setOrderAddressDialog is null)
+            _setInvoiceAddressCommand = new(
+                order.Id,
+                addressLine: order.InvoiceAddressLine ?? string.Empty,
+                postalCode: order.InvoiceAddressPostalCode ?? string.Empty,
+                postalOffice: order.InvoiceAddressPostalOffice ?? string.Empty,
+                country: order.InvoiceAddressCountry ?? string.Empty
+            );
+            _setInvoiceAddressForOrder = order;
+            _showSetInvoiceAddressDialog = true;
+        }
+        
+        private async Task ExecuteSetDeliveryAddress()
+        {
+            if (_setDeliveryAddressCommand is null || 
+                _setDeliveryAddressForOrder is null)
                 return;
 
-            var result = await OrderRepository.SetDeliveryAddress(_setOrderAddressCommand);
-            if (!result)
+            if (!await OrderRepository
+                .SetDeliveryAddress(_setDeliveryAddressCommand))
             {
-                Snackbar.Add($"Order({_setOrderAddressDialog.Number}) could not update address.");
+                Snackbar.Add($"Order({_setDeliveryAddressForOrder.Number}) could not update address.");
                 return;
             }
 
-            Snackbar.Add($"Order({_setOrderAddressDialog.Number}) address updated successfully.");
-            _showSetOrderAddressDialog = false;
-            _setOrderAddressCommand = null;
-            _setOrderAddressDialog = null;
+            Snackbar.Add($"Order({_setDeliveryAddressForOrder.Number}) address updated successfully.");
+            _showSetDeliveryAddressDialog = false;
+            _setDeliveryAddressCommand = null;
+            _setDeliveryAddressForOrder = null;
+            await FetchOrders();
+        }
+
+        private async Task ExecuteSetInvoiceAddress()
+        {
+            if (_setInvoiceAddressCommand is null ||
+                _setInvoiceAddressForOrder is null)
+                return;
+
+            if (!await OrderRepository
+                    .SetInvoiceAddress(_setInvoiceAddressCommand))
+            {
+                Snackbar.Add($"Order({_setInvoiceAddressForOrder.Number}) could not update address.");
+                return;
+            }
+
+            Snackbar.Add($"Order({_setInvoiceAddressForOrder.Number}) address updated successfully.");
+            _showSetInvoiceAddressDialog = false;
+            _setInvoiceAddressCommand = null;
+            _setInvoiceAddressForOrder = null;
             await FetchOrders();
         }
 

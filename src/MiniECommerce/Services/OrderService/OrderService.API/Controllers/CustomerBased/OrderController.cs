@@ -12,6 +12,7 @@ using OrderService.Domain.UseCases.CustomerBased.Commands.Start;
 using OrderService.Domain.UseCases.CustomerBased.Commands.SetDeliveryAddress;
 using OrderService.Domain.UseCases.CustomerBased.Queries.ListViews;
 using FluentResults;
+using OrderService.Domain.UseCases.CustomerBased.Commands.SetInvoiceAddress;
 
 namespace OrderService.API.Controllers.CustomerBased
 {

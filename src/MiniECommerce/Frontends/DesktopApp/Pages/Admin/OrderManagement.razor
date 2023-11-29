@@ -71,8 +71,11 @@ else
                     Property="x => x">
                     <CellTemplate>
                         <MudMenu Label="Actions">
-                            <MudMenuItem OnClick="() => ShowSetAddressDialog(context.Item)">
-                               Set address
+                            <MudMenuItem OnClick="() => ShowSetDeliveryAddressDialog(context.Item)">
+                               Set delivery address
+                            </MudMenuItem>
+                            <MudMenuItem OnClick="() => ShowSetInvoiceAddressDialog(context.Item)">
+                               Set invoice address
                             </MudMenuItem>
                             <MudMenuItem 
                                 Disabled="context.Item.Status > OrderStatus.WaitingForConfirmation"
@@ -99,41 +102,82 @@ else
 
 <MudDialog
     Options="new(){ CloseButton = true, NoHeader = false }"
-    @bind-IsVisible="_showSetOrderAddressDialog">
+    @bind-IsVisible="_showSetDeliveryAddressDialog">
     <TitleContent>
-        @if (_setOrderAddressDialog is not null)
+        @if (_setDeliveryAddressForOrder is not null)
         {
-            <h5 class="mb-0">Order - @_setOrderAddressDialog.Number</h5>
+            <h5 class="mb-0">Order - @_setDeliveryAddressForOrder.Number</h5>
         }
     </TitleContent>
     <DialogContent>
-        @if (_setOrderAddressCommand is not null && _setOrderAddressDialog is not null)
+        @if (_setDeliveryAddressCommand is not null && _setDeliveryAddressForOrder is not null)
         {
             <MudNumericField 
                 T="int" 
                 Disabled="true"
-                @bind-Value="_setOrderAddressDialog.Number" 
+                @bind-Value="_setDeliveryAddressForOrder.Number" 
                 Label="Number" />
             <MudTextField 
                 T="string" 
                 Disabled="true"
-                @bind-Text="_setOrderAddressCommand.AddressLine"
+                @bind-Text="_setDeliveryAddressCommand.AddressLine"
                 Label="AddressLine" />
             <MudTextField 
                 T="string"
-                @bind-Text="_setOrderAddressCommand.PostalCode"
+                @bind-Text="_setDeliveryAddressCommand.PostalCode"
                 Label="PostalCode" />
             <MudTextField 
                 T="string"
-                @bind-Text="_setOrderAddressCommand.PostalOffice"
+                @bind-Text="_setDeliveryAddressCommand.PostalOffice"
                 Label="PostalOffice" />
             <MudTextField 
                 T="string"
-                @bind-Text="_setOrderAddressCommand.Country"
+                @bind-Text="_setDeliveryAddressCommand.Country"
                 Label="Country" />
         } 
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="ExecuteSetAddress">Update</MudButton>
+        <MudButton OnClick="ExecuteSetDeliveryAddress">Update</MudButton>
+    </DialogActions>
+</MudDialog>
+
+s<MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
+    @bind-IsVisible="_showSetInvoiceAddressDialog">
+    <TitleContent>
+        @if (_setInvoiceAddressForOrder is not null)
+        {
+            <h5 class="mb-0">Order - @_setInvoiceAddressForOrder.Number</h5>
+        }
+    </TitleContent>
+    <DialogContent>
+        @if (_setInvoiceAddressCommand is not null && _setInvoiceAddressForOrder is not null)
+        {
+            <MudNumericField 
+                T="int" 
+                Disabled="true"
+                @bind-Value="_setInvoiceAddressForOrder.Number" 
+                Label="Number" />
+            <MudTextField 
+                T="string" 
+                Disabled="true"
+                @bind-Text="_setInvoiceAddressCommand.AddressLine"
+                Label="AddressLine" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setInvoiceAddressCommand.PostalCode"
+                Label="PostalCode" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setInvoiceAddressCommand.PostalOffice"
+                Label="PostalOffice" />
+            <MudTextField 
+                T="string"
+                @bind-Text="_setInvoiceAddressCommand.Country"
+                Label="Country" />
+        } 
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="ExecuteSetInvoiceAddress">Update</MudButton>
     </DialogActions>
 </MudDialog>

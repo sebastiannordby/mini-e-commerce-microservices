@@ -25,8 +25,13 @@ else
                 </MudTimelineItem>
                 <MudTimelineItem>
                     <MudText 
-                        Color="orderStatus == OrderStatus.InFill ? Color.Primary : Color.Default"
-                        Align="Align.End">Fill in information</MudText>
+                        Color="orderStatus == OrderStatus.WaitingForDeliveryAddress ? Color.Primary : Color.Default"
+                        Align="Align.End">Fill in delivery address</MudText>
+                </MudTimelineItem>
+                <MudTimelineItem>
+                    <MudText 
+                        Color="orderStatus == OrderStatus.WaitingForInvoiceAddress ? Color.Primary : Color.Default"
+                        Align="Align.End">Fill in invoice address</MudText>
                 </MudTimelineItem>
                 <MudTimelineItem>
                     <MudText 
@@ -41,7 +46,7 @@ else
             @if(orderStatus == OrderStatus.WaitingForDeliveryAddress)
             {
                 <MudText Typo="Typo.h5" Class="mb-2 text-center">
-                    To continue your shopping fill in the form
+                    Fill in delivery address
                 </MudText>
 
                 <MudForm 
@@ -92,14 +97,14 @@ else
                     FullWidth="true"
                     Class="mt-3"
                     DisableElevation="true" 
-                    OnClick="@TryExecuteSetAddress">
+                    OnClick="@TryExecuteSetDeliveryAddress">
                     Proceed
                 </MudButton>
             } 
             else if(_currentOrder.Status == OrderStatus.WaitingForInvoiceAddress)
             {
-                                <MudText Typo="Typo.h5" Class="mb-2 text-center">
-                    To continue your shopping fill in the form
+                <MudText Typo="Typo.h5" Class="mb-2 text-center">
+                    Fill in invoice address
                 </MudText>
 
                 <MudForm 
@@ -121,27 +126,27 @@ else
                     <MudTextField 
                         T="string"
                         Label="@nameof(OrderView.DeliveryAddressLine)" 
-                        @bind-Text="_setDeliveryAddressCommand.AddressLine"
-                        Required="true" 
-                        RequiredError="@($"{nameof(OrderView.DeliveryAddressLine)} is required")" />
+                        @bind-Text="_setInvoiceAddressCommand.AddressLine"
+                        Required="true"
+                        RequiredError="@($"{nameof(_setInvoiceAddressCommand.AddressLine)} is required")" />
                     <MudTextField 
                         T="string"
                         Label="@nameof(OrderView.DeliveryAddressCountry)"
-                        @bind-Text="_setDeliveryAddressCommand.Country"
+                        @bind-Text="_setInvoiceAddressCommand.Country"
                         Required="true"
-                        RequiredError="@($"{nameof(OrderView.DeliveryAddressCountry)} is required")" />
+                        RequiredError="@($"{nameof(_setInvoiceAddressCommand.Country)} is required")" />
                     <MudTextField 
                         T="string"
                         Label="@nameof(OrderView.DeliveryAddressPostalCode)"
-                        @bind-Text="_setDeliveryAddressCommand.PostalCode"
+                        @bind-Text="_setInvoiceAddressCommand.PostalCode"
                         Required="true"
-                        RequiredError="@($"{nameof(OrderView.DeliveryAddressPostalCode)} is required")" />
+                        RequiredError="@($"{nameof(_setInvoiceAddressCommand.PostalCode)} is required")" />
                     <MudTextField 
                         T="string"
                         Label="@nameof(OrderView.DeliveryAddressPostalOffice)"
-                        @bind-Text="_setDeliveryAddressCommand.PostalOffice"
+                        @bind-Text="_setInvoiceAddressCommand.PostalOffice"
                         Required="true"
-                        RequiredError="@($"{nameof(OrderView.DeliveryAddressPostalOffice)} is required")" />
+                        RequiredError="@($"{nameof(_setInvoiceAddressCommand.PostalOffice)} is required")" />
                 </MudForm>
                     
                 <MudButton 
@@ -150,7 +155,7 @@ else
                     FullWidth="true"
                     Class="mt-3"
                     DisableElevation="true" 
-                    OnClick="@TryExecuteSetAddress">
+                    OnClick="@TryExecuteSetInvoiceAddress">
                     Proceed
                 </MudButton>
             }

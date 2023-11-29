@@ -18,6 +18,7 @@ namespace DesktopApp.Pages
         private MudForm form;
 
         private SetOrderDeliveryAddressCommandDto _setDeliveryAddressCommand;
+        private SetOrderInvoiceAddressCommandDto _setInvoiceAddressCommand;
 
         public static readonly Gauge UsersOrderingGauge = Metrics.CreateGauge(
             "users_ordering",
@@ -56,11 +57,22 @@ namespace DesktopApp.Pages
                     PostalOffice = string.Empty
                 };
             }
+            else if(order.Status == OrderStatus.WaitingForInvoiceAddress)
+            {
+                _setInvoiceAddressCommand = new SetOrderInvoiceAddressCommandDto()
+                {
+                    OrderId = order.Id,
+                    AddressLine = string.Empty,
+                    Country = string.Empty,
+                    PostalCode = string.Empty,
+                    PostalOffice = string.Empty
+                };
+            }
 
             return Task.CompletedTask;
         }
 
-        private async Task TryExecuteSetAddress()
+        private async Task TryExecuteSetDeliveryAddress()
         {
             await form.Validate();
             if (!form.IsValid)
@@ -72,6 +84,26 @@ namespace DesktopApp.Pages
             {
                 await DialogService.ShowMessageBox(
                     "Could not set address", 
+                    String.Join(Environment.NewLine, setAddressResult.Errors));
+                return;
+            }
+
+            Snackbar.Add("Order successfully filled. Wait for confirmation..");
+            await RefetchOrder();
+        }
+
+        private async Task TryExecuteSetInvoiceAddress()
+        {
+            await form.Validate();
+            if (!form.IsValid)
+                return;
+
+            var setAddressResult = await OrderRepository
+                .SetInvoiceAddress(_setInvoiceAddressCommand);
+            if (!setAddressResult.IsSuccess)
+            {
+                await DialogService.ShowMessageBox(
+                    "Could not set address",
                     String.Join(Environment.NewLine, setAddressResult.Errors));
                 return;
             }

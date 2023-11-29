@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.UseCases.Administration.Commands.SetAddress
+namespace OrderService.Domain.UseCases.Administration.Commands.SetDeliveryAddress
 {
     public sealed class AdmSetOrderDeliveryAddressCommandHandler : IRequestHandler<AdmSetOrderDeliveryAddressCommand, bool>
     {

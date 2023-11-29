@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using MiniECommerce.Authentication;
+using MiniECommerce.Library;
 using UserService.API;
 using UserService.DataAccess;
 
@@ -15,6 +16,7 @@ builder.Services.AddUserServiceDataAccessLayer(sqlConnectionString);
 
 var app = builder.Build();
 
+app.MigrateDatabase<UserDbContext>();
 app.UseRouting();
 app.UseECommerceLibrary();
 app.MapControllers();
