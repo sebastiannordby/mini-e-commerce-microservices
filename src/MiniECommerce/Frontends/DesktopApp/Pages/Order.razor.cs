@@ -33,14 +33,15 @@ namespace DesktopApp.Pages
                 return;
             }
 
-            _currentOrder = await OrderRepository.Get(startedOrderId.Value);
-            if (_currentOrder is null)
+            var currentOrder = await OrderRepository.Get(startedOrderId.Value);
+            if (currentOrder is null)
             {
                 NavigationManager.NavigateTo("/orders");
                 return;
             }
 
-            await ConfigureCommandsRelativeToStatus(_currentOrder);
+            await ConfigureCommandsRelativeToStatus(currentOrder);
+            _currentOrder = currentOrder;
             UsersOrderingGauge.Inc();
         }
 

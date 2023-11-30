@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MiniECommerce.Consumption.Repositories.UserService;
+using MudBlazor;
 using UserService.Library;
 
 namespace DesktopApp.Pages
@@ -23,8 +24,10 @@ namespace DesktopApp.Pages
 
             await UserRepository.Save(_userInfo);
             _userInfo = await UserRepository.Get();
+            Snackbar.Add("Your information is updated");
         }
 
+        [Inject] private ISnackbar Snackbar { get; set; }
         [Inject] private IUserRepository UserRepository { get; set; }
     }
 }

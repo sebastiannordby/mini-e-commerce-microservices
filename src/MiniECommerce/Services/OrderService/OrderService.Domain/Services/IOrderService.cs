@@ -16,6 +16,9 @@ namespace OrderService.Domain.Services
         Task<bool> HasOrderInProgressAsync(string buyersEmailAddress);
         Task<Guid?> GetStartedOrderIdAsync(string buyersEmailAddress);
         Task<bool> SetWaitingForConfirmationAsync(string buyersEmailAddress);
+
+        Task<bool> ConfirmDeliveryAddressAsync(string buyersEmailAddress);
+
         Task<bool> SetDeliveryAddressAsync(
             string buyersEmailAddress,
             string addressLine, 

@@ -25,6 +25,23 @@ namespace OrderService.DataAccess.Services
             _loadOrderService = loadOrderService;
         }
 
+        public async Task<bool> ConfirmDeliveryAddressAsync(string buyersEmailAddress)
+        {
+            if (string.IsNullOrWhiteSpace(buyersEmailAddress))
+                return false;
+
+            var res = await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(o => o.Status, OrderStatus.WaitingForInvoiceAddress));
+
+            await _dbContext.SaveChangesAsync();
+
+            return res > 0;
+        }
+
         public async Task<Order?> FindAsync(Guid id)
         {
             var orderDao = await _dbContext.Orders

@@ -38,13 +38,23 @@ else
                 }
             </div>
 
-            <MudButton 
-                Class="mt-auto"
-                Variant="Variant.Filled"
-                Color="Color.Primary"
-                OnClick="StartOrder">
-                Start order
-            </MudButton>
+            <div class="d-flex flex-column gap-2 mt-auto">
+                <MudButton 
+                    Class="mt-auto"
+                    Variant="Variant.Filled"
+                    Color="Color.Secondary"
+                    Href="/">
+                    Continue shopping
+                </MudButton>
+
+                <MudButton 
+                    Class="mt-auto"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary"
+                    OnClick="StartOrder">
+                    Start order
+                </MudButton>
+            </div>
         }
         else
         {

@@ -42,7 +42,7 @@ else
         </MudPaper>
 
         <MudPaper Class="p-4" Elevation="10">
-            @if(orderStatus == OrderStatus.WaitingForDeliveryAddress)
+            @if(orderStatus == OrderStatus.WaitingForDeliveryAddress && _setDeliveryAddressCommand is not null)
             {
                 <MudText Typo="Typo.h5" Class="mb-2 text-center">
                     Fill in delivery address
@@ -100,7 +100,7 @@ else
                     Proceed
                 </MudButton>
             } 
-            else if(_currentOrder.Status == OrderStatus.WaitingForInvoiceAddress)
+            else if(_currentOrder.Status == OrderStatus.WaitingForInvoiceAddress && _setInvoiceAddressCommand is not null) 
             {
                 <MudText Typo="Typo.h5" Class="mb-2 text-center">
                     Fill in invoice address
