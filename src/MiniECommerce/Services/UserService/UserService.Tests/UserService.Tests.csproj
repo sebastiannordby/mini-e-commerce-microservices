@@ -26,8 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MiniECommerce\Core\MiniECommerce.Testing\MiniECommerce.Testing.csproj" />
-    <ProjectReference Include="..\MiniECommerce\Services\UserService\UserService.DataAccess\UserService.DataAccess.csproj" />
+    <ProjectReference Include="..\..\..\Core\MiniECommerce.Testing\MiniECommerce.Testing.csproj" />
+    <ProjectReference Include="..\UserService.DataAccess\UserService.DataAccess.csproj" />
   </ItemGroup>
+
 
 </Project>
