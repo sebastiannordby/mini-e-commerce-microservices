@@ -15,7 +15,7 @@ using MiniECommerce.Library.Services.UserService;
 
 namespace OrderService.Tests
 {
-    public class BaseOrderServiceTest
+    public class BaseOrderServiceTest 
     {
         public IServiceProvider Services { get; private set; }
 

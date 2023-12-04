@@ -10,8 +10,10 @@ namespace OrderService.Library.Enumerations
     {
         WaitingForDeliveryAddress = 0,
         WaitingForInvoiceAddress = 1,
+        WaitingForPayment = 85,
         WaitingForConfirmation = 100,
         Confirmed = 200,
+        InShipping = 250,
         Delivered = 300
     }
 }

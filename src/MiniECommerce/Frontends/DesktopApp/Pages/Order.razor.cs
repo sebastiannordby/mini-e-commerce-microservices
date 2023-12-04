@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MiniECommerce.Consumption.Repositories.OrderService;
+using MiniECommerce.Consumption.Repositories.PurchaseService;
 using MudBlazor;
 using OrderService.Library.Commands;
 using OrderService.Library.Enumerations;
 using OrderService.Library.Models;
 using Prometheus;
+using PurchaseService.Library;
 using System.Text.RegularExpressions;
 
 namespace DesktopApp.Pages
@@ -19,6 +21,7 @@ namespace DesktopApp.Pages
 
         private SetOrderDeliveryAddressCommandDto _setDeliveryAddressCommand;
         private SetOrderInvoiceAddressCommandDto _setInvoiceAddressCommand;
+        private PaymentCommandDto _paymentCommand;
 
         public static readonly Gauge UsersOrderingGauge = Metrics.CreateGauge(
             "users_ordering",
@@ -69,6 +72,14 @@ namespace DesktopApp.Pages
                     PostalOffice = order.InvoiceAddressPostalOffice ?? string.Empty
                 };
             }
+            else if(order.Status == OrderStatus.WaitingForPayment)
+            {
+                _paymentCommand = new()
+                {
+                    Card = new(),
+                    Vipps = new()
+                };
+            }
 
             return Task.CompletedTask;
         }
@@ -89,7 +100,7 @@ namespace DesktopApp.Pages
                 return;
             }
 
-            Snackbar.Add("Order successfully filled. Wait for confirmation..");
+            Snackbar.Add("Delivery address updated successfully.");
             await RefetchOrder();
         }
 
@@ -109,7 +120,17 @@ namespace DesktopApp.Pages
                 return;
             }
 
-            Snackbar.Add("Order successfully filled. Wait for confirmation..");
+            Snackbar.Add("Invoice address updated successfully.");
+            await RefetchOrder();
+        }
+
+        private async Task TryExecutePayment()
+        {
+            var resultText = await PurchaseRepository
+                .Pay(_paymentCommand);
+
+            Snackbar.Add(resultText);
+
             await RefetchOrder();
         }
 
@@ -117,6 +138,10 @@ namespace DesktopApp.Pages
         {
             _currentOrder = _currentOrder is not null ? 
                 await OrderRepository.Get(_currentOrder.Id) : null;
+            if(_currentOrder is not null)
+                await ConfigureCommandsRelativeToStatus(_currentOrder);
+            
+            await InvokeAsync(StateHasChanged);
         }
 
         public void Dispose()
@@ -124,6 +149,7 @@ namespace DesktopApp.Pages
             UsersOrderingGauge.Dec();
         }
 
+        [Inject] public required IPurchaseRepository PurchaseRepository { get; set; }
         [Inject] public required IDialogService DialogService { get; set; }
         [Inject] public required ISnackbar Snackbar { get; set; }
         [Inject] public required NavigationManager NavigationManager { get; set; }

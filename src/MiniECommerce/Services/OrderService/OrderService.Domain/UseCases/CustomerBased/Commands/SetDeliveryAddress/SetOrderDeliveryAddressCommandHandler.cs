@@ -52,10 +52,7 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetDeliveryAddress
                 request.PostalOffice,
                 request.Country);
 
-            var confirmDeliveryAddrRes = await _orderService.ConfirmDeliveryAddressAsync(
-                _currentUserService.UserEmail);
-
-            if(!setAddressRes || !confirmDeliveryAddrRes)
+            if(!setAddressRes)
             {
                 await _unitOfWork.RollbackAsync();
                 return Result.Fail(new Error(""));

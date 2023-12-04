@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Core\MiniECommerce.Library\MiniECommerce.Library.csproj" />
+      <ProjectReference Include="..\PurchaseService.Library\PurchaseService.Library.csproj" />
     </ItemGroup>
 
     <PropertyGroup>

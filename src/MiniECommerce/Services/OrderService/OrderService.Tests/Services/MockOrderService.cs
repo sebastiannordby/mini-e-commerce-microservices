@@ -97,6 +97,20 @@ namespace OrderService.Tests.Services
             return true;
         }
 
+        public async Task<bool> SetToWaitingForPayment(string buyersEmailAddress)
+        {
+            var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);
+            var order = startedOrderId.HasValue ? _dbContext.Orders
+                .FirstOrDefault(x => x.Id == startedOrderId) : null;
+            if (order is null)
+                return false;
+
+            order.Status = OrderStatus.WaitingForPayment;
+            _dbContext.Orders.Update(order);
+
+            return true;
+        }
+
         public async Task<bool> SetWaitingForConfirmationAsync(string buyersEmailAddress)
         {
             var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);

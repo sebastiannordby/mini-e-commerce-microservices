@@ -16,11 +16,11 @@ namespace DesktopApp.Pages
             var orders = (await OrderRepository.List()) ?? Enumerable.Empty<OrderView>();
 
             _activeOrders = orders
-                .Where(x => x.Status <= OrderStatus.WaitingForConfirmation)
+                .Where(x => x.Status <= OrderStatus.InShipping)
                 .ToList();
 
             _historicOrders = orders
-                .Where(x => x.Status > OrderStatus.WaitingForConfirmation)
+                .Where(x => x.Status > OrderStatus.InShipping)
                 .ToList();
 
             _initialized = true;

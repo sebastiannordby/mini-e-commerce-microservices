@@ -2,6 +2,7 @@
 @using OrderService.Library.Enumerations;
 @using System.ComponentModel.DataAnnotations;
 @using OrderService.Library.Models;
+@using PurchaseService.Library
 
 @if(_currentOrder is null) 
 {
@@ -36,7 +37,8 @@ else
                 <MudTimelineItem>
                     <MudText 
                         Color="orderStatus == OrderStatus.WaitingForConfirmation ? Color.Primary : Color.Default">
-                        Waiting for confirmation</MudText>
+                        Pay for order
+                    </MudText>
                 </MudTimelineItem>
             </MudTimeline>
         </MudPaper>
@@ -158,9 +160,63 @@ else
                     Proceed
                 </MudButton>
             }
-            else if(_currentOrder.Status == OrderStatus.WaitingForConfirmation)
+            else if(_currentOrder.Status == OrderStatus.WaitingForPayment && _paymentCommand is not null)
             {
-                <MudText Typo="Typo.h6" Class="text-center">Waiting for confirmation..</MudText>
+                <div class="d-flex flex-column gap-2">
+                    <MudText Typo="Typo.h5" Class="mb-2 text-center">
+                        Pay with @_paymentCommand.Method
+                    </MudText>
+
+                    <MudSelect 
+                        T="PaymentCommandDto.PaymentMethod" 
+                        Label="Method"
+                        @bind-Value="_paymentCommand.Method"
+                        AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="PaymentCommandDto.PaymentMethod.Card" />
+                        <MudSelectItem Value="PaymentCommandDto.PaymentMethod.Vipps" />
+                    </MudSelect>
+
+                    @if(_paymentCommand.Method == PaymentCommandDto.PaymentMethod.Card 
+                        && _paymentCommand.Card is not null) 
+                    {
+                        <MudTextField 
+                            T="string"
+                            Label="@nameof(PaymentCommandDto.Card.CardHolderFullName)" 
+                            Text="@_paymentCommand.Card.CardHolderFullName"/>
+                        <MudTextField 
+                            T="string"
+                            Label="@nameof(PaymentCommandDto.Card.CardNumber)" 
+                            Text="@_paymentCommand.Card.CardNumber"/>
+                        <MudTextField 
+                            T="string"
+                            Label="@nameof(PaymentCommandDto.Card.CVC)" 
+                            Text="@_paymentCommand.Card.CVC"/>
+                    }
+                    else if(_paymentCommand.Method == PaymentCommandDto.PaymentMethod.Vipps 
+                        && _paymentCommand.Vipps is not null)
+                    {
+                        <MudTextField 
+                            T="string"
+                            Label="@nameof(PaymentCommandDto.Vipps.PhoneNumber)" 
+                            Text="@_paymentCommand.Vipps.PhoneNumber"/>
+                    }
+
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Primary" 
+                        FullWidth="true"
+                        Class="mt-3"
+                        DisableElevation="true" 
+                        OnClick="@TryExecutePayment">
+                        Execute payment
+                    </MudButton>
+                </div>
+            }
+            else if(_currentOrder.Status == OrderStatus.WaitingForConfirmation) 
+            {
+                <MudText Typo="Typo.h5" Class="mb-2 text-center">
+                    Waiting for confirmation.
+                </MudText>
             }
         </MudPaper>
     </div>

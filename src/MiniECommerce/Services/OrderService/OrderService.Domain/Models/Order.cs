@@ -161,6 +161,12 @@ namespace OrderService.Domain.Models
             InvoiceAddressCountry = country;
         }
 
+        internal void SetToWaitingForConfirmation()
+        {
+            if (Status == OrderStatus.WaitingForPayment)
+                Status = OrderStatus.WaitingForConfirmation;
+        }
+
         internal void Confirm()
         {
             if (Status != OrderStatus.WaitingForConfirmation)
