@@ -58,16 +58,14 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetInvoiceAddress
                 request.PostalOffice,
                 request.Country);
 
-
             if (!setAddressRes)
             {
                 await _unitOfWork.RollbackAsync();
                 return Result.Fail("Could not set the address for your order.");
             }
 
-            var setWaitingForConfirmationRes = await _orderService.SetToWaitingForPayment(
-                _currentUserService.UserEmail);
-
+            var setWaitingForConfirmationRes = await _orderService
+                .SetToWaitingForPaymentAsync(_currentUserService.UserEmail);
             if (!setWaitingForConfirmationRes)
             {
                 await _unitOfWork.RollbackAsync();

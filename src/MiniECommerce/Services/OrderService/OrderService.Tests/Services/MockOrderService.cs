@@ -97,7 +97,7 @@ namespace OrderService.Tests.Services
             return true;
         }
 
-        public async Task<bool> SetToWaitingForPayment(string buyersEmailAddress)
+        public async Task<bool> SetToWaitingForPaymentAsync(string buyersEmailAddress)
         {
             var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);
             var order = startedOrderId.HasValue ? _dbContext.Orders
@@ -124,6 +124,11 @@ namespace OrderService.Tests.Services
             _dbContext.SaveChanges();
 
             return true;
+        }
+
+        public Task<bool> SetWaitingForInvoiceAddressAsync(string buyersEmailAddress)
+        {
+            throw new NotImplementedException();
         }
     }
 }

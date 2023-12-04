@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.Consumers
 {
-    internal sealed class OrderPurchasedEventConsumer : IConsumer<OrderPurchasedEvent>
+    public sealed class OrderPurchasedEventConsumer : IConsumer<OrderPurchasedEvent>
     {
         private readonly IOrderService _orderService;
         private readonly ILogger<OrderPurchasedEventConsumer> _logger;
@@ -37,7 +37,6 @@ namespace OrderService.Domain.Consumers
                 nameof(OrderPurchasedEventConsumer), context.Message.OrderId);
 
             order.SetWaitingForConfirmation();
-
             await _orderService.SaveAsync(order);
         }
     }

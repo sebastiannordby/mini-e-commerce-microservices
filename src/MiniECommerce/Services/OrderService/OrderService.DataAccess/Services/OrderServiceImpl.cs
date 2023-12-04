@@ -25,7 +25,7 @@ namespace OrderService.DataAccess.Services
             _loadOrderService = loadOrderService;
         }
 
-        public async Task<bool> SetToWaitingForPayment(string buyersEmailAddress)
+        public async Task<bool> SetToWaitingForPaymentAsync(string buyersEmailAddress)
         {
             if (string.IsNullOrWhiteSpace(buyersEmailAddress))
                 return false;
@@ -198,6 +198,23 @@ namespace OrderService.DataAccess.Services
                 .Where(x => x.Status <= OrderStatus.Confirmed)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(o => o.Status, OrderStatus.WaitingForConfirmation));
+
+            await _dbContext.SaveChangesAsync();
+
+            return res > 0;
+        }
+
+        public async Task<bool> SetWaitingForInvoiceAddressAsync(string buyersEmailAddress)
+        {
+            if (string.IsNullOrWhiteSpace(buyersEmailAddress))
+                return false;
+
+            var res = await _dbContext.Orders
+                .AsNoTracking()
+                .Where(x => x.BuyersEmailAddress == buyersEmailAddress)
+                .Where(x => x.Status <= OrderStatus.Confirmed)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(o => o.Status, OrderStatus.WaitingForInvoiceAddress));
 
             await _dbContext.SaveChangesAsync();
 

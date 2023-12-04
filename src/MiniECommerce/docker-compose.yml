@@ -92,6 +92,12 @@ services:
         - rabbitmq
     networks:
         - backend
+    environment:
+      - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
+      - "Authentication__Google__ClientSecret=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" 
+      - "MessageBroker__Host=amqp://rabbitmq:5672" 
+      - "MessageBroker__Username=guest" 
+      - "MessageBroker__Password=guest" 
 
   product_service:
     container_name: product_service

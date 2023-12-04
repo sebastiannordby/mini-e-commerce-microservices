@@ -48,7 +48,7 @@ namespace DesktopApp.Pages
             UsersOrderingGauge.Inc();
         }
 
-        private Task ConfigureCommandsRelativeToStatus(OrderView order)
+        private async Task ConfigureCommandsRelativeToStatus(OrderView order)
         {
             if(order.Status == OrderStatus.WaitingForDeliveryAddress)
             {
@@ -76,12 +76,13 @@ namespace DesktopApp.Pages
             {
                 _paymentCommand = new()
                 {
+                    OrderId = order.Id,
                     Card = new(),
                     Vipps = new()
                 };
             }
 
-            return Task.CompletedTask;
+            await InvokeAsync(StateHasChanged);
         }
 
         private async Task TryExecuteSetDeliveryAddress()
@@ -130,18 +131,36 @@ namespace DesktopApp.Pages
                 .Pay(_paymentCommand);
 
             Snackbar.Add(resultText);
+            var tries = 0;
+            var order = null as OrderView;
 
-            await RefetchOrder();
+            while((order = await FetchOrder()).Status != OrderStatus.WaitingForConfirmation)
+            {
+                Snackbar.Add("Checking order status..");
+                ++tries;
+
+                if (tries == 5)
+                    break;
+
+                await Task.Delay(700);
+            }
+
+            await ConfigureCommandsRelativeToStatus(order);
         }
 
         private async Task RefetchOrder()
         {
-            _currentOrder = _currentOrder is not null ? 
-                await OrderRepository.Get(_currentOrder.Id) : null;
-            if(_currentOrder is not null)
+            await FetchOrder();
+            if (_currentOrder is not null)
                 await ConfigureCommandsRelativeToStatus(_currentOrder);
-            
-            await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task<OrderView> FetchOrder()
+        {
+            _currentOrder = _currentOrder is not null ?
+                await OrderRepository.Get(_currentOrder.Id) : null;
+
+            return _currentOrder ?? throw new Exception();
         }
 
         public void Dispose()
