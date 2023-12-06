@@ -31,9 +31,9 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.CustomerBased.Commands
 
             var order = await orderService.FindAsync(orderId);
 
-            Assert.AreNotEqual(orderId, Guid.Empty);
-            Assert.IsTrue(setAddress.IsSuccess);
-            Assert.AreEqual(order.Status, OrderStatus.WaitingForInvoiceAddress);
+            Assert.That(orderId != Guid.Empty);
+            Assert.That(setAddress.IsSuccess);
+            Assert.That(order.Status, Is.EqualTo(OrderStatus.WaitingForInvoiceAddress));
         }
     }
 }

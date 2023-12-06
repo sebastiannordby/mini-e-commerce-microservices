@@ -18,7 +18,7 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.CustomerBased.Commands
             var mediator = Services.GetRequiredService<MediatR.IMediator>();
             var orderId = await mediator.Send(new StartOrderCommand());
 
-            Assert.AreNotEqual(orderId, Guid.Empty);
+            Assert.That(orderId, Is.Not.EqualTo(Guid.Empty));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.CustomerBased.Commands
             var orderId = await mediator.Send(new StartOrderCommand());
             await harness.Stop();
 
-            Assert.IsTrue(await harness.Published.Any<OrderStartedEvent>());
+            Assert.That(await harness.Published.Any<OrderStartedEvent>());
         }
     }
 }

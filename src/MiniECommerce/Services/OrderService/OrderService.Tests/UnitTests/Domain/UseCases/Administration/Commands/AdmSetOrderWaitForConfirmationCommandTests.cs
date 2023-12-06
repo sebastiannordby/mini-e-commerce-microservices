@@ -32,8 +32,8 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
 
             var confirmedOrderRes = await mediator.Send(new AdmConfirmOrderCommand(orderId));
 
-            Assert.IsTrue(waitingForConfirmationRes1, "Waiting for confirmation 1");
-            Assert.IsTrue(confirmedOrderRes, "Order confirmed");
+            Assert.That(waitingForConfirmationRes1, "Waiting for confirmation 1");
+            Assert.That(confirmedOrderRes, "Order confirmed");
             Assert.ThrowsAsync<Exception>(async () =>
             {
                 var waitingForConfirmationRes2 = await mediator.Send(
@@ -57,7 +57,7 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
             var waitingForConfirmationRes = await mediator.Send(
                 new AdmSetOrderWaitForConfirmationCommand(orderId));
 
-            Assert.IsTrue(waitingForConfirmationRes, "Set order to waiting for confirmation");
+            Assert.That(waitingForConfirmationRes, "Set order to waiting for confirmation");
         }
     }
 }

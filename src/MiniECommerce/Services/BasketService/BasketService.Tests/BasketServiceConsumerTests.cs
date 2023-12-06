@@ -26,7 +26,7 @@ namespace BasketService.Tests
             await basketService.AddToBasket(userService.UserEmail, Guid.NewGuid());
             await harness.Stop();
 
-            Assert.IsTrue(await harness.Published.Any<ProductAddedToBasketEvent>());
+            Assert.That(await harness.Published.Any<ProductAddedToBasketEvent>());
         }
 
         [Test]
@@ -42,8 +42,8 @@ namespace BasketService.Tests
                 Guid.NewGuid(), userService.UserEmail, DateTime.Now));
             await harness.Stop();
 
-            Assert.NotNull(response.Message);
-            Assert.IsTrue(await harness.Consumed.Any<OrderStartedEvent>());
+            Assert.That(response.Message, Is.Not.Null);
+            Assert.That(await harness.Consumed.Any<OrderStartedEvent>());
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace BasketService.Tests
                 Guid.NewGuid(), userService.UserEmail, DateTime.Now));
             await harness.Stop();
 
-            Assert.IsTrue(await harness.Consumed.Any<OrderStartedEvent>());
+            Assert.That(await harness.Consumed.Any<OrderStartedEvent>());
         }
     }
 }

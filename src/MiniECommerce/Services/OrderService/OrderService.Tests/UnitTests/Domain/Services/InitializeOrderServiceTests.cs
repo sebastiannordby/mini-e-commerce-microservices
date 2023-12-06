@@ -24,7 +24,7 @@ namespace OrderService.Tests.UnitTests.Domain.Services
             var newOrderId = await orderService.SaveAsync(orderToSave);
             var order = await orderService.FindAsync(newOrderId);
 
-            Assert.IsNotNull(order);
+            Assert.That(order, Is.Not.Null);
             Assert.That((int)orderToSave.Status == (int)order.Status);
             Assert.That(orderToSave.Number == order.Number);
         }
@@ -51,9 +51,9 @@ namespace OrderService.Tests.UnitTests.Domain.Services
             var orders = await orderViewRepository.List(
                 currentUserService.UserEmail);
 
-            Assert.IsNotNull(orders);
-            Assert.IsNotEmpty(orders);
-            Assert.True(orders.Count() == 2);
+            Assert.That(orders, Is.Not.Null);
+            Assert.That(orders, Is.Not.Empty);
+            Assert.That(orders.Count() == 2);
         }
     }
 }

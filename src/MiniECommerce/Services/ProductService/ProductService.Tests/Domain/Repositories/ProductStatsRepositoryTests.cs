@@ -85,13 +85,13 @@ namespace ProductService.Tests.Domain.Repositories
             var productViewIndexOne = products.Count() >= 2 ? 
                 products.ElementAt(1) : null;
 
-            Assert.IsNotNull(products);
-            Assert.IsNotEmpty(products);
-            Assert.AreEqual(2, products.Count());
-            Assert.IsNotNull(productViewIndexZero);
-            Assert.IsNotNull(productViewIndexOne);
-            Assert.AreEqual(productViewIndexZero.Id, topProductId);
-            Assert.AreEqual(productViewIndexOne.Id, secondTopProductId);
+            Assert.That(products, Is.Not.Null);
+            Assert.That(products, Is.Not.Empty);
+            Assert.That(2, Is.EqualTo(products.Count()));
+            Assert.That(productViewIndexZero, Is.Not.Null);
+            Assert.That(productViewIndexOne, Is.Not.Null);
+            Assert.That(productViewIndexZero.Id, Is.EqualTo(topProductId));
+            Assert.That(productViewIndexOne.Id, Is.EqualTo(secondTopProductId));
         }
 
         [Test]
@@ -150,13 +150,13 @@ namespace ProductService.Tests.Domain.Repositories
             var productViewIndexOne = products.Count() >= 2 ?
                 products.ElementAt(1) : null;
 
-            Assert.IsNotNull(products);
-            Assert.IsNotEmpty(products);
-            Assert.AreEqual(2, products.Count());
-            Assert.IsNotNull(productViewIndexZero);
-            Assert.IsNotNull(productViewIndexOne);
-            Assert.AreEqual(productViewIndexZero.Id, topProductId);
-            Assert.AreEqual(productViewIndexOne.Id, secondTopProductId);
+            Assert.That(products, Is.Not.Null);
+            Assert.That(products, Is.Not.Empty);
+            Assert.That(2, Is.EqualTo(products.Count()));
+            Assert.That(productViewIndexZero, Is.Not.Null);
+            Assert.That(productViewIndexOne, Is.Not.Null);
+            Assert.That(productViewIndexZero.Id, Is.EqualTo(topProductId));
+            Assert.That(productViewIndexOne.Id, Is.EqualTo(secondTopProductId));
         }
     }
 }

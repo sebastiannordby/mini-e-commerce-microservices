@@ -46,7 +46,7 @@ namespace OrderService.Tests.UnitTests.Domain.Services
             var orderService = Services.GetRequiredService<IOrderService>();
             var order = await orderService.FindAsync(Guid.Empty);
 
-            Assert.IsNull(order);
+            Assert.That(order, Is.Null);
         }
     }
 }

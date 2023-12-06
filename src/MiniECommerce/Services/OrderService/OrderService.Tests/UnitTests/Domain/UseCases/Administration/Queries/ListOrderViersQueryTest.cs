@@ -22,7 +22,7 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Queries
 
             ));
 
-            Assert.IsNotNull(res);
+            Assert.That(res, Is.Not.Null);
         }
 
         [Test]
@@ -46,13 +46,13 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Queries
 
             ));
 
-            Assert.IsNotNull(res);
-            Assert.IsNotEmpty(res);
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res, Is.Not.Empty);
 
             var orderViewIds = res.Select(x => x.Id).ToList();
 
-            Assert.Contains(order1Id, orderViewIds);
-            Assert.Contains(order2Id, orderViewIds);
+            Assert.That(orderViewIds.Contains(order1Id));
+            Assert.That(orderViewIds.Contains(order2Id));
         }
     }
 }

@@ -24,8 +24,8 @@ namespace ProductService.Tests.Domain.Repositories
 
             var productViews = await productViewRepository.List();
 
-            Assert.IsNotNull(productViews);
-            Assert.IsEmpty(productViews);
+            Assert.That(productViews, Is.Not.Null);
+            Assert.That(productViews, Is.Empty);
         }
 
         [Test]
@@ -45,8 +45,8 @@ namespace ProductService.Tests.Domain.Repositories
 
             var productViews = await productViewRepository.List();
 
-            Assert.IsNotEmpty(productViews);
-            Assert.Contains(createdProductId, productViews.Select(x => x.Id).ToList());
+            Assert.That(productViews, Is.Not.Empty);
+            Assert.That(productViews.Select(x => x.Id).Contains(createdProductId));
         }
 
         [Test]
@@ -66,8 +66,8 @@ namespace ProductService.Tests.Domain.Repositories
 
             var productView = await productViewRepository.Find(createdProductId);
 
-            Assert.IsNotNull(productView);
-            Assert.AreEqual(productView.Id, createdProductId);
+            Assert.That(productView, Is.Not.Null);
+            Assert.That(productView.Id, Is.EqualTo(createdProductId));
         }
     }
 }

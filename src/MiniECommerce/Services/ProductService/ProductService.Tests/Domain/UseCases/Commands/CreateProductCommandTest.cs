@@ -27,9 +27,9 @@ namespace ProductService.Tests.Domain.UseCases.Commands
 
             var productViews = await mediator.Send(new ListProductViewsQuery());
 
-            Assert.IsFalse(response == Guid.Empty);
-            Assert.IsNotNull(productViews);
-            Assert.IsNotEmpty(productViews);
+            Assert.That(response != Guid.Empty);
+            Assert.That(productViews, Is.Not.Null);
+            Assert.That(productViews, Is.Not.Empty);
         }
     }
 }

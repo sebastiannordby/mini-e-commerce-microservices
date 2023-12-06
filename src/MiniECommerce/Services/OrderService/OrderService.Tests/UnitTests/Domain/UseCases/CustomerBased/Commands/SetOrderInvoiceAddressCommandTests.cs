@@ -34,10 +34,10 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.CustomerBased.Commands
 
             var order = await orderService.FindAsync(orderId);
 
-            Assert.AreNotEqual(orderId, Guid.Empty);
-            Assert.IsTrue(setAddress.IsSuccess);
-            Assert.IsTrue(await harness.Published.Any<OrderSetToWaitingForConfirmationEvent>());
-            Assert.AreEqual(order.Status, OrderStatus.WaitingForPayment);
+            Assert.That(orderId != Guid.Empty);
+            Assert.That(setAddress.IsSuccess);
+            Assert.That(await harness.Published.Any<OrderSetToWaitingForConfirmationEvent>());
+            Assert.That(order.Status, Is.EqualTo(OrderStatus.WaitingForPayment));
         }
     }
 }

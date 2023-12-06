@@ -30,7 +30,7 @@ namespace ProductService.Tests.Domain.UseCases.Queries
             var productView = await mediator.Send(
                 new FindProductViewByIdQuery(productId));
 
-            Assert.IsNotNull(productView);
+            Assert.That(productView, Is.Not.Null);
             Assert.That(productId == productView.Id);
         }
     }

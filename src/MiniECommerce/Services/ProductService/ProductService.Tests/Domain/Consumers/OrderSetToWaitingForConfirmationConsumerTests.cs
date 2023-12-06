@@ -29,8 +29,8 @@ namespace ProductService.Tests.Domain.Consumers
                 Substitute.For<OrderView>()));
             await harness.Stop();
 
-            Assert.IsTrue(await harness.Published.Any<OrderSetToWaitingForConfirmationEvent>());
-            Assert.IsTrue(await harness.Consumed.Any<OrderSetToWaitingForConfirmationEvent>());
+            Assert.That(await harness.Published.Any<OrderSetToWaitingForConfirmationEvent>());
+            Assert.That(await harness.Consumed.Any<OrderSetToWaitingForConfirmationEvent>());
         }
 
         [Test]
@@ -89,10 +89,10 @@ namespace ProductService.Tests.Domain.Consumers
                 .FirstOrDefaultAsync();
 
 
-            Assert.IsTrue(await harness.Published.Any<OrderSetToWaitingForConfirmationEvent>());
-            Assert.IsTrue(await harness.Consumed.Any<OrderSetToWaitingForConfirmationEvent>());
-            Assert.IsNotNull(productStats);
-            Assert.AreEqual(productStats.TotalQuantityBought, productQuantityBought);
+            Assert.That(await harness.Published.Any<OrderSetToWaitingForConfirmationEvent>());
+            Assert.That(await harness.Consumed.Any<OrderSetToWaitingForConfirmationEvent>());
+            Assert.That(productStats, Is.Not.Null);
+            Assert.That(productStats.TotalQuantityBought, Is.EqualTo(productQuantityBought));
         }
     }
 }

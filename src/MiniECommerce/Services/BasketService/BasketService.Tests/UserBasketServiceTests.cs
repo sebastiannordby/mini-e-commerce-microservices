@@ -19,8 +19,8 @@ namespace BasketService.Tests
             var basketItems = await userBasketService.GetBasket(
                 nameof(UserBasketServiceTests));
 
-            Assert.IsNotNull(basketItems);
-            Assert.IsEmpty(basketItems);
+            Assert.That(basketItems, Is.Not.Null);
+            Assert.That(basketItems, Is.Empty);
         }
 
         [Test]
@@ -41,12 +41,12 @@ namespace BasketService.Tests
 
             await userBasketService.ClearBasket(nameof(UserBasketServiceTests));
 
-            Assert.IsNotNull(basketWithOneItem);
-            Assert.IsNotNull(basketWithTwoItems);
-            Assert.IsNotNull(basketItems);
-            Assert.IsTrue(basketWithOneItem.Length == 1);
-            Assert.IsTrue(basketWithTwoItems.Length == 2);
-            Assert.IsTrue(basketItems.Length == 2);
+            Assert.That(basketWithOneItem, Is.Not.Null);
+            Assert.That(basketWithTwoItems, Is.Not.Null);
+            Assert.That(basketItems, Is.Not.Null);
+            Assert.That(basketWithOneItem.Length == 1);
+            Assert.That(basketWithTwoItems.Length == 2);
+            Assert.That(basketItems.Length == 2);
         }
 
         [Test]
@@ -72,17 +72,17 @@ namespace BasketService.Tests
 
             await userBasketService.ClearBasket(nameof(UserBasketServiceTests));
 
-            Assert.IsNotNull(basketWithOneItem);
-            Assert.IsTrue(basketWithOneItem.Length == 1);
+            Assert.That(basketWithOneItem, Is.Not.Null);
+            Assert.That(basketWithOneItem.Length == 1);
 
-            Assert.IsNotNull(basketWithTwoItems);
-            Assert.IsTrue(basketWithTwoItems.Length == 2);
+            Assert.That(basketWithTwoItems, Is.Not.Null);
+            Assert.That(basketWithTwoItems.Length == 2);
 
-            Assert.IsNotNull(basketItemsBeforeClear);
-            Assert.IsTrue(basketItemsBeforeClear.Length == 2);
+            Assert.That(basketItemsBeforeClear, Is.Not.Null);
+            Assert.That(basketItemsBeforeClear.Length == 2);
 
-            Assert.IsNotNull(basketItemsAfterClear);
-            Assert.IsTrue(basketItemsAfterClear.Length == 0);
+            Assert.That(basketItemsAfterClear, Is.Not.Null);
+            Assert.That(basketItemsAfterClear.Length == 0);
         }
 
         [Test]
@@ -111,13 +111,13 @@ namespace BasketService.Tests
 
             await userBasketService.ClearBasket(nameof(UserBasketServiceTests));
 
-            Assert.IsNotNull(initialBasket);
-            Assert.IsTrue(initialProductQuantity == 1);
+            Assert.That(initialBasket, Is.Not.Null);
+            Assert.That(initialProductQuantity == 1);
             Assert.That(initialBasket.Length == 1);
 
-            Assert.IsNotNull(increasedBasket);
+            Assert.That(increasedBasket, Is.Not.Null);
             Assert.That(increasedBasket.Count == 1);
-            Assert.IsTrue(increasedProductQuantity == 2);
+            Assert.That(increasedProductQuantity == 2);
         }
 
         [Test]
@@ -156,13 +156,13 @@ namespace BasketService.Tests
 
             await userBasketService.ClearBasket(nameof(UserBasketServiceTests));
 
-            Assert.IsNotNull(initialBasket);
-            Assert.IsTrue(initialProductQuantity == 1);
+            Assert.That(initialBasket, Is.Not.Null);
+            Assert.That(initialProductQuantity == 1);
             Assert.That(initialBasket.Length == 1);
            
-            Assert.IsNotNull(increasedBasket);
+            Assert.That(increasedBasket, Is.Not.Null);
             Assert.That(increasedBasket.Length == 1);
-            Assert.IsTrue(increasedProductQuantity == 2);
+            Assert.That(increasedProductQuantity == 2);
             
             Assert.That(decrearedBasketProductCount == 1);
             Assert.That(decrearedBasket.Length == 1);
@@ -190,12 +190,12 @@ namespace BasketService.Tests
 
             await userBasketService.ClearBasket(nameof(UserBasketServiceTests));
 
-            Assert.IsNotNull(initialBasket);
-            Assert.IsTrue(initialProductQuantity == 1);
+            Assert.That(initialBasket, Is.Not.Null);
+            Assert.That(initialProductQuantity == 1);
             Assert.That(initialBasket.Length == 1);
 
-            Assert.IsNotNull(decreasedBasket);
-            Assert.IsEmpty(decreasedBasket);
+            Assert.That(decreasedBasket, Is.Not.Null);
+            Assert.That(decreasedBasket, Is.Empty);
         }
     }
 }

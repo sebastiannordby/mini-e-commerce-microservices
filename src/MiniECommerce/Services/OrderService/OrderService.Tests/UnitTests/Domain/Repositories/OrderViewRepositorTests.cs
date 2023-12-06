@@ -18,7 +18,7 @@ namespace OrderService.Tests.UnitTests.Domain.Repositories
             var orderViewRepository = Services.GetRequiredService<IOrderViewRepository>();
             var order = await orderViewRepository.Find(Guid.Empty);
 
-            Assert.IsNull(order);
+            Assert.That(order, Is.Null);
         }
 
         [Test]
@@ -27,8 +27,8 @@ namespace OrderService.Tests.UnitTests.Domain.Repositories
             var orderViewRepository = Services.GetRequiredService<IOrderViewRepository>();
             var orders = await orderViewRepository.List(string.Empty);
 
-            Assert.IsNotNull(orders);
-            Assert.IsEmpty(orders);
+            Assert.That(orders, Is.Not.Null);
+            Assert.That(orders, Is.Empty);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace OrderService.Tests.UnitTests.Domain.Repositories
             var orderId = await orderService.SaveAsync(orderToSave);
             var orderView = await orderViewRepository.Find(orderId);
 
-            Assert.IsNotNull(orderView);
+            Assert.That(orderView, Is.Not.Null);
         }
     }
 }

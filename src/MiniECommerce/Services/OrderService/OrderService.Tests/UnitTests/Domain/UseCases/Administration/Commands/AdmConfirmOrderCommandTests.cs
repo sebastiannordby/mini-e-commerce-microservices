@@ -52,8 +52,8 @@ namespace OrderService.Tests.UnitTests.Domain.UseCases.Administration.Commands
 
             var confirmedOrderRes = await mediator.Send(new AdmConfirmOrderCommand(orderId));
 
-            Assert.IsTrue(waitingForConfirmationRes, "Set order to waiting for confirmation");
-            Assert.IsTrue(confirmedOrderRes, "Confirmed the order");
+            Assert.That(waitingForConfirmationRes, "Set order to waiting for confirmation");
+            Assert.That(confirmedOrderRes, "Confirmed the order");
         }
     }
 }

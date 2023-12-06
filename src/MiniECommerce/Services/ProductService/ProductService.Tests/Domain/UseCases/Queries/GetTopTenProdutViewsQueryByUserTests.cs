@@ -61,13 +61,13 @@ namespace ProductService.Tests.Domain.UseCases.Queries
             var productViewIndexOne = products.Count() >= 2 ?
                 products.ElementAt(1) : null;
 
-            Assert.IsNotNull(products);
-            Assert.IsNotEmpty(products);
-            Assert.AreEqual(2, products.Count());
-            Assert.IsNotNull(productViewIndexZero);
-            Assert.IsNotNull(productViewIndexOne);
-            Assert.AreEqual(productViewIndexZero.Id, topProductId);
-            Assert.AreEqual(productViewIndexOne.Id, secondTopProductId);
+            Assert.That(products, Is.Not.Empty);
+            Assert.That(products, Is.Not.Null);
+            Assert.That(2, Is.EqualTo(products.Count()));
+            Assert.That(productViewIndexZero, Is.Not.Null);
+            Assert.That(productViewIndexOne, Is.Not.Null);
+            Assert.That(productViewIndexZero.Id, Is.EqualTo(topProductId));
+            Assert.That(productViewIndexOne.Id, Is.EqualTo(secondTopProductId));
         }
 
         [Test]
@@ -113,18 +113,18 @@ namespace ProductService.Tests.Domain.UseCases.Queries
 
             var products = await mediator.Send(new GetTopTenProdutViewsQueryByUser());
 
-            var productViewIndexZero = products.Count() >= 1 ?
+            var productViewAtIndexZero = products.Count() >= 1 ?
                 products.ElementAt(0) : null;
-            var productViewIndexOne = products.Count() >= 2 ?
+            var productViewAtIndexOne = products.Count() >= 2 ?
                 products.ElementAt(1) : null;
 
-            Assert.IsNotNull(products);
-            Assert.IsNotEmpty(products);
-            Assert.AreEqual(2, products.Count());
-            Assert.IsNotNull(productViewIndexZero);
-            Assert.IsNotNull(productViewIndexOne);
-            Assert.AreEqual(productViewIndexZero.Id, topProductId);
-            Assert.AreEqual(productViewIndexOne.Id, secondTopProductId);
+            Assert.That(products, Is.Not.Null);
+            Assert.That(products, Is.Not.Empty);
+            Assert.That(2, Is.EqualTo(products.Count()));
+            Assert.That(productViewAtIndexZero, Is.Not.Null);
+            Assert.That(productViewAtIndexOne, Is.Not.Null);
+            Assert.That(productViewAtIndexZero.Id, Is.EqualTo(topProductId));
+            Assert.That(productViewAtIndexOne.Id, Is.EqualTo(secondTopProductId));
         }
     }
 }

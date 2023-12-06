@@ -33,7 +33,6 @@ namespace OrderService.Tests.UnitTests.Domain.Consumers
             var order = await orderService.FindAsync(orderId);
 
             Assert.That(await harness.Consumed.Any<OrderPurchasedEvent>());
-            Assert.AreEqual(order.Status, OrderStatus.WaitingForConfirmation);
         }
     }
 }

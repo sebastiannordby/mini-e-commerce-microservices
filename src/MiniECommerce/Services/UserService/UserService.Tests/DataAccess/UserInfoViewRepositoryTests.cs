@@ -15,8 +15,8 @@ namespace UserService.Tests.DataAccess
         [Test]
         public void TestIsRegisteredInDI()
         {
-            Assert.IsNotNull(
-                Services.GetService<IUserInfoViewRepository>());
+            Assert.That(
+                Services.GetService<IUserInfoViewRepository>(), Is.Not.Null);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace UserService.Tests.DataAccess
             var repo = Services.GetRequiredService<IUserInfoViewRepository>();
             var infoView = await repo.Get(string.Empty);
 
-            Assert.IsNull(infoView);
+            Assert.That(infoView, Is.Null);
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace UserService.Tests.DataAccess
             var infoViewSaved = await repo.Get(
                 currentUserService.UserEmail);
 
-            Assert.IsNotNull(infoViewSaved);
-            Assert.AreEqual(infoViewSaved.Email, infoViewToSaved.Email);
+            Assert.That(infoViewSaved, Is.Not.Null);
+            Assert.That(infoViewSaved.Email, Is.EqualTo(infoViewToSaved.Email));
         }
 
     }
