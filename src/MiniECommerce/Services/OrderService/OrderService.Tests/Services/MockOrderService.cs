@@ -105,7 +105,7 @@ namespace OrderService.Tests.Services
             if (order is null)
                 return false;
 
-            order.Status = OrderStatus.WaitingForPayment;
+            order.SetStatus(OrderStatus.WaitingForPayment);
             _dbContext.Orders.Update(order);
 
             return true;
@@ -126,9 +126,19 @@ namespace OrderService.Tests.Services
             return true;
         }
 
-        public Task<bool> SetWaitingForInvoiceAddressAsync(string buyersEmailAddress)
+        public async Task<bool> SetWaitingForInvoiceAddressAsync(string buyersEmailAddress)
         {
-            throw new NotImplementedException();
+            var startedOrderId = await GetStartedOrderIdAsync(buyersEmailAddress);
+            var order = startedOrderId.HasValue ? _dbContext.Orders
+                .FirstOrDefault(x => x.Id == startedOrderId) : null;
+            if (order is null)
+                return false;
+
+            order.SetStatus(OrderStatus.WaitingForInvoiceAddress);
+            _dbContext.Orders.Update(order);
+            _dbContext.SaveChanges();
+
+            return true;
         }
     }
 }
