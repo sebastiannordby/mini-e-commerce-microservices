@@ -28,9 +28,16 @@ namespace ProductService.Domain.UseCases.Queries.TopTenByUser
         {
             var personalStats = await _purchaseStatsRepository.GetTopTenProductsByUser(
                 _currentUserService.UserEmail);
+            var peronalStatsCount = personalStats.Count();
 
-            if (!personalStats.Any())
-                return await _purchaseStatsRepository.GetTopTenProducts();
+            if (peronalStatsCount < 10)
+            {
+                var numMissingProducts = peronalStatsCount - 10;
+                var topTenProducts = await _purchaseStatsRepository.GetTopTenProducts();
+                var otherRecommendations = topTenProducts.Take(numMissingProducts);
+
+                personalStats.AddRange(otherRecommendations);
+            }
 
             return personalStats;
         }

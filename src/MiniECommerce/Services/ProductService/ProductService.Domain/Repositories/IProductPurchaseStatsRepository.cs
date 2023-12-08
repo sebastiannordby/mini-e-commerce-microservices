@@ -10,8 +10,8 @@ namespace ProductService.Domain.Repositories
 {
     public interface IProductPurchaseStatsRepository
     {
-        Task<IEnumerable<ProductView>> GetTopTenProductsByUser(string userEmail);
-        Task<IEnumerable<ProductView>> GetTopTenProducts();
+        Task<List<ProductView>> GetTopTenProductsByUser(string userEmail);
+        Task<List<ProductView>> GetTopTenProducts();
 
         Task InsertOrUpdateAsync(
             string buyersEmailAddress,

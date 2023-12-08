@@ -24,12 +24,12 @@ namespace ProductService.Tests.Mock.Repositories
             _repository = new ProductPurchaseStatsRepository(_dbContext);
         }
 
-        public async Task<IEnumerable<ProductView>> GetTopTenProducts()
+        public async Task<List<ProductView>> GetTopTenProducts()
         {
             return await _repository.GetTopTenProducts();
         }
 
-        public async Task<IEnumerable<ProductView>> GetTopTenProductsByUser(string userEmail)
+        public async Task<List<ProductView>> GetTopTenProductsByUser(string userEmail)
         {
             return await _repository.GetTopTenProductsByUser(userEmail);
         }

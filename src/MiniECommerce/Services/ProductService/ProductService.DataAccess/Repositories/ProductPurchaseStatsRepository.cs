@@ -19,7 +19,7 @@ namespace ProductService.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<ProductView>> GetTopTenProducts()
+        public async Task<List<ProductView>> GetTopTenProducts()
         {
             var topProductsQuery = (
                 from stats in _dbContext.ProductPurchaseStats
@@ -40,10 +40,10 @@ namespace ProductService.DataAccess.Repositories
                 .Take(10)
                 .Select(x => ProductViewRepository.ConvertToView(x));
 
-            return await Task.FromResult(topTenProductsQuery);
+            return await topTenProductsQuery.ToListAsync();
         }
 
-        public async Task<IEnumerable<ProductView>> GetTopTenProductsByUser(string userEmail)
+        public async Task<List<ProductView>> GetTopTenProductsByUser(string userEmail)
         {
             var topProductsQuery = (
                 from stats in _dbContext.ProductPurchaseStats
@@ -65,7 +65,7 @@ namespace ProductService.DataAccess.Repositories
                 .Take(10)
                 .Select(x => ProductViewRepository.ConvertToView(x));
 
-            return await Task.FromResult(topTenProductsQuery);
+            return await topTenProductsQuery.ToListAsync();
         }
 
         public async Task InsertOrUpdateAsync(
