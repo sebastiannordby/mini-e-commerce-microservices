@@ -12,7 +12,7 @@ else
 
         @if (_basketItems?.Any() == true)
         {
-            <div class="d-inline-flex flex-column gap-2">
+            <div class="d-inline-flex flex-column gap-2 overflow-auto">
                 @foreach (var item in _basketItems ?? new())
                 {
                     <MudCard Class="d-flex flex-column">

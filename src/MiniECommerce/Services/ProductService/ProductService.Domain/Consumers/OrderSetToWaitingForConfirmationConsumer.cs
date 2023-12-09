@@ -41,8 +41,7 @@ namespace ProductService.Domain.Consumers
                 await _purchaseStatsRepository.InsertOrUpdateAsync(
                     order.BuyersEmailAddress,
                     orderLine.ProductId,
-                    orderLine.Quantity
-                );
+                    orderLine.Quantity);
             }
         }
     }

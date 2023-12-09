@@ -48,7 +48,7 @@ else if(_products is not null)
             <div class="overflow-auto flex-grow-1 h-100 w-100 d-flex flex-column gap-8 p-2 pt-6">
                 @if(string.IsNullOrWhiteSpace(_searchValue))
                 {
-                    @if(_topTenProducts is not null)
+                    @if(_topTenProducts?.Any() == true)
                     {
                         <div class="product-section d-inline-flex flex-column p-2">
                             <MudText Typo="Typo.h5">Top Products For You</MudText>

@@ -30,7 +30,7 @@ namespace OrderService.Domain.Models
 
         private List<OrderLine> _orderLines = new List<OrderLine>();
 
-        private IReadOnlyCollection<OrderLine> OrderLines => 
+        public IReadOnlyCollection<OrderLine> OrderLines => 
             _orderLines.AsReadOnly();
 
         internal Order(

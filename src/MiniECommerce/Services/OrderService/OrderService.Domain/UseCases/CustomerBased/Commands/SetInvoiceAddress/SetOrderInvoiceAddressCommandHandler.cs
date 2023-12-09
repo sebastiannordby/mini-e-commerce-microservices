@@ -77,9 +77,11 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.SetInvoiceAddress
             var targetedOrder = await _orderViewRepository.Find(
                 targetedOrderId.Value);
             if (targetedOrder is null)
+            {
                 return Result
                     .Ok()
                     .WithError($"Could not publish {nameof(OrderSetToWaitingForConfirmationEvent)}");
+            }
 
             await _bus.Publish(new OrderSetToWaitingForConfirmationEvent(
                 targetedOrder

@@ -114,26 +114,51 @@ namespace OrderService.DataAccess.Services
             var orderDao = await _dbContext.Orders
                 .FirstOrDefaultAsync(x => x.Id == order.Id);
 
-            if(orderDao is null)
+            if (orderDao is null)
             {
                 var orderNumbers = _dbContext.Orders
                     .AsNoTracking()
                     .Select(x => x.Number);
-                var orderNumber = orderNumbers.Any() ? 
+                var orderNumber = orderNumbers.Any() ?
                     orderNumbers.Max() + 1 : 1;
 
                 orderDao = new OrderDao(order);
 
                 await _dbContext.Orders.AddAsync(orderDao);
+                await SaveOrderLines(order, orderDao);
                 await _dbContext.SaveChangesAsync();
 
                 return orderDao.Id;
             }
 
             orderDao.Update(order);
+            await SaveOrderLines(order, orderDao);
             await _dbContext.SaveChangesAsync();
 
             return orderDao.Id;
+        }
+
+        private async Task SaveOrderLines(
+            Order order, OrderDao orderDao)
+        {
+            foreach (var orderLine in order.OrderLines)
+            {
+                var orderLineDao = orderLine.Id != Guid.Empty ? await _dbContext.OrderLines
+                    .FirstOrDefaultAsync(x => x.Id == orderLine.Id) : null;
+
+                if (orderLineDao is null)
+                {
+                    orderLineDao = new(orderDao.Id, orderLine);
+                    await _dbContext.OrderLines.AddAsync(orderLineDao);
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    orderLineDao.Update(orderLine);
+                    _dbContext.OrderLines.Update(orderLineDao);
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
         }
 
         public async Task<bool> SetDeliveryAddressAsync(

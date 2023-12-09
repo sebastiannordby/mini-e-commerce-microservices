@@ -68,8 +68,10 @@ namespace OrderService.Domain.UseCases.CustomerBased.Commands.Start
             if (!basketItems.Any())
                 throw new Exception("There is no items in the basket.");
 
-            var orderLines = basketItems
-                .Select(basketItem => order.Create(basketItem));
+            foreach(var basketItem in basketItems)
+            {
+                order.Create(basketItem);
+            }
 
             var orderId = await _orderService.SaveAsync(order);
 
