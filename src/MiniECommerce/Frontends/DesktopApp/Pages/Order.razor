@@ -126,25 +126,25 @@ else
 
                     <MudTextField 
                         T="string"
-                        Label="@nameof(OrderView.DeliveryAddressLine)" 
+                        Label="@nameof(OrderView.InvoiceAddressLine)" 
                         @bind-Text="_setInvoiceAddressCommand.AddressLine"
                         Required="true"
                         RequiredError="@($"{nameof(_setInvoiceAddressCommand.AddressLine)} is required")" />
                     <MudTextField 
                         T="string"
-                        Label="@nameof(OrderView.DeliveryAddressCountry)"
+                        Label="@nameof(OrderView.InvoiceAddressCountry)"
                         @bind-Text="_setInvoiceAddressCommand.Country"
                         Required="true"
                         RequiredError="@($"{nameof(_setInvoiceAddressCommand.Country)} is required")" />
                     <MudTextField 
                         T="string"
-                        Label="@nameof(OrderView.DeliveryAddressPostalCode)"
+                        Label="@nameof(OrderView.InvoiceAddressPostalCode)"
                         @bind-Text="_setInvoiceAddressCommand.PostalCode"
                         Required="true"
                         RequiredError="@($"{nameof(_setInvoiceAddressCommand.PostalCode)} is required")" />
                     <MudTextField 
                         T="string"
-                        Label="@nameof(OrderView.DeliveryAddressPostalOffice)"
+                        Label="@nameof(OrderView.InvoiceAddressPostalOffice)"
                         @bind-Text="_setInvoiceAddressCommand.PostalOffice"
                         Required="true"
                         RequiredError="@($"{nameof(_setInvoiceAddressCommand.PostalOffice)} is required")" />

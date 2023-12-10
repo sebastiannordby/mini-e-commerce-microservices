@@ -3,18 +3,17 @@ name: mini-e-commerce
 
 services:
   user_service:
-    container_name: user_service
     image: ${DOCKER_REGISTRY-}userserviceapi
     ports:
-        - 50015:80
+      - 50015:80
     build:
       context: .
       dockerfile: Services/UserService/UserService.API/Dockerfile
     depends_on:
-        - rabbitmq  
-        - user_service_db 
+      - rabbitmq  
+      - user_service_db 
     networks:
-        - backend
+      - backend
     environment:
       - "ConnectionStrings__DefaultConnection=Server=user_service_db; Database=userservice; User=sa; Password=myStong_Password123#;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=True;"
       - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
@@ -24,43 +23,45 @@ services:
       - "MessageBroker__Password=guest" 
 
   user_service_db:
-    container_name: user_service_db
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
-        - 50115:1433
+      - 50115:1433
     environment:
-        - ACCEPT_EULA=Y
-        - MSSQL_SA_PASSWORD=myStong_Password123# 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=myStong_Password123# 
     networks:
-        - backend
-
+      - backend
 
   basket_service:
-    container_name: basket_service
     image: ${DOCKER_REGISTRY-}basketserviceapi
     build:
       context: .
       dockerfile: Services/BasketService/BasketService.API/Dockerfile
     ports:
-        - 50014:80
+      - 50014:80
     depends_on:
-        - rabbitmq
+      - rabbitmq
     networks:
-        - backend
+      - backend
+    environment:
+      - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
+      - "Authentication__Google__ClientSecret=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" 
+      - "MessageBroker__Host=amqp://rabbitmq:5672" 
+      - "MessageBroker__Username=guest" 
+      - "MessageBroker__Password=guest" 
 
   order_service:
-    container_name: order_service
     image: ${DOCKER_REGISTRY-}orderserviceapi
     build:
       context: .
       dockerfile: Services/OrderService/OrderService.API/Dockerfile
     ports:
-        - 50013:80
+      - 50013:80
     depends_on: 
-        - order_service_db
-        - rabbitmq 
+      - order_service_db
+      - rabbitmq 
     networks:
-        - backend
+      - backend
     environment:
       - "ConnectionStrings__DefaultConnection=Server=order_service_db; Database=ERPDb; User=sa; Password=myStong_Password123#;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=True;"
       - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
@@ -70,28 +71,26 @@ services:
       - "MessageBroker__Password=guest" 
 
   order_service_db:
-    container_name: order_service_db
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
-        - 50113:1433
+      - 50113:1433
     environment:
-        - ACCEPT_EULA=Y
-        - MSSQL_SA_PASSWORD=myStong_Password123# 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=myStong_Password123# 
     networks:
-        - backend
+      - backend
 
   purchase_service:
-    container_name: purchase-service
     image: ${DOCKER_REGISTRY-}purchaseserviceapi
     build:
       context: .
       dockerfile: Services/PurchaseService/PurchaseService.API/Dockerfile
     ports:
-        - 50012:80
+      - 50012:80
     depends_on:
-        - rabbitmq
+      - rabbitmq
     networks:
-        - backend
+      - backend
     environment:
       - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
       - "Authentication__Google__ClientSecret=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" 
@@ -100,19 +99,18 @@ services:
       - "MessageBroker__Password=guest" 
 
   product_service:
-    container_name: product_service
     image: ${DOCKER_REGISTRY-}productserviceapi
     build:
       context: .
       dockerfile: Services/ProductService/ProductService.API/Dockerfile
     ports:
-        - 50011:80
+      - 50011:80
     depends_on:
-        - product_service_db
-        - rabbitmq
+      - product_service_db
+      - rabbitmq
     networks:
-        - backend
-        - monitoring
+      - backend
+      - monitoring
     environment:
       - "ConnectionStrings__DefaultConnection=Server=product_service_db; Database=productservice; User=sa; Password=myStong_Password123#;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=True;"
       - "Authentication__Google__ClientId=142634504492-4l6epq27vqplki086jcvveq87udvh6u3.apps.googleusercontent.com" 
@@ -122,66 +120,61 @@ services:
       - "MessageBroker__Password=guest" 
 
   product_service_db:
-    container_name: product_service_db
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
-        - 50111:1433
+      - 50111:1433
     environment:
-        - ACCEPT_EULA=Y
-        - MSSQL_SA_PASSWORD=myStong_Password123# 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=myStong_Password123# 
     networks:
-        - backend
+      - backend
 
   desktop_app:
-    container_name: desktop_app
     image: ${DOCKER_REGISTRY-}desktopapp
     build:
       context: .
       dockerfile: Frontends/DesktopApp/Dockerfile
     ports:
-        - 50010:80
+      - 50010:80
     networks:
-        - backend
+      - backend
     depends_on:
-        - gateway 
+      - gateway 
 
   rabbitmq:
     image: rabbitmq:management
-    container_name: rabbitmq
     environment:
-        - RABBITMQ_DEFAULT_USER=guest
-        - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     ports:
-        - "5672:5672"
-        - "15672:15672"
+      - "5672:5672"
+      - "15672:15672"
     networks:
-        - backend
+      - backend
 
   gateway:
-    container_name: gateway
     image: ${DOCKER_REGISTRY-}miniecommercegateway
     build:
       context: .
       dockerfile: Gateway/MiniECommerce.Gateway/Dockerfile
     ports:
-        - 50000:80
+      - 50000:80
     links:
-        - product_service
-        - purchase_service
-        - order_service 
-        - user_service 
+      - product_service
+      - purchase_service
+      - order_service 
+      - user_service 
     depends_on:
-        - product_service
-        - purchase_service
-        - order_service
-        - user_service 
-        - rabbitmq 
+      - product_service
+      - purchase_service
+      - order_service
+      - user_service 
+      - rabbitmq 
     networks:
-        - backend
-        - monitoring 
+      - backend
+      - monitoring 
 
   prometheus:
-    container_name: prometheus
     image: prom/prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
@@ -193,7 +186,6 @@ services:
       - desktop_app
 
   grafana:
-    container_name: grafana
     image: grafana/grafana
     ports:
       - "3000:3000"
@@ -211,6 +203,3 @@ networks:
     driver: bridge
   monitoring:
     driver: bridge
-
-
-

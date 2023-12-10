@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddBasketServiceDomainLayer();
-builder.AddECommerceLibrary();
+builder.AddECommerceLibrary(
+    consumerAssembly: typeof(BasketService.Domain.DomainInstaller).Assembly);
 
 var app = builder.Build();
 

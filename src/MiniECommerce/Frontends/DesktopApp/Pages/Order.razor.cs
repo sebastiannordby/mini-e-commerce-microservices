@@ -50,7 +50,9 @@ namespace DesktopApp.Pages
 
         private async Task ConfigureCommandsRelativeToStatus(OrderView order)
         {
-            if(order.Status == OrderStatus.WaitingForDeliveryAddress)
+            _formErrors = new string[] { }; 
+
+            if (order.Status == OrderStatus.WaitingForDeliveryAddress)
             {
                 _setDeliveryAddressCommand = new SetOrderDeliveryAddressCommandDto()
                 {
