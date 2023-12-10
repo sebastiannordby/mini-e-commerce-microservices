@@ -4,7 +4,7 @@
 
 [![.NET](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml/badge.svg)](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml)
 
-### How to run the project
+### Building and Running the Project
 In the root-directory run the following commands(in the written order)
 
 Command to build: docker-compose build
@@ -16,7 +16,7 @@ When the project is up and running, you can navigate to the webapp at: http://lo
 
 ![image](https://github.com/sebastiannordby/mini-e-commerce-microservices/assets/24465003/17e5c7bd-56a7-43a1-9cec-5c8cf8e640db)
 
-### Choices of technology
+### Choices of Technology
 
 ## RabbitMQ with MassTransit
 
