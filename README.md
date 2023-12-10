@@ -18,7 +18,7 @@ When the project is up and running, you can navigate to the webapp at: http://lo
 
 ### Choices of Technology
 
-## RabbitMQ with MassTransit
+#### RabbitMQ with MassTransit
 
 **RabbitMQ** is a widely-used message broker that facilitates asynchronous communication in a distributed system, which is essential in a microservice architecture for decoupling services. It supports various messaging patterns, including publish/subscribe, which are crucial for building scalable and resilient systems.
 
@@ -32,7 +32,7 @@ When the project is up and running, you can navigate to the webapp at: http://lo
 - Advanced Features: It offers features like saga coordination, scheduling, and support for various patterns that are beneficial in complex microservice interactions
 - Better Error Handling and Monitoring: MassTransit provides enhanced error handling and monitoring capabilities, crucial for maintaining system health
 
-## Prometheus and Grafana
+#### Prometheus and Grafana
 
 **Prometheus** is a powerful monitoring tool that collects and stores metrics as time-series data, allowing you to monitor the health and performance of your microservices.
 
