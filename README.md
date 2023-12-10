@@ -6,6 +6,14 @@
 
 ![image](https://github.com/sebastiannordby/mini-e-commerce-microservices/assets/24465003/17e5c7bd-56a7-43a1-9cec-5c8cf8e640db)
 
+### How to run the project
+In the root-directory run the following commands(in the written order)
+
+Command to build: docker-compose build
+Command to run the build: docker-compose up
+
+When the project is up and running, you can navigate to the webapp at: http://localhost:50010/ 
+
 
 ### Overview
 
