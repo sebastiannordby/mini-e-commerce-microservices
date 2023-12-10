@@ -16,6 +16,34 @@ When the project is up and running, you can navigate to the webapp at: http://lo
 
 ![image](https://github.com/sebastiannordby/mini-e-commerce-microservices/assets/24465003/17e5c7bd-56a7-43a1-9cec-5c8cf8e640db)
 
+### Choices of technology
+
+## RabbitMQ with MassTransit
+
+**RabbitMQ** is a widely-used message broker that facilitates asynchronous communication in a distributed system, which is essential in a microservice architecture for decoupling services. It supports various messaging patterns, including publish/subscribe, which are crucial for building scalable and resilient systems.
+
+- Decoupling of Services: RabbitMQ allows services to communicate without being tightly bound to each other, enhancing service independence and resilience
+- Reliability and Consistency: It ensures message delivery even in cases of temporary service unavailability, preserving the consistency of operations across microservices
+- Scalability: RabbitMQ effectively handles high throughput and can be scaled as the system grows
+
+**MassTransit** is a lightweight service bus for building distributed applications using .NET. It acts as an abstraction layer over RabbitMQ, simplifying the development and maintenance of message-driven architectures.
+
+- Ease of Use: MassTransit simplifies the integration with RabbitMQ, providing a more intuitive API for .NET developers
+- Advanced Features: It offers features like saga coordination, scheduling, and support for various patterns that are beneficial in complex microservice interactions
+- Better Error Handling and Monitoring: MassTransit provides enhanced error handling and monitoring capabilities, crucial for maintaining system health
+
+## Prometheus and Grafana
+
+**Prometheus** is a powerful monitoring tool that collects and stores metrics as time-series data, allowing you to monitor the health and performance of your microservices.
+
+- Real-Time Monitoring: Prometheus's strong querying capabilities allow real-time insight into microservice performance
+- Scalability and Reliability: It is designed for reliability and scalability, handling large volumes of data efficiently
+
+**Grafana** is an open-source platform for monitoring and observability and integrates seamlessly with Prometheus to provide visualizations of the collected data.
+
+- Data Visualization: Grafana allows you to create comprehensive dashboards that visualize metrics from Prometheus, making it easier to understand and respond to the data
+- Alerting: Grafana's alerting features enable proactive responses to potential issues, ensuring quick resolution of problems
+
 ### Overview
 
 The primary objective of this project is to develop an e-commerce website. In line with this goal, we've chosen a microservices-based architecture to ensure high performance and flexibility.
