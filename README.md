@@ -14,7 +14,118 @@ When the project is up and running, you can navigate to the web application at: 
 
 ### Architecture 
 
-![image](https://github.com/sebastiannordby/mini-e-commerce-microservices/assets/24465003/17e5c7bd-56a7-43a1-9cec-5c8cf8e640db)
+![image](/images/overview.png)
+
+### User manual
+
+<details>
+    <summary>Profile</summary>
+
+You can reach the profile page by navigating to: http://localhost:50010/profile
+
+The profile of the user contains some different fields:
+
+- FullName
+- Email
+- DeliveryAddress
+- DeliveryAddressPostalCode
+- DeliveryAddressPostalOffice
+- DeliveryAddressCountry
+- InvoiceAddress
+- InvoiceAddressPostalCode
+- InvoiceAddressPostalOffice
+- InvoiceAddressCountry
+
+The user has the option to:
+- Use dummy data, then save
+- Manually enter data, then save
+
+![image](/images/profile_1.png)
+</details>
+
+<details>
+    <summary>Products</summary>
+
+You can reach the products page by navigating to: http://localhost:50010/
+
+The products page consits of some main elements:
+- **Filter line**, Ability to filter between products, names and prices
+- **Grouping**: Displays the products in the group they belong to
+- **Adding to cart**: By clicking the '+' icon you can add a product to the shopping cart 
+
+![image](/images/products_1.png)
+
+Explanation of the points found in the image above:
+- 1) Navigates to the product catalog
+- 2) Generic search function
+- 3) Filter by categories
+- 4) Filter from price
+- 5) Filter to price
+- 6) Add to shopping cart 
+
+</details>
+
+<details>
+    <summary>Basket</summary>
+
+You can reach the basket page by navigating to http://localhost:50010/basket or adding a product to the basket.
+
+To add a product to the basket go to the product catalog and click the '+' icon:
+
+
+![image](/images/basket_1.png)
+
+When clicking the '+' icon you will be redirected to the basket like so:
+
+![image](/images/basket_2.png)
+
+Explanation of what you can do next, referings to the points in the image
+- 1) Increase quantity of the item
+- 2) Decrease quantity of the item
+- 3) Continue shopping/go to product catalog
+- 4) Start the order process
+
+</details>
+
+<details>
+    <summary>Ordering</summary>
+
+
+To continue with this step, check the manual for the basket above.
+
+![image](/images/ordering_1.png)
+
+When your basket looks ready for ordering proceed with clicking "Start Order".
+
+![image](/images/ordering_2.png)
+
+As you see in the image above a message will displayed telling you "Order started". From here there are 3 proceeding steps:
+
+- Fill in delivery address (delivery address from profile will be automatically suggested)
+- Fill in invoice address (invoice address from profile will be automatically suggested)
+- Pay for order (The purchase service does not do anything with the data, but just returns 200 - Ok)
+
+When these three steps are completed you can continue shopping.
+
+Skipping the steps to fill out the address, you will get to the last step, payment.
+
+![image](/images/ordering_3.png)
+
+Payment will always execute as OK. Do not enter any personal information here.
+
+![image](/images/ordering_4.png)
+
+When payment completed, you can either continue shopping or check your orders
+
+</details>
+
+<details>
+    <summary>Order history</summary>
+
+    
+</details>
+
+### Admin manual
 
 ### Choices of Technology
 
