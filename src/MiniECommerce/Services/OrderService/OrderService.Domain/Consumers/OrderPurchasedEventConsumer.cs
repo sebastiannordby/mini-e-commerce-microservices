@@ -1,6 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
+using MiniECommerce.Library.Events.OrderService;
 using MiniECommerce.Library.Events.PurchaseService;
+using OrderService.Domain.Repositories;
 using OrderService.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -14,13 +16,19 @@ namespace OrderService.Domain.Consumers
     {
         private readonly IOrderService _orderService;
         private readonly ILogger<OrderPurchasedEventConsumer> _logger;
+        private readonly IOrderViewRepository _orderViewRepository;
+        private readonly IBus _bus;
 
         public OrderPurchasedEventConsumer(
             IOrderService orderService,
-            ILogger<OrderPurchasedEventConsumer> logger)
+            IBus bus,
+            ILogger<OrderPurchasedEventConsumer> logger,
+            IOrderViewRepository orderViewRepository)
         {
             _orderService = orderService;
+            _bus = bus;
             _logger = logger;
+            _orderViewRepository = orderViewRepository;
         }
 
         public async Task Consume(ConsumeContext<OrderPurchasedEvent> context)
@@ -38,6 +46,12 @@ namespace OrderService.Domain.Consumers
 
             order.SetWaitingForConfirmation();
             await _orderService.SaveAsync(order);
+
+            var orderView = await _orderViewRepository.Find(order.Id);
+            if(orderView is not null)
+            {
+                await _bus.Publish(new OrderSetToWaitingForConfirmationEvent(orderView));
+            }
         }
     }
 }
