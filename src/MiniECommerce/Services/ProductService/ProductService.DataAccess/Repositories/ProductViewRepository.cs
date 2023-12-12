@@ -29,23 +29,38 @@ namespace ProductService.DataAccess.Repositories
         }
 
         public async Task<IEnumerable<ProductView>> List(
+            string search,
             decimal? fromPricePerQuantity,
             decimal? toPricePerQuantity,
             IEnumerable<string>? categories)
         {
             var query = _dbContext.Products.AsNoTracking();
 
+            if(!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(x =>
+                    x.Name.Contains(search) ||
+                    x.Category.Contains(search) ||
+                    x.Description.Contains(search));
+            }
+
             if (fromPricePerQuantity.HasValue)
+            {
                 query = query.Where(x =>
                     x.PricePerQuantity >= fromPricePerQuantity.Value);
+            }
 
             if (toPricePerQuantity.HasValue)
+            {
                 query = query.Where(x =>
                     x.PricePerQuantity <= toPricePerQuantity.Value);
+            }
 
             if (categories?.Any() == true)
+            {
                 query = query.Where(x =>
                     categories.Contains(x.Category));
+            }
 
             return await query
                 .Select(x => ConvertToView(x))

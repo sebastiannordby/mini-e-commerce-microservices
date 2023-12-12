@@ -10,6 +10,7 @@ using ProductService.Domain.UseCases.Queries.TopTenByUser;
 using Prometheus;
 using System.Diagnostics.Metrics;
 using System.Diagnostics;
+using System.Web;
 
 namespace ProductService.API.Controllers
 {
@@ -29,6 +30,7 @@ namespace ProductService.API.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<ProductView>> ListViews(
+            [FromQuery] string? search,
             [FromQuery] decimal? fromPricePerQuantity = null,
             [FromQuery] decimal? toPricePerQuantity = null,
             [FromQuery] IEnumerable<string>? categories = null)
@@ -37,11 +39,16 @@ namespace ProductService.API.Controllers
 
             try
             {
+                var categoriesDecoded = categories
+                    ?.Select(x => HttpUtility.UrlDecode(x))
+                    ?.ToList();
+
                 var res = await _mediator.Send(
                     new ListProductViewsQuery(
+                        search,
                         fromPricePerQuantity,
                         toPricePerQuantity,
-                        categories));
+                        categoriesDecoded));
 
                 return res;
             }

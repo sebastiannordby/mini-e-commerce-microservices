@@ -12,5 +12,6 @@ namespace ProductService.Domain.Repositories
         Task<ProductDto?> Find(Guid id);
         Task<Guid> Create(ProductDto product);
         Task Update(ProductDto product);
+        Task<IEnumerable<string>> ListCategories();
     }
 }

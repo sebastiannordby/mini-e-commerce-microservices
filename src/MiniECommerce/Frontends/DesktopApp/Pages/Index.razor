@@ -23,9 +23,27 @@ else if(_products is not null)
                     AdornmentIcon="@Icons.Material.Filled.Search" 
                     AdornmentColor="Color.Primary" 
                     Adornment="Adornment.End" 
+                    OnKeyUp="OnSearchValueKeyUp"
                     OnAdornmentClick="FetchProducts" 
                     Variant="Variant.Filled" 
                     FullWidth="true" />
+                <MudSelect 
+                    T="string" 
+                    Placeholder="Categories.." 
+                    MultiSelection="true" 
+                    Variant="Variant.Filled" 
+                    Style="width: 300px;"
+                    SelectedValues="_selectedCategories"
+                    SelectedValuesChanged="OnSelectedCategoriesChanged">
+                    @foreach (var state in _categories)
+                    {
+                        <MudSelectItem 
+                            T="string" 
+                            Value="@state">
+                            @state
+                        </MudSelectItem>
+                    }
+                </MudSelect>
                 <MudNumericField 
                     @bind-Value="_fromPricePerQuantity" 
                     Placeholder="From price" 
@@ -123,9 +141,7 @@ else if(_products is not null)
                                                 HighlightedText="@_searchValue"
                                                 Text=@($"Article#: {product.Number}") />
                                         </MudText>
-                                            <MudHighlighter 
-                                                HighlightedText="@_searchValue"
-                                                Text=@($"Price: ${product.PricePerQuantity}") />
+                                        <MudText>@($"Price: ${product.PricePerQuantity}")</MudText>
                                     </MudCardContent>
                                     <MudCardActions Class="mt-auto justify-content-end">
                                         <MudIconButton 

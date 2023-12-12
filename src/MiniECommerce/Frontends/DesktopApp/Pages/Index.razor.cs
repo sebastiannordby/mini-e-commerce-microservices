@@ -18,6 +18,7 @@ using OrderService.Library.Models;
 using static MudBlazor.CategoryTypes;
 using ComponentBase = Microsoft.AspNetCore.Components.ComponentBase;
 using Prometheus;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace DesktopApp.Pages
 {
@@ -25,6 +26,7 @@ namespace DesktopApp.Pages
     {
         private IEnumerable<ProductView> _products = Enumerable.Empty<ProductView>();
         private IEnumerable<BasketItemView> _basketItems = Enumerable.Empty<BasketItemView>();
+        private IEnumerable<string> _categories = Enumerable.Empty<string>();
 
         private IEnumerable<IGrouping<string, ProductView>> _productGrouping => 
             _products.GroupBy(x => x.Category);
@@ -37,7 +39,7 @@ namespace DesktopApp.Pages
 
         private decimal? _fromPricePerQuantity;
         private decimal? _toPricePerQuantity;
-        private IEnumerable<string>? _categories;
+        private IEnumerable<string>? _selectedCategories;
         private string? _searchValue;
 
         private OrderView _currentOrder;
@@ -54,8 +56,14 @@ namespace DesktopApp.Pages
             await FetchTopTenProducts();
             await FetchProducts();
             await FetchBasket();
+            await FetchCategories();
             _initialized = true;
             UsersBrowsingProducts.Inc(); 
+        }
+
+        private async Task FetchCategories()
+        {
+            _categories = await ProductRepository.ListCategories();
         }
 
         private async Task<bool> TryFetchStartedOrder()
@@ -77,7 +85,25 @@ namespace DesktopApp.Pages
         private async Task FetchProducts()
         {
             _products = await ProductRepository.List(
-                _fromPricePerQuantity, _toPricePerQuantity, _categories) ?? Enumerable.Empty<ProductView>();
+                _searchValue,
+                _fromPricePerQuantity, 
+                _toPricePerQuantity,
+                _selectedCategories
+            ) ?? Enumerable.Empty<ProductView>();
+        }
+
+        private async Task OnSearchValueKeyUp(KeyboardEventArgs args)
+        {
+            if(args.Key == "Enter" || string.IsNullOrWhiteSpace(_searchValue))
+            {
+                await FetchProducts();
+            }
+        }
+
+        private async Task OnSelectedCategoriesChanged(IEnumerable<string> categories)
+        {
+            _selectedCategories = categories;
+            await FetchProducts();
         }
 
         private async Task FetchBasket()

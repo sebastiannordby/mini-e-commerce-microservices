@@ -82,5 +82,15 @@ namespace ProductService.DataAccess.Repositories
             _dbContext.Products.Update(productDao);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<string>> ListCategories()
+        {
+            var categories = await _dbContext.Products
+                .Select(x => x.Category)
+                .Distinct()
+                .ToListAsync();
+
+            return categories;
+        }
     }
 }

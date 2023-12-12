@@ -36,7 +36,7 @@ else
                 </MudTimelineItem>
                 <MudTimelineItem>
                     <MudText 
-                        Color="orderStatus == OrderStatus.WaitingForConfirmation ? Color.Primary : Color.Default">
+                        Color="orderStatus == OrderStatus.WaitingForPayment ? Color.Primary : Color.Default">
                         Pay for order
                     </MudText>
                 </MudTimelineItem>
@@ -217,6 +217,18 @@ else
                 <MudText Typo="Typo.h5" Class="mb-2 text-center">
                     Waiting for confirmation.
                 </MudText>
+                <MudButton 
+                    Href="/orders" 
+                    Color="Color.Secondary" 
+                    ButtonType="ButtonType.Button">
+                    You can check your orders here
+                </MudButton>
+                <MudButton 
+                    Href="/" 
+                    Color="Color.Primary" 
+                    ButtonType="ButtonType.Button">
+                    or Continue shopping here
+                </MudButton>
             }
         </MudPaper>
     </div>

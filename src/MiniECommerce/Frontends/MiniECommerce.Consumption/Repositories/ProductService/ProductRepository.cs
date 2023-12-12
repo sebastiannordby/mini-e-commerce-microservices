@@ -48,24 +48,47 @@ namespace MiniECommerce.Consumption.Repositories.ProductService
         }
 
         public async Task<IEnumerable<ProductView>?> List(
+            string? searchValue,
             decimal? fromPricePerQuantity = null,
             decimal? toPricePerQuantity = null,
             IEnumerable<string>? categories = null)
         {
-            var categoriesStringList = categories?.Any() == true ?
-                string.Join(",", categories) : null;
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
 
-            // Encode the serialized string to ensure it's URL-safe
-            var categoriesStringListEncoded = categoriesStringList is not null ?
-                HttpUtility.UrlEncode(categoriesStringList) : null;
+            if (!string.IsNullOrWhiteSpace(searchValue))
+                queryString["search"] = searchValue;
+
+            if (fromPricePerQuantity.HasValue)
+                queryString["fromPricePerQuantity"] = fromPricePerQuantity.Value.ToString();
+
+            if (toPricePerQuantity.HasValue)
+                queryString["toPricePerQuantity"] = toPricePerQuantity.Value.ToString();
+
+            foreach (var category in categories ?? Enumerable.Empty<string>())
+                queryString.Add("categories", category);
+
+            var uriBuilder = new UriBuilder("http://gateway/api/product-service/productview")
+            {
+                Query = queryString.ToString()
+            };
 
             var req = new HttpRequestMessage()
             {
-                RequestUri = new Uri(
-                    $"http://gateway/api/product-service/productview?fromPricePerQuantity={fromPricePerQuantity}&toPricePerQuantity={toPricePerQuantity}")
+                RequestUri = uriBuilder.Uri
             };
 
             return await Send<IEnumerable<ProductView>>(req);
+        }
+
+        public async Task<IEnumerable<string>> ListCategories()
+        {
+            var req = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://gateway/api/product-service/product/categories"),
+            };
+
+            return await Send<IEnumerable<string>>(req) ?? Enumerable.Empty<string>();
         }
 
         public async Task<IEnumerable<ProductView>> TopTen()

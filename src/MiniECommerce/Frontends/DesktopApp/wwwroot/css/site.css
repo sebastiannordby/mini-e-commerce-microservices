@@ -94,6 +94,15 @@ a, .btn-link {
     color: #fff;
 }
 
-.mud-input > input.mud-input-root.mud-input-root-filled, div.mud-input-slot.mud-input-root.mud-input-root-filled {
+.mud-input > input.mud-input-root.mud-input-root-filled,
+div.mud-input-slot.mud-input-root.mud-input-root-filled {
     padding: 12px 12px 10px !important;
+}
+
+.mud-timeline-item:nth-child(odd) p {
+    text-align: left;
+}
+
+.mud-timeline-item:nth-child(even) p {
+    text-align: right;
 }

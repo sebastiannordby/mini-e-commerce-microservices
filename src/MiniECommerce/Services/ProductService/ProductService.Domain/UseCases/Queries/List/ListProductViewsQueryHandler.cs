@@ -24,6 +24,7 @@ namespace ProductService.Domain.UseCases.Queries.List
             ListProductViewsQuery request, CancellationToken cancellationToken)
         {
             return await _productViewRepository.List(
+                request.Search,
                 request.FromPricePerQuantity,
                 request.ToPricePerQuantity,
                 request.Categories);

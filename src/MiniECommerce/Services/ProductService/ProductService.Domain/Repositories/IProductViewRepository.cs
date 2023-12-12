@@ -11,6 +11,7 @@ namespace ProductService.Domain.Repositories
     {
         Task<ProductView?> Find(Guid productId);
         Task<IEnumerable<ProductView>> List(
+            string? search,
             decimal? fromPricePerQuantity = null, 
             decimal? toPricePerQuantity = null, 
             IEnumerable<string>? categories = null);
