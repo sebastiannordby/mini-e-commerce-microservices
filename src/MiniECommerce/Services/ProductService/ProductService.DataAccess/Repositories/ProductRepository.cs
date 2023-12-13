@@ -29,7 +29,7 @@ namespace ProductService.DataAccess.Repositories
             return productDto;
         }
 
-        private ProductDto ConvertToDto(ProductDao x)
+        private static ProductDto ConvertToDto(ProductDao x)
         {
             return new ProductDto(
                 id: x.Id,

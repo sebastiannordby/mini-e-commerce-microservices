@@ -139,6 +139,52 @@ By clicking on an order you can see the order details
 </details>
 
 ### Admin manual
+There are four options for the administrator:
+- Create/Maintain products
+- Order management
+- Watch metrics in Prometheus
+- Watch metrics with graphs in Grafana
+
+![image](/images/admin/footer.png)
+
+The administrative section is placed in the footer of the website.
+
+<details>
+    <summary>Products</summary>
+
+You can reach the product management page by clicking the link in the footer, or navigate to this uri: http://localhost:50010/product-management
+
+![image](/images/admin/products_1.png)
+
+Entering the page you got two options:
+- 1) Add a product
+- 2) Edit a product
+
+![image](/images/admin/products_2.png)
+
+To add a product enter the information in the fields and click save.
+
+![image](/images/admin/products_3.png)
+
+Same procedure editing a product.
+</details>
+
+<details>
+    <summary>Orders</summary>
+
+You can reach the order management page by clicking the link in the footer, or navigate to this uri: http://localhost:50010/order-management
+
+
+</details>
+
+<details>
+    <summary>Prometheus</summary>
+</details>
+
+<details>
+    <summary>Grafana</summary>
+</details>
+
 
 ### Choices of Technology
 
