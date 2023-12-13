@@ -122,7 +122,20 @@ When payment completed, you can either continue shopping or check your orders
 <details>
     <summary>Order history</summary>
 
-    
+You can reach the orders page redirection from basket, clicking the list-icon at the top or navigating to http://localhost:50010/orders
+
+
+![image](/images/orders_1.png)
+
+In the following image you can see three points that does the following:
+- 1) You can navigate to the orders by clicking this icon
+- 2) You can see your active orders
+- 3) You can see your historic orders
+
+![image](/images/orders_2.png)
+
+By clicking on an order you can see the order details
+
 </details>
 
 ### Admin manual

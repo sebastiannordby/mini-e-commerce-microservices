@@ -26,6 +26,7 @@ namespace OrderService.DataAccess.Models
 
         public OrderLineDao(Guid orderId, OrderLine orderLine)
         {
+            OrderId = orderId;
             Id = orderLine.Id;
             Number = orderLine.Number;
             ProductId = orderLine.ProductId;

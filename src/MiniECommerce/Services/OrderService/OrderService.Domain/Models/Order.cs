@@ -46,6 +46,7 @@ namespace OrderService.Domain.Models
             string? invoiceAddressPostalOffice,
             string? invoiceAddressCountry)
         {
+            Id = Guid.NewGuid();
             Number = newNumber;
             BuyersName = buyersName;
             BuyersEmailAddress = buyersEmailAddress;
@@ -208,7 +209,7 @@ namespace OrderService.Domain.Models
                 string productDescription,
                 int quantity,
                 decimal pricePerQuantity) : this(
-                    Guid.Empty, 
+                    Guid.NewGuid(),
                     number,
                     productId,
                     productName,

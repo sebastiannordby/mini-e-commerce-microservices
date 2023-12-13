@@ -16,7 +16,9 @@ else
                 {
                     foreach(var order in _activeOrders)
                     {
-                        <MudCard @onclick="() => ShowOrderDetails(order)">
+                        <MudCard 
+                            @onclick="() => ShowOrderDetails(order)" 
+                            Class="cursor-pointer">
                             <MudCardHeader>
                                 <MudText Typo="Typo.h5">#@order.Number</MudText>
                             </MudCardHeader>
@@ -49,7 +51,9 @@ else
                 {
                     foreach (var order in _historicOrders)
                     {
-                        <MudCard @onclick="() => ShowOrderDetails(order)">
+                        <MudCard 
+                            @onclick="() => ShowOrderDetails(order)" 
+                            Class="cursor-pointer">
                             <MudCardHeader>
                                 <MudText Typo="Typo.h5">#@order.Number</MudText>
                             </MudCardHeader>
