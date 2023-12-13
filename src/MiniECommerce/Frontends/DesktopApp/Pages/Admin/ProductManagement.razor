@@ -25,7 +25,7 @@ else
             Hover="true"
             Outlined="true"
             RowsPerPage="20"
-            Height="100%"
+            Height="500px"
             HorizontalScrollbar="true"
             Groupable="true">
             <Columns>
@@ -54,7 +54,9 @@ else
             </Columns>
 
             <PagerContent>
-                <MudDataGridPager T="ProductView" PageSizeOptions=@(new int[] {10, 25, 50, 100, 150, 200 }) />
+                <MudDataGridPager
+                    T="ProductView" 
+                    PageSizeOptions=@(new int[] {10, 25, 50, 100, 150, 200 }) />
             </PagerContent>
         </MudDataGrid>
     </div>
@@ -74,22 +76,27 @@ else
                 <MudNumericField 
                     T="int" 
                     @bind-Value="_managementProduct.Number" 
-                    Label="Number" />
+                    Label="@nameof(ProductDto.Number)" />
                 <MudTextField 
                     T="string" 
                     @bind-Text="_managementProduct.Name" 
-                    Label="Name" />
+                    Label="@nameof(ProductDto.Name)" />
                 <MudTextField 
                     T="string" 
                     @bind-Text="_managementProduct.ImageUri" 
-                    Label="Image - Url" />
+                    Label="@nameof(ProductDto.ImageUri)" />
                 <MudTextField T="string" 
                     @bind-Text="_managementProduct.Category" 
-                    Label="Category" />
+                    Label="@nameof(ProductDto.Category)" />
+                <MudNumericField 
+                    T="decimal" 
+                    Min="0"
+                    @bind-Value="_managementProduct.PricePerQuantity" 
+                    Label="@nameof(ProductDto.PricePerQuantity)" />
                 <MudTextField 
                     T="string" 
                     @bind-Text="_managementProduct.Description" 
-                    Label="Description" />
+                    Label="@nameof(ProductDto.Description)" />
             } 
             else
             {

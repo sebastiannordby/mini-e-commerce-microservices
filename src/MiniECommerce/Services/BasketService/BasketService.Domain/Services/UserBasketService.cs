@@ -91,6 +91,11 @@ namespace BasketService.Domain.Services
             return Task.FromResult(basket.Value ?? new());
         }
 
+        public async Task<IEnumerable<string>> GetUsersWithBasket()
+        {
+            return await Task.FromResult(_baskets.Keys.ToList());
+        }
+
         public Task<List<BasketItemView>> IncreaseQuantity(string userEmail, Guid productId)
         {
             if (!_baskets.TryGetValue(userEmail, out var basketItems))

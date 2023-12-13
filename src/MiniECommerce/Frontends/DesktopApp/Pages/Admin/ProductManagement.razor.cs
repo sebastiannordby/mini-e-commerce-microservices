@@ -43,7 +43,7 @@ namespace DesktopApp.Pages.Admin
         {
             _managementProduct = await ProductRepository.Find(product.Id);
             _isManagementProductNew = false;
-            _isManagementDialogVisible = true;
+            _isManagementDialogVisible = _managementProduct is not null;
         }
 
         private void CancelManagement()
