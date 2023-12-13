@@ -11,6 +11,9 @@ namespace DesktopApp.Pages
         private IEnumerable<OrderView>? _historicOrders;
         private bool _initialized;
 
+        private OrderView _orderToShowDetails;
+        private bool _showOrderDetails;
+
         protected override async Task OnInitializedAsync()
         {
             var orders = (await OrderRepository.List()) ?? Enumerable.Empty<OrderView>();
@@ -24,6 +27,12 @@ namespace DesktopApp.Pages
                 .ToList();
 
             _initialized = true;
+        }
+
+        private void ShowOrderDetails(OrderView order)
+        {
+            _orderToShowDetails = order;
+            _showOrderDetails = true;
         }
 
         [Inject] private IOrderRepository OrderRepository { get; set; }

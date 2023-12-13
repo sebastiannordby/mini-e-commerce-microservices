@@ -16,7 +16,9 @@ else
                 {
                     foreach(var order in _activeOrders)
                     {
-                        <MudCard>
+                        <MudCard 
+                            @onclick="() => ShowOrderDetails(order)" 
+                            Class="cursor-pointer">
                             <MudCardHeader>
                                 <MudText Typo="Typo.h5">#@order.Number</MudText>
                             </MudCardHeader>
@@ -49,7 +51,9 @@ else
                 {
                     foreach (var order in _historicOrders)
                     {
-                        <MudCard>
+                        <MudCard 
+                            @onclick="() => ShowOrderDetails(order)" 
+                            Class="cursor-pointer">
                             <MudCardHeader>
                                 <MudText Typo="Typo.h5">#@order.Number</MudText>
                             </MudCardHeader>
@@ -76,3 +80,102 @@ else
         </div>
     </div>
 }
+
+<MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
+    Style="min-width: 800px;"
+    @bind-IsVisible="_showOrderDetails">
+    <TitleContent>
+        @if(_orderToShowDetails is not null) 
+        {
+            <h5 class="mb-0">Order - @_orderToShowDetails.Number</h5>
+        }
+    </TitleContent>
+    <DialogContent>
+        @if(_orderToShowDetails is not null)
+        {
+            <div class="h-100 w-100 d-flex flex-column gap-2">
+                <div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <MudTextField 
+                            T="string" 
+                            Disabled="true"
+                            Text="@_orderToShowDetails.Status.ToString()" 
+                            Label="@nameof(OrderView.Status)" />
+                        <MudTextField 
+                            T="string" 
+                            Disabled="true"
+                            Text="@_orderToShowDetails.BuyersEmailAddress" 
+                            Label="@nameof(OrderView.BuyersEmailAddress)" />
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <div class="d-flex flex-column gap-2 flex-grow-1">
+                            <MudTextField 
+                                T="string" 
+                                Disabled="true"
+                                Text="@_orderToShowDetails.DeliveryAddressLine" 
+                                Label="@nameof(OrderView.DeliveryAddressLine)" />
+                            <MudTextField 
+                                T="string" 
+                                Disabled="true"
+                                Text="@(_orderToShowDetails.DeliveryAddressPostalCode + _orderToShowDetails.DeliveryAddressPostalOffice)"
+                                Label="@nameof(OrderView.DeliveryAddressPostalOffice)" />
+                            <MudTextField 
+                                T="string" 
+                                Disabled="true"
+                                Text="@_orderToShowDetails.DeliveryAddressCountry" 
+                                Label="@nameof(OrderView.DeliveryAddressCountry)" />
+                        </div>
+                        <div class="d-flex flex-column gap-2  flex-grow-1">
+                            <MudTextField 
+                                T="string" 
+                                Disabled="true"
+                                Text="@_orderToShowDetails.InvoiceAddressLine"
+                                          Label="@nameof(OrderView.InvoiceAddressLine)" />
+                            <MudTextField 
+                                T="string" 
+                                Disabled="true"
+                                Text="@(_orderToShowDetails.InvoiceAddressPostalCode + _orderToShowDetails.InvoiceAddressPostalOffice)"
+                                Label="@nameof(OrderView.InvoiceAddressPostalOffice)" />
+                            <MudTextField 
+                                T="string" 
+                                Disabled="true"
+                                Text="@_orderToShowDetails.InvoiceAddressCountry" 
+                                Label="@nameof(OrderView.InvoiceAddressCountry)" />
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <MudDataGrid 
+                        Items="_orderToShowDetails.Lines" 
+                        Filterable="true"
+                        Hover="true"
+                        Outlined="true"
+                        RowsPerPage="20"
+                        Height="300px"
+                        HorizontalScrollbar="true"
+                        Groupable="true">
+                        <Columns>
+                            <PropertyColumn 
+                                Property="x => x.Number"
+                                Title="@nameof(OrderView.OrderLine.Number)" />
+                            <PropertyColumn 
+                                Property="x => x.ProductDescription" 
+                                Title="@nameof(OrderView.OrderLine.ProductDescription)" />
+                            <PropertyColumn 
+                                Property="x => x.ProductCategory" 
+                                Title="@nameof(OrderView.OrderLine.ProductCategory)" 
+                                Groupable="true"/>
+                            <PropertyColumn 
+                                Property="x => x.Quantity" 
+                                Title="@nameof(OrderView.OrderLine.Quantity)" />
+                            <PropertyColumn 
+                                Property="x => x.PricePerQuantity" 
+                                Title="@nameof(OrderView.OrderLine.PricePerQuantity)" />
+                        </Columns>
+                    </MudDataGrid>
+                </div>
+            </div>            
+        }
+    </DialogContent>
+</MudDialog>

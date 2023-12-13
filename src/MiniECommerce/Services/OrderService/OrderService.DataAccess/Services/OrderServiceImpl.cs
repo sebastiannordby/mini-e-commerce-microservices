@@ -55,6 +55,8 @@ namespace OrderService.DataAccess.Services
                     x.Id,
                     x.Number,
                     x.ProductId,
+                    x.ProductName,
+                    x.ProductCategory,
                     x.ProductDescription,
                     x.Quantity,
                     x.PricePerQuantity)

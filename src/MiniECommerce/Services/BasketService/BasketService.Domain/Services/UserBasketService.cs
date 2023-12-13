@@ -37,6 +37,8 @@ namespace BasketService.Domain.Services
                 PricePerQuantity = product.PricePerQuantity,
                 ProductId = productId,
                 ProductName = product.Name,
+                ProductCategory = product.Category,
+                ProductDescription = product.Description,
                 Quantity = 1
             };
 

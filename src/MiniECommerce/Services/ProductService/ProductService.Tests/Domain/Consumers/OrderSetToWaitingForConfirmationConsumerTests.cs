@@ -72,7 +72,9 @@ namespace ProductService.Tests.Domain.Consumers
                     new OrderView.OrderLine(
                         number: 1,
                         productId: insertedProductId,
-                        productDescription: "Consumer Product",
+                        productName: "Consumer Product 1",
+                        productCategory: nameof(TestConsumerInsertPurchaseStats),
+                        productDescription: "Consumer Product Description",
                         quantity: productQuantityBought,
                         pricePerQuantity: productQuantityBought
                     )

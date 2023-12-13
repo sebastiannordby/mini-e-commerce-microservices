@@ -46,6 +46,7 @@ namespace OrderService.Domain.Models
             string? invoiceAddressPostalOffice,
             string? invoiceAddressCountry)
         {
+            Id = Guid.NewGuid();
             Number = newNumber;
             BuyersName = buyersName;
             BuyersEmailAddress = buyersEmailAddress;
@@ -121,16 +122,17 @@ namespace OrderService.Domain.Models
                 throw new ArgumentNullException(nameof(basketItem));
 
             var orderLineNumbers = _orderLines
-                .Select(x => x.Number);
+                .Select(x => x.Number)
+                .ToList();
 
-            var orderLine = new OrderLine()
-            {
-                Number = orderLineNumbers.Any() ? orderLineNumbers.Max() + 1 : 1,
-                PricePerQuantity = basketItem.PricePerQuantity,
-                ProductDescription = basketItem.ProductName,
-                ProductId = basketItem.ProductId,
-                Quantity = basketItem.Quantity
-            };
+            var orderLine = new OrderLine(
+                number: orderLineNumbers.Any() ? orderLineNumbers.Max() + 1 : 1,
+                productId: basketItem.ProductId,
+                productName: basketItem.ProductName,
+                productCategory: basketItem.ProductCategory,
+                productDescription: basketItem.ProductDescription,
+                pricePerQuantity: basketItem.PricePerQuantity,
+                quantity: basketItem.Quantity);
 
             _orderLines.Add(orderLine);
 
@@ -188,6 +190,8 @@ namespace OrderService.Domain.Models
             public Guid Id { get; set; }
             public int Number { get; set; }
             public Guid ProductId { get; set; }
+            public string ProductName { get; set; } 
+            public string ProductCategory { get; set; }
             public string ProductDescription { get; set; }
             public int Quantity { get; set; }
             public decimal PricePerQuantity { get; set; }
@@ -197,10 +201,33 @@ namespace OrderService.Domain.Models
 
             }
 
+            internal OrderLine(
+                int number,
+                Guid productId,
+                string productName,
+                string productCategory,
+                string productDescription,
+                int quantity,
+                decimal pricePerQuantity) : this(
+                    Guid.NewGuid(),
+                    number,
+                    productId,
+                    productName,
+                    productCategory,
+                    productDescription,
+                    quantity,
+                    pricePerQuantity
+                )
+            {
+
+            }
+
             private OrderLine(
                 Guid id,
                 int number,
                 Guid productId,
+                string productName,
+                string productCategory,
                 string productDescription,
                 int quantity,
                 decimal pricePerQuantity)
@@ -208,6 +235,8 @@ namespace OrderService.Domain.Models
                 Id = id;
                 Number = number;
                 ProductId = productId;
+                ProductName = productName;
+                ProductCategory = productCategory;
                 ProductDescription = productDescription;
                 Quantity = quantity;
                 PricePerQuantity = pricePerQuantity;
@@ -217,6 +246,8 @@ namespace OrderService.Domain.Models
                 Guid id,
                 int number,
                 Guid productId,
+                string productName,
+                string productCategory,
                 string productDescription,
                 int quantity,
                 decimal pricePerQuantity)
@@ -225,6 +256,8 @@ namespace OrderService.Domain.Models
                     id,
                     number,
                     productId,
+                    productName,
+                    productCategory,
                     productDescription,
                     quantity,
                     pricePerQuantity
