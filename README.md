@@ -2,9 +2,6 @@
 
 ## Exam - PG3402 – Microservices – Candidate 2038
 
-[![.NET](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml/badge.svg)](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml)
-
-
 ### Building and Running the Project
 In the root directory run the following commands, in the written order: 
 
@@ -29,11 +26,11 @@ Or use "docker ps" in the command line:
 ![image](/images/docker_ps.png)
 
 ### Unit Tests
-I have not written about unit testing, this is because who writes software in 2023 without tests?
+In this document, I have not specifically addressed unit testing. This is based on the understanding that, as of 2023, unit testing is a standard and essential practice in software development
 
 ![image](/images/unit_tests.png)
 
-## Overview
+## Overview 
 
 The primary objective of this project is to develop an e-commerce website. In line with this goal, i've chosen a microservices-based architecture to ensure high performance and flexibility.
 The system comprises four main services: product, basket, order, user, and purchase, each tailored to specific use cases defined by their names.
@@ -79,8 +76,6 @@ So that I can efficiently provide customer support, handle order modifications, 
 
 Based on the user stories outlined above, several key requirements emerge. The most critical aspects revolve around addressing user-related needs. To meet these requirements, we must gather and manage data effectively. As a starting point, we should focus on the administrative functions.
 
-###
-
 ### For administrative functions, the order of importance is as follows:
 
 - Managing products
@@ -96,7 +91,6 @@ Based on the user stories outlined above, several key requirements emerge. The m
 - Placing orders
 - Viewing order history
 - Profile settings
-###
 
 ### Architecture
 
@@ -141,7 +135,6 @@ The customers will be able to:
 - Add/Remove/Increase/Decrease products in basket
 - Start the order from the basket
 - Overview of orders in progress
-
 
 ### Metrics and data visualization
 
