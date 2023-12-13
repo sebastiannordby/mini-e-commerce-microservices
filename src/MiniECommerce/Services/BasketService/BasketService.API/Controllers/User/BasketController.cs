@@ -9,21 +9,18 @@ using System.Collections.Concurrent;
 using BasketService.Domain.Services;
 using MiniECommerce.Authentication.Services;
 
-namespace BasketService.API.Controllers
+namespace BasketService.API.Controllers.User
 {
     public class BasketController : BasketServiceController
     {
         private readonly IUserBasketService _basketService;
-        private readonly IGatewayProductRepository _productRepository;
         private readonly ICurrentUserService _currentUserService;
-        
+
         public BasketController(
             IUserBasketService basketService,
-            IGatewayProductRepository productRepository,
             ICurrentUserService currentUserService)
         {
             _basketService = basketService;
-            _productRepository = productRepository;
             _currentUserService = currentUserService;
         }
 

@@ -1,0 +1,101 @@
+﻿@page "/basket-management"
+
+<MudText Typo="Typo.h5" Class="mb-2 mt-2">Basket - management</MudText>
+
+@if(_usersInBasket is null)
+{
+    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
+}
+else if(!_usersInBasket.Any())
+{
+    <p>No users in basket right now.</p>
+}
+else
+{
+    <div class="d-flex flex-column gap-2">
+        @foreach(var user in _usersInBasket)
+        {
+            <MudCard 
+                @onclick="async() => await ShowBasketDetails(user)"
+                Class="cursor-pointer">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h5">@user</MudText>
+                </MudCardHeader>
+            </MudCard>
+        }
+    </div>
+}
+
+<MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
+    Style="height: 700px;"
+    @bind-IsVisible="_showDetailsDialog">
+    <TitleContent>
+        <h5 class="mb-0">Basket - @_selectedUser</h5>
+    </TitleContent>
+    <DialogContent>
+        @if (_selectedUsersBasket is not null)
+        {
+            @foreach(var basketItem in _selectedUsersBasket)
+            {
+                <MudCard 
+                    Class="cursor-pointer">
+                    <MudCardHeader>
+                        <MudText Typo="Typo.h5">@basketItem.ProductName</MudText>
+                    </MudCardHeader>
+                        <MudCardContent>
+                            <MudText>Price per quantity: $@basketItem.PricePerQuantity</MudText>
+                            <MudText>Total: $@basketItem.Total</MudText>
+                        </MudCardContent>
+                        <MudCardActions Class="mt-auto align-items-center">
+                            <MudText Class="mr-2">Quantity: @basketItem.Quantity</MudText>
+                            <MudIconButton
+                                OnClick="async() => await IncreaseQuantity(basketItem)"
+                                Icon="@Icons.Material.Filled.Add" />
+                            <MudIconButton 
+                                OnClick="async() => await DecreaseQuantity(basketItem)"
+                                Icon="@Icons.Material.Filled.Remove" />
+                        </MudCardActions>
+                </MudCard>
+            }
+        } 
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="ShowAddProductToBasketDialog">Add product</MudButton>
+        <MudButton OnClick="RefreshCurrentBasket">Refresh</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog
+    Options="new(){ CloseButton = true, NoHeader = false }"
+    Style="height: 700px;"
+    @bind-IsVisible="_showAddProductToBasketDialog">
+    <TitleContent>
+        <h5 class="mb-0">Add product - @_selectedUser</h5>
+    </TitleContent>
+    <DialogContent>
+        <div class="d-flex flex-column gap-2">
+            @if (_availableProducts is not null)
+            {
+                @foreach (var product in _availableProducts)
+                {
+                    <MudCard 
+                        Class="cursor-pointer">
+                        <MudCardHeader>
+                            <MudText Typo="Typo.h5">@product.Name</MudText>
+                        </MudCardHeader>
+                            <MudCardContent>
+                                <MudText>Price per quantity: $@product.PricePerQuantity</MudText>
+                            </MudCardContent>
+                            <MudCardActions Class="mt-auto align-items-center">
+                                <MudIconButton
+                                    OnClick="async() => await AddProductToBasket(product)"
+                                    Icon="@Icons.Material.Filled.Add" />
+                            </MudCardActions>
+                    </MudCard>
+                }
+            } 
+        </div>
+    </DialogContent>
+</MudDialog>
+                                

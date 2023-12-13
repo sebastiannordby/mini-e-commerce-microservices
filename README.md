@@ -139,9 +139,10 @@ By clicking on an order you can see the order details
 </details>
 
 ### Admin manual
-There are four options for the administrator:
+There are five options for the administrator:
 - Create/Maintain products
 - Order management
+- Basket management
 - Watch metrics in Prometheus
 - Watch metrics with graphs in Grafana
 
@@ -150,7 +151,7 @@ There are four options for the administrator:
 The administrative section is placed in the footer of the website.
 
 <details>
-    <summary>Products</summary>
+    <summary>Product management</summary>
 
 You can reach the product management page by clicking the link in the footer, or navigate to this uri: http://localhost:50010/product-management
 
@@ -170,19 +171,85 @@ Same procedure editing a product.
 </details>
 
 <details>
-    <summary>Orders</summary>
+    <summary>Order management</summary>
 
 You can reach the order management page by clicking the link in the footer, or navigate to this uri: http://localhost:50010/order-management
 
+![image](/images/admin/orders_1.png)
 
+Entering the page you have an "Actions" button which can do three things:
+- 1) Set delivery address
+- 2) Set invoice address
+- 3) Set to confirmed
+
+![image](/images/admin/orders_2.png)
+![image](/images/admin/orders_3.png)
+![image](/images/admin/orders_4.png)
+
+
+</details>
+
+
+<details>
+    <summary>Basket management</summary>
+
+You can reach the basket management page by clicking the link in the footer, or navigate to this uri: http://localhost:50010/basket-management
+
+![image](/images/admin/basket_1.png)
+
+Click on a user basket to assist them in the checkout.
+
+![image](/images/admin/basket_2.png)
+
+After clicking on the basket you can see the items in the basket, but also:
+- 1) Add product to the basket
+- 2) Refresh the basket, incase the user has done some interactions
+
+![image](/images/admin/basket_3.png)
+
+After clicking "Add product" you can click the following item to update the users basket. If the user refreshes the site now, the user will get the updated basket.
 </details>
 
 <details>
     <summary>Prometheus</summary>
+
+Available metrics:
+- users_in_basket
+- users_in_catalog
+- users_ordering
+   
+You can reach the page by clicking the link in the footer, or navigate to this uri: http://localhost:9090/
+
+![image](/images/admin/pro_1.png)
+
+When reaching the page it looks like this. In the search field you can search for the metrics listed at the top.
+
+![image](/images/admin/pro_2.png)
 </details>
 
 <details>
     <summary>Grafana</summary>
+
+Available metrics:
+- users_in_basket
+- users_in_catalog
+- users_ordering
+   
+You can reach the page by clicking the link in the footer, or navigate to this uri: http://localhost:3000/login
+
+To sign in enter the following values:
+- Username: admin
+- Password: admin
+
+It will prompt you to create a new password, but just click skip.
+
+![image](/images/admin/grafana_1.png.png)
+
+Tada! You are at the frontpage. Now click on the "Customers Overview" dashboard.
+
+![image](/images/admin/grafana_1.png.png)
+
+And there you go. Here you can design your own dashboard based on the metrics in the application.
 </details>
 
 
@@ -225,7 +292,7 @@ For the end-users, we offer a straightforward frontend, enabling them to browse 
 
 #### Browse Product Catalog
 
-#### As a user, I want to easily explore the range of products offered by the company. To streamline this process, I'd appreciate efficient filters and search functionality, ensuring I can quickly find specific products and categories. In today's fast-paced world, efficiency is crucial; otherwise, I might switch to a different vendor.
+As a user, I want to easily explore the range of products offered by the company. To streamline this process, I'd appreciate efficient filters and search functionality, ensuring I can quickly find specific products and categories. In today's fast-paced world, efficiency is crucial; otherwise, I might switch to a different vendor.
 
 #### Place an Order
 
@@ -233,15 +300,8 @@ As a user, I'd like the ability to add products to my shopping cart as I browse 
 
 #### Suggestions
 
-As a user, I expect personalized product suggestions based on my previous orders. For example, if I primarily purchase technology products from the company, I don't want to sift through unrelated items like clothing. These suggestions should be prominently displayed when I enter the website, given my previous purchase history.
+As a user, I expect personalized product suggestions based on my previous orders. For example, if I primarily purchase technology products from the company, I don't want to sift through unrelated items like "clothing". These suggestions should be prominently displayed when I enter the website, given my previous purchase history. If there is no purchase history present, i would suggest to have the most bought products apperaring.
 
-#### Track Order Delivery
-
-As a user, I want the ability to track the status of my orders once they are placed. I expect real-time updates on the delivery process, including estimated delivery times, tracking numbers, and delivery notifications. This feature will enhance the overall shopping experience and keep me informed.
-
-#### Product Reviews and Ratings
-
-As a user, I'd appreciate the ability to read and submit product reviews and ratings. This will help me make informed purchasing decisions and contribute to a sense of community within the e-commerce platform.
 
 ### Requirements
 
@@ -251,9 +311,9 @@ Based on the user stories outlined above, several key requirements emerge. The m
 
 ### For administrative functions, the order of importance is as follows:
 
-- Maintaining products
+- Managing products
 - Managing orders
-- Maintaining baskets (for customer support)
+- Managing baskets (for customer support)
 
 ### For user-related functions, the order of importance is as follows:
 
