@@ -13,6 +13,8 @@ namespace OrderService.DataAccess.Models
         public Guid OrderId { get; private set; }
         public int Number { get; private set; }
         public Guid ProductId { get; private set; }
+        public string ProductName { get; private set; } 
+        public string ProductCategory { get; private set; }
         public string ProductDescription { get; private set; }
         public int Quantity { get; private set; }
         public decimal PricePerQuantity { get; private set; }
@@ -27,6 +29,8 @@ namespace OrderService.DataAccess.Models
             Id = orderLine.Id;
             Number = orderLine.Number;
             ProductId = orderLine.ProductId;
+            ProductName = orderLine.ProductName;
+            ProductCategory = orderLine.ProductCategory;
             ProductDescription = orderLine.ProductDescription;
             Quantity = orderLine.Quantity;
             PricePerQuantity = orderLine.PricePerQuantity;
@@ -36,7 +40,8 @@ namespace OrderService.DataAccess.Models
         {
             Number = orderLine.Number;
             ProductId = orderLine.ProductId;
-            ProductDescription = orderLine.ProductDescription;
+            ProductName = orderLine.ProductName;
+            ProductCategory = orderLine.ProductCategory;
             Quantity = orderLine.Quantity;
             PricePerQuantity = orderLine.PricePerQuantity;
         }

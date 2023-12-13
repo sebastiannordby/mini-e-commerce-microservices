@@ -67,6 +67,8 @@ namespace OrderService.Library.Models
         {
             public int Number { get; set; }
             public Guid ProductId { get; set; }
+            public string ProductName { get; set; }
+            public string ProductCategory { get; set; }
             public string ProductDescription { get; set; }
             public int Quantity { get; set; }
             public decimal PricePerQuantity { get; set; }
@@ -79,12 +81,16 @@ namespace OrderService.Library.Models
             public OrderLine(
                 int number,
                 Guid productId,
+                string productName,
+                string productCategory,
                 string productDescription,
                 int quantity,
                 decimal pricePerQuantity)
             {
                 Number = number;
                 ProductId = productId;
+                ProductName = productName;
+                ProductCategory = productCategory;
                 ProductDescription = productDescription;
                 Quantity = quantity;
                 PricePerQuantity = pricePerQuantity;

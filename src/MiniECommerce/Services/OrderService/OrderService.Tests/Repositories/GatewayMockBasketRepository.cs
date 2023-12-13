@@ -18,6 +18,8 @@ namespace OrderService.Tests.Repositories
                 { 
                     ProductId = Guid.NewGuid(),
                     PricePerQuantity = 1,
+                    ProductCategory = nameof(GatewayMockBasketRepository),
+                    ProductDescription = nameof(GatewayMockBasketRepository),
                     ProductName = nameof(GatewayMockBasketRepository),
                     Quantity = 1
                 } 

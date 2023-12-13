@@ -17,6 +17,8 @@ namespace OrderService.DataAccess.Extensions
                     .Select(x => new OrderView.OrderLine(
                         x.Number,
                         x.ProductId,
+                        x.ProductName,
+                        x.ProductCategory,
                         x.ProductDescription,
                         x.Quantity,
                         x.PricePerQuantity

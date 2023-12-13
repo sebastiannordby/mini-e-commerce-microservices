@@ -102,12 +102,12 @@ namespace ProductService.Tests.Domain.UseCases.Queries
             });
 
             await statsRepository.InsertOrUpdateAsync(
-                 "not@signed.on",
+                 currentUserService.UserEmail,
                  secondTopProductId,
                  quantity: 1);
 
             await statsRepository.InsertOrUpdateAsync(
-                 "not@signed.on",
+                 currentUserService.UserEmail,
                  topProductId,
                  quantity: 2);
 
