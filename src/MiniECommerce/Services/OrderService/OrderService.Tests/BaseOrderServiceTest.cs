@@ -45,10 +45,10 @@ namespace OrderService.Tests
                 services.AddScoped<IGatewayBasketRepository, GatewayMockBasketRepository>();
                 services.AddScoped<IGatewayUserRepository, GatewayMockUserRepository>();
 
-
                 services.AddMassTransitTestHarness(x =>
                 {
-                    x.AddConsumers(typeof(OrderService.Domain.Consumers.ProductAddedToBasketConsumer).Assembly);
+                    x.AddConsumers(
+                        typeof(OrderService.Domain.Consumers.OrderPurchasedEventConsumer).Assembly);
                 });
             });
         }
