@@ -46,7 +46,7 @@ namespace OrderService.Tests.UnitTests.Domain.Services
 
             var order2ToSave = await initOrderService.Initialize(
                 currentUserService.UserFullName, currentUserService.UserEmail);
-            var order2Id = await orderService.SaveAsync(order1ToSave);
+            var order2Id = await orderService.SaveAsync(order2ToSave);
 
             var orders = await orderViewRepository.List(
                 currentUserService.UserEmail);
