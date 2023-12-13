@@ -4,11 +4,6 @@
 
 [![.NET](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml/badge.svg)](https://github.com/sebastiannordby/mini-e-commerce-microservices/actions/workflows/dotnet.yml)
 
-Note: When starting the application and entering the URL(for the app) you will get prompted for Google Login. Use these credentials (if you'd like):
-
-Username/Email: candidate2038@gmail.com
-
-Password: Kristiania1914
 
 ### Building and Running the Project
 In the root directory run the following commands, in the written order: 
@@ -18,7 +13,14 @@ In the root directory run the following commands, in the written order:
 
 When the project is up and running, you can navigate to the web application at: http://localhost:50010/ 
 
-If you are using Docker Desktop it should look like this:
+Note: When starting the application and entering the URL(for the app) you will get prompted for Google Login. Use these credentials (if you'd like):
+
+Username/Email: candidate2038@gmail.com
+
+Password: Kristiania1914
+
+#### Confirm Running Project
+If you are using Docker Desktop it should look like something this:
 
 ![image](/images/docker_compose.png)
 
@@ -27,6 +29,7 @@ Or use "docker ps" in the command line:
 ![image](/images/docker_ps.png)
 
 ### Unit Tests
+I have not written about unit testing, this is because who writes software in 2023 without tests?
 
 ![image](/images/unit_tests.png)
 
@@ -37,7 +40,7 @@ The system comprises four main services: product, basket, order, user, and purch
 From the company's perspective, this system empowers administrators to view and manage orders, baskets, and products effectively.
 For the end-users, the solution offers a straightforward frontend, enabling them to browse products, add items to their cart, place orders, and check out. I've also incorporated features for viewing order history.
 
-## Architecture 
+### Architectural Diagrams
 
 #### Solution Diagram
 ![image](/images/overview.png)
