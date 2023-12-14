@@ -3,10 +3,32 @@
 ## Exam - PG3402 – Microservices – Candidate 2038
 
 ### Building and Running the Project
-In the root directory run the following commands, in the written order: 
+
+#### Prerequisites
+To be able to run this project you must download Docker Desktop: https://www.docker.com/products/docker-desktop/ for your operative system. You could download a docker-compose plugin if you are comfortable enough with Docker, if not i advice you to download the Docker Desktop. It's also a really helpful tool when working with containers.
+
+I have tested for both Windows and Linux(Ubuntu). 
+
+![image](/images/docker_compose.png)
+
+Ensure that the docker-compose version is atleast v2 or above.
+
+The easiest way to install for **Linux** would be to install from the Github, this may also work for Mac:
+
+1 - Command:
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+2 - Command:
+sudo chmod +x /usr/local/bin/docker-compose
+
+
+#### Running and building the project
+
+In the '\src\MiniECommerce' directory run the following commands, in the written order: 
 
 - Command to build: docker-compose build
 - Command to run the build: docker-compose up
+
 
 When the project is up and running, you can navigate to the web application at: http://localhost:50010/ 
 
