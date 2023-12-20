@@ -2,33 +2,79 @@
 
 ## Exam - PG3402 – Microservices – Candidate 2038
 
+Notes: 
+- If you can't view markdown files with images in your editor of choice, i suggest using Visual Studio Code and click the preview button:
+
+![image](/images/markdown_read.png)
+
+- If grafana is not available it's and issue with permissions. Have tried to configure volumes for the docker-compose, but i don't have access to computer running macOS...
+
+
 ### Building and Running the Project
 
 #### Prerequisites
-To be able to run this project you must download Docker Desktop: https://www.docker.com/products/docker-desktop/ for your operative system. You could download a docker-compose plugin if you are comfortable enough with Docker, if not i advice you to download the Docker Desktop. It's also a really helpful tool when working with containers.
+To be able to run this project you must download Docker Compose. 
 
-I have tested for both Windows and Linux(Ubuntu). 
+If you are running **Windows** i would advice to download Docker Desktop:
+https://www.docker.com/products/docker-desktop/
+
+After download to ensure Docker Compose was installed correctly, check its version:
+```
+docker-compose --version
+```
 
 ![image](/images/docker_compose.png)
 
 Ensure that the docker-compose version is atleast v2 or above.
 
-The easiest way to install for **Linux** would be to install from the Github, this may also work for Mac:
+If you are running **macOS** the easiest way is to install from the Github:
 
-1 - Command:
+1 - Open a terminal and run the following command to download Docker Compose:
+```
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
 
-2 - Command:
+2 - Run the following command to apply executable permissions to the binary:
+```
 sudo chmod +x /usr/local/bin/docker-compose
+```
+
+3 - To ensure Docker Compose was installed correctly, check its version:
+```
+docker-compose --version
+```
+
+If you are running **Linux** the easiest way is to install from Github:
+
+1 - Open a terminal and run the following command to download Docker Compose:
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+2 - Run the following command to apply executable permissions to the binary:
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+3 - To ensure Docker Compose was installed correctly, check its version:
+```
+docker-compose --version
+```
 
 
-#### Running and building the project
+#### Running the Project
 
-In the '\src\MiniECommerce' directory run the following commands, in the written order: 
+In the '\src\MiniECommerce' directory run the following command: 
 
-- Command to build: docker-compose build
-- Command to run the build: docker-compose up
+```
+docker-compose up
+```
 
+If there are errors present, try running the command again, or run the following commands in sequence:
+```
+docker-compose rm
+docker-compose up
+```
 
 When the project is up and running, you can navigate to the web application at: http://localhost:50010/ 
 
@@ -47,10 +93,18 @@ Or use "docker ps" in the command line:
 
 ![image](/images/docker_ps.png)
 
+#### Stop the Running Project
+You can use CTRL + Z, or CTRL + C, any EOF command for your operative system.
+
 ### Unit Tests
 In this document, I have not specifically addressed unit testing. This is based on the understanding that, as of 2023, unit testing is a standard and essential practice in software development
 
 ![image](/images/unit_tests.png)
+
+### Code Metrics
+
+![image](/images/code_metrics.png)
+
 
 ## Overview 
 
@@ -96,7 +150,7 @@ So that I can efficiently provide customer support, handle order modifications, 
 
 ### Requirements
 
-Based on the user stories outlined above, several key requirements emerge. The most critical aspects revolve around addressing user-related needs. To meet these requirements, we must gather and manage data effectively. As a starting point, we should focus on the administrative functions.
+Based on the user stories outlined above, several key requirements emerge. The most critical aspects revolve around addressing user-related needs. To meet these requirements, I must gather and manage data effectively. As a starting point, I should focus on the administrative functions.
 
 ### For administrative functions, the order of importance is as follows:
 
@@ -168,7 +222,10 @@ are registered through Prometheus and be visualized through Grafana.
 During the development of my microservice-based e-commerce application, several architectural decisions and simplifications were made to streamline the development process and address the core requirements effectively. Below is a summary of these key decisions, along with the assumptions and simplifications that were applied.
 
 ### Architectural Decisions
-Docker Compose for Local Development: Docker Compose was selected for orchestrating the microservices in the local development environment. This decision was driven by the need for a simplified setup process and the ability to efficiently manage multiple service containers.
+Docker Compose was selected for orchestrating the microservices in the local development environment, driven by the need for a simplified setup process and efficient management of multiple service containers. To ensure that the solution was easily runnable on any machine, regardless of the operating system, I published the Docker images of our services to Docker Hub. This approach required an update to the Docker Compose file to reference these images directly from Docker Hub. Consequently, this change facilitated a smooth, system-agnostic deployment process, allowing assessors or users to run the application seamlessly on their machines without the need for a local build, thus enhancing the portability and accessibility of the application.
+
+
+I chose Ocelot as the API gateway for its compatibility with Docker and .NET Core in my microservices architecture. Ocelot provides efficient routing, load balancing, and easy configuration - essential for directing traffic in the system. Its support for key functionalities like authentication and authorization, along with its lightweight nature, makes it an ideal choice for a streamlined and scalable microservice setup.
 
 ### Assumptions
 Stable Network Communication: It was assumed that the network communication between services and the message broker (RabbitMQ) would be stable and reliable in the development environment.
@@ -234,7 +291,6 @@ Explanation of the points found in the image above:
 You can reach the basket page by navigating to http://localhost:50010/basket or adding a product to the basket.
 
 To add a product to the basket go to the product catalog and click the '+' icon:
-
 
 ![image](/images/basket_1.png)
 
