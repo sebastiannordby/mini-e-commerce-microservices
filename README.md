@@ -1,6 +1,8 @@
 # MiniECommerce
 
 ## Exam - PG3402 – Microservices – Candidate 2038
+## Graded: A
+
 
 Notes: 
 - If you can't view markdown files with images in your editor of choice, i suggest using Visual Studio Code and click the preview button:
